@@ -1,0 +1,12 @@
+{
+    "name": "eP_Telemetry",
+    "description": "A Node-RED Project",
+    "version": "0.0.1",
+    "dependencies": {},
+    "node-red": {
+        "settings": {
+            "flowFile": "ep_telemetry.json",
+            "credentialsFile": "ep_telemetry_cred.json"
+        }
+    }
+}

@@ -1,0 +1,467 @@
+[
+    {
+        "id": "15a0d5c9.3b9b92",
+        "type": "tab",
+        "label": "Telemetry Data Streaming",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "a76d987b.d992d",
+        "type": "amazon config",
+        "z": "",
+        "name": "AWS",
+        "region": "eu-west-2",
+        "proxyRequired": false,
+        "proxy": ""
+    },
+    {
+        "id": "9b72deb0.1309b",
+        "type": "dropbox-config",
+        "z": "",
+        "name": ""
+    },
+    {
+        "id": "3c977df5.cbd1ca",
+        "type": "google-credentials",
+        "z": "",
+        "displayName": "https://www.googleapis.com/auth/bigquery",
+        "scopes": "https://www.googleapis.com/auth/bigquery"
+    },
+    {
+        "id": "5e4f84f3.84d33c",
+        "type": "google-cloud-credentials",
+        "z": "",
+        "name": "huginn"
+    },
+    {
+        "id": "2a123d60.c756e2",
+        "type": "google-cloud-credentials",
+        "z": "",
+        "name": "huginn_2"
+    },
+    {
+        "id": "e288eb3f.29a54",
+        "type": "bigquery-config",
+        "z": ""
+    },
+    {
+        "id": "e0691b19.afee48",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-dark",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#097479",
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#000000",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#0eb8c0",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#555555",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#eeeeee",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "ba508030.cd154",
+        "type": "tls-config",
+        "z": "",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "critica-promate-com.pem",
+        "keyname": "critica-promate-com-chain.pem",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": true
+    },
+    {
+        "id": "23889661.c1e502",
+        "type": "AWS SQS",
+        "z": "15a0d5c9.3b9b92",
+        "aws": "a76d987b.d992d",
+        "operation": "ReceiveMessage",
+        "QueueUrl": "https://sqs.eu-west-1.amazonaws.com/935852492816/Nayax-Dex-DLQ",
+        "Label": "",
+        "AWSAccountIds": "",
+        "Actions": "",
+        "ReceiptHandle": "",
+        "VisibilityTimeout": "",
+        "Entries": "",
+        "QueueName": "",
+        "MessageBody": "",
+        "Attributes": "",
+        "Tags": "",
+        "TagKeys": "",
+        "name": "Receive SQS message",
+        "x": 200,
+        "y": 280,
+        "wires": [
+            [
+                "346ed3a9.507cb4"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "a7ab23e.25b12e",
+        "type": "inject",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Check SQS",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 150,
+        "y": 160,
+        "wires": [
+            [
+                "f09d09e7.1580e"
+            ]
+        ]
+    },
+    {
+        "id": "2f7a05d.72d887a",
+        "type": "AWS SQS",
+        "z": "15a0d5c9.3b9b92",
+        "aws": "a76d987b.d992d",
+        "operation": "DeleteMessage",
+        "QueueUrl": "https://sqs.eu-west-2.amazonaws.com/935852492816/Nayax",
+        "Label": "",
+        "AWSAccountIds": "",
+        "Actions": "",
+        "ReceiptHandle": "msg.encodedReceiptHandle",
+        "VisibilityTimeout": "",
+        "Entries": "",
+        "QueueName": "",
+        "MessageBody": "",
+        "Attributes": "",
+        "Tags": "",
+        "TagKeys": "",
+        "name": "Delete Message",
+        "x": 720,
+        "y": 420,
+        "wires": [
+            [
+                "1e21880e.6a5cd8"
+            ],
+            [
+                "1e21880e.6a5cd8"
+            ]
+        ]
+    },
+    {
+        "id": "1e21880e.6a5cd8",
+        "type": "debug",
+        "z": "15a0d5c9.3b9b92",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 1330,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "77ce4b39.6b57b4",
+        "type": "function",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Encode ReceiptHandle",
+        "func": "var encReceiptHandle = encodeURIComponent(msg.payload.Messages[0].ReceiptHandle)\nmsg.encodedReceiptHandle = encReceiptHandle;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 470,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "18170c1.8e490f4",
+        "type": "function",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Parse DEX v2",
+        "func": "//first parse pass to isolate elements\nparsedJSON = JSON.parse(msg.payload.Body)\n//split DexData into PA1 objects    \n    var dexLines = parsedJSON.DexData.toString().split('PA1');\n//find PA1 object that contains CAPPUCCINO\n    var cappuccinoData = dexLines.filter(s => s.includes('CAPPUCCINO'));\n//find PA1 object that contains CAFFE LATTE\n    var caffeeLatteData = dexLines.filter(s => s.includes('CAFFE LATTE'));    \n//find PA1 object that contains WHITE COFFEE\n    var whiteCoffeeData = dexLines.filter(s => s.includes('WHITE COFFEE'));    \n//find PA1 object that contains AMERICANO\n    var americanoData = dexLines.filter(s => s.includes('AMERICANO'));        \n//find PA1 object that contains FLAT WHITE\n    var flatWhiteData = dexLines.filter(s => s.includes('FLAT WHITE'));\n//find PA1 object that contains DOUBLE ESPRESSO\n    var doubleEspressoData = dexLines.filter(s => s.includes('DOUBLE ESPRESSO'));        \n//find PA1 object that contains CAFFE MOCHA\n    var caffeeMochaData = dexLines.filter(s => s.includes('CAFFE MOCHA'));  \n//find PA1 object that contains HOT CHOCOLATE\n    var hotChocolateData = dexLines.filter(s => s.includes('HOT CHOCOLATE')); \n//find PA1 object that contains BLACK TEA\n    var blackTeaData = dexLines.filter(s => s.includes('BLACK TEA'));       \n//find PA1 object that contains WHITE TEA\n    var whiteTeaData = dexLines.filter(s => s.includes('WHITE TEA'));\n//find PA1 object that contains CARAMEL\n    var caramelData = dexLines.filter(s => s.includes('CARAMEL'));        \n//find PA1 object that contains VANILLA\n    var vanillaData = dexLines.filter(s => s.includes('VANILLA'));   \n//find PA1 object that contains HAZELNUT\n    var hazelnutData = dexLines.filter(s => s.includes('HAZELNUT'));   \n\n//find PA4 and split cappuccinoSalesVal & cappuccinoTestVendVal\n    var cappuccinoSalesVal = cappuccinoData[0].match(\n        /(PA4)\\*([0-9]*)/\n     );\n     var cappuccinoTestVendVal = cappuccinoData[0].match(\n        /(PA3)\\*([0-9]*)/\n     );     \n//include cappuccinoSalesVal & cappuccinoTestVendVal in msg\n    msg.payload.cappuccinoSales = cappuccinoSalesVal[2];\n    msg.payload.cappuccinoTestVend = cappuccinoTestVendVal[2];\n    \n// debug data    \n//    msg.parsedJSON = parsedJSON;\n// msg.lines = dexLines;\n// msg.cappuccinoData = cappuccinoData;\n\n//return message\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 540,
+        "y": 160,
+        "wires": [
+            [
+                "a6c9e422.6aaea"
+            ]
+        ]
+    },
+    {
+        "id": "4eb8174f.23eef8",
+        "type": "file",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Save to file",
+        "filename": "",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 430,
+        "y": 500,
+        "wires": [
+            [
+                "e207f7b0.37d498"
+            ]
+        ]
+    },
+    {
+        "id": "e207f7b0.37d498",
+        "type": "dropbox out",
+        "z": "15a0d5c9.3b9b92",
+        "dropbox": "9b72deb0.1309b",
+        "filename": "",
+        "localFilename": "",
+        "name": "Back-up DEX data to Dropbox",
+        "x": 770,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "fe48ac50.d9ed58",
+        "type": "bigquery insert",
+        "z": "15a0d5c9.3b9b92",
+        "bigquery": "e288eb3f.29a54",
+        "dataset": "test",
+        "table": "test_table",
+        "name": "Write Test BigQuery",
+        "x": 1340,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "a6c9e422.6aaea",
+        "type": "change",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Change payload",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload.Body",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.ReceiptHandle",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.MD5OfBody",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 540,
+        "y": 220,
+        "wires": [
+            [
+                "fe48ac50.d9ed58",
+                "1e21880e.6a5cd8"
+            ]
+        ]
+    },
+    {
+        "id": "2451e529.c06d02",
+        "type": "inject",
+        "z": "15a0d5c9.3b9b92",
+        "name": "",
+        "topic": "msg.rejectUnauthorized = false; ",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 200,
+        "y": 680,
+        "wires": [
+            [
+                "62d719ee.0beec8"
+            ]
+        ]
+    },
+    {
+        "id": "61ab88d7.20aac8",
+        "type": "http request",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Get Yesterday's sale from Critica",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": false,
+        "url": "https://critica.promate.com/odata/ODataFilters/2020-05-04T00:00:00_2020-05-04T01:59:59?$orderby=TxTime",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "basic",
+        "x": 680,
+        "y": 680,
+        "wires": [
+            [
+                "1cfd5ca4.dc788b"
+            ]
+        ]
+    },
+    {
+        "id": "62d719ee.0beec8",
+        "type": "function",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Set rejectUnauthorized",
+        "func": "msg.rejectUnauthorized = false; \n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 400,
+        "y": 680,
+        "wires": [
+            [
+                "61ab88d7.20aac8"
+            ]
+        ]
+    },
+    {
+        "id": "1cfd5ca4.dc788b",
+        "type": "bigsplitter",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Split Array",
+        "property": "payload.value",
+        "x": 930,
+        "y": 680,
+        "wires": [
+            [
+                "1e21880e.6a5cd8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "f09d09e7.1580e",
+        "type": "function",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Set MaxNumberOfMessages",
+        "func": "msg.MaxNumberOfMessages = '10'\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 220,
+        "y": 220,
+        "wires": [
+            [
+                "23889661.c1e502"
+            ]
+        ],
+        "inputLabels": [
+            "Input"
+        ],
+        "icon": "node-red-dashboard/ui_numeric.png"
+    },
+    {
+        "id": "346ed3a9.507cb4",
+        "type": "bigsplitter",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Split payload.Messages array",
+        "property": "payload.Messages",
+        "x": 230,
+        "y": 340,
+        "wires": [
+            [
+                "18170c1.8e490f4"
+            ],
+            []
+        ]
+    }
+]
