@@ -7,6 +7,13 @@
         "info": ""
     },
     {
+        "id": "ecb0dc75.e2c838",
+        "type": "tab",
+        "label": "Price scrapper",
+        "disabled": false,
+        "info": ""
+    },
+    {
         "id": "a76d987b.d992d",
         "type": "amazon config",
         "z": "",
@@ -155,6 +162,11 @@
         "caname": "",
         "servername": "",
         "verifyservercert": true
+    },
+    {
+        "id": "8acedcb.f54ab2",
+        "type": "gauth",
+        "z": ""
     },
     {
         "id": "23889661.c1e502",
@@ -462,6 +474,506 @@
                 "18170c1.8e490f4"
             ],
             []
+        ]
+    },
+    {
+        "id": "9b47c244.320bb",
+        "type": "inject",
+        "z": "ecb0dc75.e2c838",
+        "name": "Trigger",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "86400",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 160,
+        "y": 120,
+        "wires": [
+            [
+                "2d91187e.5bab18",
+                "31654540.a53cd2",
+                "33f41860.d84ed",
+                "bb0390f.064e47",
+                "c9321587.f7c85"
+            ]
+        ]
+    },
+    {
+        "id": "14249e12.3ff73a",
+        "type": "html",
+        "z": "ecb0dc75.e2c838",
+        "name": "",
+        "property": "payload",
+        "outproperty": "payload",
+        "tag": "p.price",
+        "ret": "html",
+        "as": "single",
+        "x": 670,
+        "y": 120,
+        "wires": [
+            [
+                "2a3c52ca.6fb036"
+            ]
+        ]
+    },
+    {
+        "id": "2d91187e.5bab18",
+        "type": "http request",
+        "z": "ecb0dc75.e2c838",
+        "name": "Covex 5 70% Litre Gel",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "https://www.covexgels.co.uk/product/view/200132",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 400,
+        "y": 120,
+        "wires": [
+            [
+                "14249e12.3ff73a"
+            ]
+        ]
+    },
+    {
+        "id": "ff7da24.dae61e",
+        "type": "change",
+        "z": "ecb0dc75.e2c838",
+        "name": "Extract Price",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload[2]",
+                "pt": "msg",
+                "from": "&#xA3;",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "delete",
+                "p": "payload[3]",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload[4]",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload[5]",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1110,
+        "y": 120,
+        "wires": [
+            [
+                "b58ce3e.ff5eda"
+            ]
+        ]
+    },
+    {
+        "id": "2a3c52ca.6fb036",
+        "type": "function",
+        "z": "ecb0dc75.e2c838",
+        "name": "Push Date/Name to Array",
+        "func": "var now = new Date()\nvar x = now.toLocaleString()\nmsg.datetime = x\n\nvar productName = \"Covex 5 Litre Gel 70%\";\nmsg.payload.splice(0,0,productName);\nmsg.payload.splice(0,0,msg.datetime);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 910,
+        "y": 120,
+        "wires": [
+            [
+                "ff7da24.dae61e"
+            ]
+        ]
+    },
+    {
+        "id": "8e930e2d.200df",
+        "type": "html",
+        "z": "ecb0dc75.e2c838",
+        "name": "Get 5l price",
+        "property": "payload",
+        "outproperty": "payload",
+        "tag": "#N3_ > option:nth-child(8)",
+        "ret": "html",
+        "as": "single",
+        "x": 690,
+        "y": 180,
+        "wires": [
+            [
+                "3715b6cc.306502"
+            ]
+        ]
+    },
+    {
+        "id": "31654540.a53cd2",
+        "type": "http request",
+        "z": "ecb0dc75.e2c838",
+        "name": "Hydra Hand Sanitiser Gel 70% Alcohol",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "https://www.hydra-int.com/hydra-hand-sanitiser.html?gclid=EAIaIQobChMIs_yE_NW16QIVCfhRCh0OSguxEAMYAyAAEgKvgvD_BwE",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 450,
+        "y": 180,
+        "wires": [
+            [
+                "8e930e2d.200df"
+            ]
+        ]
+    },
+    {
+        "id": "457389c.05c5078",
+        "type": "change",
+        "z": "ecb0dc75.e2c838",
+        "name": "Extract Price",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload[2]",
+                "pt": "msg",
+                "from": "5L:&#xA0; &#xA3;",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1110,
+        "y": 180,
+        "wires": [
+            [
+                "b58ce3e.ff5eda"
+            ]
+        ]
+    },
+    {
+        "id": "3715b6cc.306502",
+        "type": "function",
+        "z": "ecb0dc75.e2c838",
+        "name": "Push Date/Name to Array",
+        "func": "var now = new Date()\nvar x = now.toLocaleString()\nmsg.datetime = x\n\nvar productName = \"Hydra Hand Sanitiser Gel 70%\";\nmsg.payload.splice(0,0,productName);\nmsg.payload.splice(0,0,msg.datetime);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 910,
+        "y": 180,
+        "wires": [
+            [
+                "457389c.05c5078"
+            ]
+        ]
+    },
+    {
+        "id": "e9cf40d4.9ad888",
+        "type": "html",
+        "z": "ecb0dc75.e2c838",
+        "name": "Get paragraph",
+        "property": "payload",
+        "outproperty": "payload",
+        "tag": "p.price > span:nth-child(1)",
+        "ret": "html",
+        "as": "single",
+        "x": 700,
+        "y": 240,
+        "wires": [
+            [
+                "f8ba7cbd.09934"
+            ]
+        ]
+    },
+    {
+        "id": "33f41860.d84ed",
+        "type": "http request",
+        "z": "ecb0dc75.e2c838",
+        "name": "Nilaqua® Alcohol Free Sanitiser PLUS",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "https://norinse.co.uk/product/nilaqua-alcohol-free-sanitiser-plus-5-litre/",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 450,
+        "y": 240,
+        "wires": [
+            [
+                "e9cf40d4.9ad888"
+            ]
+        ]
+    },
+    {
+        "id": "7270431d.6b3474",
+        "type": "change",
+        "z": "ecb0dc75.e2c838",
+        "name": "Extract Price",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload[2]",
+                "pt": "msg",
+                "from": "<span class=\"woocommerce-Price-currencySymbol\">&#xA3;</span>",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1110,
+        "y": 240,
+        "wires": [
+            [
+                "b58ce3e.ff5eda"
+            ]
+        ]
+    },
+    {
+        "id": "f8ba7cbd.09934",
+        "type": "function",
+        "z": "ecb0dc75.e2c838",
+        "name": "Push Date/Name to Array",
+        "func": "var now = new Date()\nvar x = now.toLocaleString()\nmsg.datetime = x\n\nvar productName = \"Prosan Hand Sanitiser 0% alcohol\";\nmsg.payload.splice(0,0,productName);\nmsg.payload.splice(0,0,msg.datetime);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 910,
+        "y": 240,
+        "wires": [
+            [
+                "7270431d.6b3474"
+            ]
+        ]
+    },
+    {
+        "id": "1194fb10.b88485",
+        "type": "debug",
+        "z": "ecb0dc75.e2c838",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1490,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "b58ce3e.ff5eda",
+        "type": "GSheet",
+        "z": "ecb0dc75.e2c838",
+        "creds": "8acedcb.f54ab2",
+        "method": "append",
+        "action": "",
+        "sheet": "1fHPUF2KfFEvg23703923vds4V3-0wtgIPYlmhr9mrX8",
+        "cells": "PriceMonitor!A2",
+        "name": "Add row",
+        "x": 1340,
+        "y": 120,
+        "wires": [
+            [
+                "1194fb10.b88485"
+            ]
+        ]
+    },
+    {
+        "id": "a66641fa.83a3a8",
+        "type": "html",
+        "z": "ecb0dc75.e2c838",
+        "name": "Get paragraph",
+        "property": "payload",
+        "outproperty": "payload",
+        "tag": ".ecomProductPriceMore",
+        "ret": "html",
+        "as": "single",
+        "x": 700,
+        "y": 300,
+        "wires": [
+            [
+                "d1d14744.cb6e6"
+            ]
+        ]
+    },
+    {
+        "id": "bb0390f.064e47",
+        "type": "http request",
+        "z": "ecb0dc75.e2c838",
+        "name": "ThermoGel 5 Litre 70%",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "https://www.thermogel.co.uk/shop/hand-sanitizer/thermogel-5-litre-hand-surface-sanitiser-bulk-drum-free-shipping/",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 410,
+        "y": 300,
+        "wires": [
+            [
+                "a66641fa.83a3a8"
+            ]
+        ]
+    },
+    {
+        "id": "6207b6b5.db0a38",
+        "type": "change",
+        "z": "ecb0dc75.e2c838",
+        "name": "Extract Price",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload[2]",
+                "pt": "msg",
+                "from": "Price:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload[2]",
+                "pt": "msg",
+                "from": "&#xA3;",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1110,
+        "y": 300,
+        "wires": [
+            [
+                "b58ce3e.ff5eda"
+            ]
+        ]
+    },
+    {
+        "id": "d1d14744.cb6e6",
+        "type": "function",
+        "z": "ecb0dc75.e2c838",
+        "name": "Push Date/Name to Array",
+        "func": "var now = new Date()\nvar x = now.toLocaleString()\nmsg.datetime = x\n\nvar productName = \"ThermoGel 5 Litre 70%\";\nmsg.payload.splice(0,0,productName);\nmsg.payload.splice(0,0,msg.datetime);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 910,
+        "y": 300,
+        "wires": [
+            [
+                "6207b6b5.db0a38"
+            ]
+        ]
+    },
+    {
+        "id": "12519fdf.f8628",
+        "type": "html",
+        "z": "ecb0dc75.e2c838",
+        "name": "Get paragraph",
+        "property": "payload",
+        "outproperty": "payload",
+        "tag": "#optProdVAT",
+        "ret": "html",
+        "as": "single",
+        "x": 700,
+        "y": 360,
+        "wires": [
+            [
+                "45593247.753364"
+            ]
+        ]
+    },
+    {
+        "id": "c9321587.f7c85",
+        "type": "http request",
+        "z": "ecb0dc75.e2c838",
+        "name": "Sabel 5 Litre 70%",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "https://www.allianceonline.co.uk/antibacterial-hand-sanitiser-spcs0001.html",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 390,
+        "y": 360,
+        "wires": [
+            [
+                "12519fdf.f8628"
+            ]
+        ]
+    },
+    {
+        "id": "c518a28d.79ca98",
+        "type": "change",
+        "z": "ecb0dc75.e2c838",
+        "name": "Extract Price",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload[2]",
+                "pt": "msg",
+                "from": "Inc. VAT: &#xA3;",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1110,
+        "y": 360,
+        "wires": [
+            [
+                "b58ce3e.ff5eda"
+            ]
+        ]
+    },
+    {
+        "id": "45593247.753364",
+        "type": "function",
+        "z": "ecb0dc75.e2c838",
+        "name": "Push Date/Name to Array",
+        "func": "var now = new Date()\nvar x = now.toLocaleString()\nmsg.datetime = x\n\nvar productName = \"Sabel 5 Litre 70%\";\nmsg.payload.splice(0,0,productName);\nmsg.payload.splice(0,0,msg.datetime);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 910,
+        "y": 360,
+        "wires": [
+            [
+                "c518a28d.79ca98"
+            ]
         ]
     }
 ]
