@@ -18,7 +18,7 @@
         "type": "amazon config",
         "z": "",
         "name": "AWS",
-        "region": "eu-west-2",
+        "region": "eu-west-1",
         "proxyRequired": false,
         "proxy": ""
     },
@@ -222,7 +222,7 @@
         "z": "15a0d5c9.3b9b92",
         "aws": "a76d987b.d992d",
         "operation": "DeleteMessage",
-        "QueueUrl": "https://sqs.eu-west-2.amazonaws.com/935852492816/Nayax",
+        "QueueUrl": "https://sqs.eu-west-1.amazonaws.com/935852492816/Nayax-Dex-DLQ",
         "Label": "",
         "AWSAccountIds": "",
         "Actions": "",
@@ -236,11 +236,9 @@
         "TagKeys": "",
         "name": "Delete Message",
         "x": 500,
-        "y": 520,
+        "y": 480,
         "wires": [
-            [
-                "1e21880e.6a5cd8"
-            ],
+            [],
             [
                 "1e21880e.6a5cd8"
             ]
@@ -257,8 +255,8 @@
         "tostatus": false,
         "complete": "true",
         "targetType": "full",
-        "x": 1330,
-        "y": 440,
+        "x": 1030,
+        "y": 380,
         "wires": []
     },
     {
@@ -269,10 +267,12 @@
         "func": "var encReceiptHandle = encodeURIComponent(msg.payload.Messages[0].ReceiptHandle)\nmsg.encodedReceiptHandle = encReceiptHandle;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 250,
-        "y": 520,
+        "x": 530,
+        "y": 420,
         "wires": [
-            []
+            [
+                "2f7a05d.72d887a"
+            ]
         ]
     },
     {
@@ -280,14 +280,14 @@
         "type": "function",
         "z": "15a0d5c9.3b9b92",
         "name": "Parse DEX",
-        "func": "//ADMIN\n//first parse pass to isolate elements\nparsedJSON = JSON.parse(msg.payload.Body);\n\n\n\n//split DexData into PA1 objects\nvar dexLines = parsedJSON.DexData.toString().split(\"PA1\");\n//find PA1 object that contains CAPPUCCINO\nvar cappuccinoData = dexLines.filter((s) => s.includes(\"CAPPUCCINO\"));\n//find PA1 object that contains CAFFE LATTE\nvar caffeeLatteData = dexLines.filter((s) => s.includes(\"CAFFE LATTE\"));\n//find PA1 object that contains WHITE COFFEE\nvar whiteCoffeeData = dexLines.filter((s) => s.includes(\"WHITE COFFEE\"));\n//find PA1 object that contains AMERICANO\nvar americanoData = dexLines.filter((s) => s.includes(\"AMERICANO\"));\n//find PA1 object that contains FLAT WHITE\nvar flatWhiteData = dexLines.filter((s) => s.includes(\"FLAT WHITE\"));\n//find PA1 object that contains DOUBLE ESPRESSO\nvar doubleEspressoData = dexLines.filter((s) => s.includes(\"DOUBLE ESPRESSO\"));\n//find PA1 object that contains CAFFE MOCHA\nvar caffeeMochaData = dexLines.filter((s) => s.includes(\"CAFFE MOCHA\"));\n//find PA1 object that contains HOT CHOCOLATE\nvar hotChocolateData = dexLines.filter((s) => s.includes(\"HOT CHOCOLATE\"));\n//find PA1 object that contains BLACK TEA\nvar blackTeaData = dexLines.filter((s) => s.includes(\"BLACK TEA\"));\n//find PA1 object that contains WHITE TEA\nvar whiteTeaData = dexLines.filter((s) => s.includes(\"WHITE TEA\"));\nif (dexLines.includes(\"CARAMEL\")) {\n  //find PA1 object that contains CARAMEL\n  var caramelData = dexLines.filter((s) => s.includes(\"CARAMEL\"));\n}\nif (dexLines.includes(\"VANILLA\")) {\n  //find PA1 object that contains VANILLA\n  var vanillaData = dexLines.filter((s) => s.includes(\"VANILLA\"));\n}\nif (dexLines.includes(\"TOMATO\")) {\n  //find PA1 object that contains HAZELNUT\n  var hazelnutData = dexLines.filter((s) => s.includes(\"HAZELNUT\"));\n}\nif (dexLines.includes(\"TOMATO\")) {\n  //find PA1 object that contains TOMATO\n  var tomatoSoupData = dexLines.filter((s) => s.includes(\"TOMATO SOUP\"));\n}\n\n//find PA4 and split cappuccinoSalesVal & cappuccinoTestVendVal\nvar cappuccinoSalesVal = cappuccinoData[0].match(/(PA4)\\*([0-9]*)/);\nvar cappuccinoTestVendVal = cappuccinoData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split caffeeLatteSalesVal & caffeeLatteTestVendVal\nvar caffeeLatteSalesVal = caffeeLatteData[0].match(/(PA4)\\*([0-9]*)/);\nvar caffeeLatteTestVendVal = caffeeLatteData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split whiteCoffeeSalesVal & whiteCoffeeTestVendVal\nvar whiteCoffeeSalesVal = whiteCoffeeData[0].match(/(PA4)\\*([0-9]*)/);\nvar whiteCoffeeTestVendVal = whiteCoffeeData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split americanoSalesVal & americanoTestVendVal\nvar americanoSalesVal = americanoData[0].match(/(PA4)\\*([0-9]*)/);\nvar americanoTestVendVal = americanoData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split flatWhiteSalesVal & flatWhiteTestVendVal\nvar flatWhiteSalesVal = flatWhiteData[0].match(/(PA4)\\*([0-9]*)/);\nvar flatWhiteTestVendVal = flatWhiteData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split doubleEspressoSalesVal & doubleEspressoTestVendVal\nvar doubleEspressoSalesVal = doubleEspressoData[0].match(/(PA4)\\*([0-9]*)/);\nvar doubleEspressoTestVendVal = doubleEspressoData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split caffeeMochaSalesVal & caffeeMochaTestVendVal\nvar caffeeMochaSalesVal = caffeeMochaData[0].match(/(PA4)\\*([0-9]*)/);\nvar caffeeMochaTestVendVal = caffeeMochaData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split hotChocolateSalesVal & hotChocolateTestVendVal\nvar hotChocolateSalesVal = hotChocolateData[0].match(/(PA4)\\*([0-9]*)/);\nvar hotChocolateTestVendVal = hotChocolateData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split blackTeaSalesVal & blackTeaTestVendVal\nvar blackTeaSalesVal = blackTeaData[0].match(/(PA4)\\*([0-9]*)/);\nvar blackTeaTestVendVal = blackTeaData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split whiteTeaSalesVal & whiteTeaTestVendVal\nvar whiteTeaSalesVal = whiteTeaData[0].match(/(PA4)\\*([0-9]*)/);\nvar whiteTeaTestVendVal = whiteTeaData[0].match(/(PA3)\\*([0-9]*)/);\nif (dexLines.includes(\"CARAMEL\")) {\n  //find PA4 and split caramelSalesVal & caramelTestVendVal\n  var caramelSalesVal = caramelData[0].match(/(PA4)\\*([0-9]*)/);\n  var caramelTestVendVal = caramelData[0].match(/(PA3)\\*([0-9]*)/);\n}\nif (dexLines.includes(\"VANILLA\")) {\n  //find PA4 and split vanillaSalesVal & vanillaTestVendVal\n  var vanillaSalesVal = vanillaData[0].match(/(PA4)\\*([0-9]*)/);\n  var vanillaTestVendVal = vanillaData[0].match(/(PA3)\\*([0-9]*)/);\n}\nif (dexLines.includes(\"HAZELNUT\")) {\n  //find PA4 and split hazelnutSalesVal & hazelnutTestVendVal\n  var hazelnutSalesVal = hazelnutData[0].match(/(PA4)\\*([0-9]*)/);\n  var hazelnutTestVendVal = hazelnutData[0].match(/(PA3)\\*([0-9]*)/);\n}\nif (dexLines.includes(\"TOMATO\")) {\n  //find PA4 and split tomatoSoupSalesVal & tomatoSoupTestVendVal\n  var tomatoSoupSalesVal = tomatoSoupData[0].match(/(PA4)\\*([0-9]*)/);\n  var tomatoSoupTestVendVal = tomatoSoupData[0].match(/(PA3)\\*([0-9]*)/);\n}\n\n//include SalesVal and TestVendVal in msg.payload\nmsg.payload.cappuccinoSales = cappuccinoSalesVal[2];\nmsg.payload.cappuccinoTestVend = cappuccinoTestVendVal[2];\nmsg.payload.caffeeLatteSales = caffeeLatteSalesVal[2];\nmsg.payload.caffeeLatteTestVend = caffeeLatteTestVendVal[2];\nmsg.payload.whiteCoffeeSales = whiteCoffeeSalesVal[2];\nmsg.payload.whiteCoffeeTestVend = whiteCoffeeTestVendVal[2];\nmsg.payload.americanoSales = americanoSalesVal[2];\nmsg.payload.americanoTestVend = americanoTestVendVal[2];\nmsg.payload.flatWhiteSales = flatWhiteSalesVal[2];\nmsg.payload.flatWhiteTestVend = flatWhiteTestVendVal[2];\nmsg.payload.doubleEspressoSales = doubleEspressoSalesVal[2];\nmsg.payload.doubleEspressoTestVend = doubleEspressoTestVendVal[2];\nmsg.payload.caffeeMochaSales = caffeeMochaSalesVal[2];\nmsg.payload.caffeeMochaTestVend = caffeeMochaTestVendVal[2];\nmsg.payload.hotChocolateSales = hotChocolateSalesVal[2];\nmsg.payload.hotChocolateTestVend = hotChocolateTestVendVal[2];\nmsg.payload.blackTeaSales = blackTeaSalesVal[2];\nmsg.payload.blackTeaTestVend = blackTeaTestVendVal[2];\nmsg.payload.whiteTeaSales = whiteTeaSalesVal[2];\nmsg.payload.whiteTeaTestVend = whiteTeaTestVendVal[2];\nif (dexLines.includes(\"VANILLA\")) {\n  msg.payload.vanillaSales = vanillaSalesVal[2];\n  msg.payload.vanillaTestVend = vanillaTestVendVal[2];\n}\nif (dexLines.includes(\"CARAMEL\")) {\n  msg.payload.caramelSales = caramelSalesVal[2];\n  msg.payload.caramelTestVend = caramelTestVendVal[2];\n}\nif (dexLines.includes(\"HAZELNUT\")) {\n  msg.payload.hazelnutSales = hazelnutSalesVal[2];\n  msg.payload.hazelnutTestVend = hazelnutTestVendVal[2];\n}\nif (dexLines.includes(\"TOMATO\")) {\n  msg.payload.tomatoSoupSales = tomatoSoupSalesVal[2];\n  msg.payload.tomatoSoupTestVend = tomatoSoupTestVendVal[2];\n}\n\n// debug data\n//    msg.parsedJSON = parsedJSON;\n// msg.lines = dexLines;\n// msg.cappuccinoData = cappuccinoData;\n\nreturn msg;\n",
+        "func": "//ADMIN\n//first parse pass to isolate elements\nparsedJSON = JSON.parse(msg.payload.Body);\n//isolate receiveCount\nvar machineDate = msg.payload.Body.match(\n  /(?:MachineDate\":\")([0-9]{8}).([0-9]{6})/\n);\nvar HWSerial = msg.payload.Body.match(\n  /(?:HWSerial\":\")([0-9]*)/\n);\n\n//split DexData into PA1 objects\nvar dexLines = parsedJSON.DexData.toString().split(\"PA1\");\n//find PA1 object that contains CAPPUCCINO\nvar cappuccinoData = dexLines.filter((s) => s.includes(\"CAPPUCCINO\"));\n//find PA1 object that contains CAFFE LATTE\nvar caffeeLatteData = dexLines.filter((s) => s.includes(\"CAFFE LATTE\"));\n//find PA1 object that contains WHITE COFFEE\nvar whiteCoffeeData = dexLines.filter((s) => s.includes(\"WHITE COFFEE\"));\n//find PA1 object that contains AMERICANO\nvar americanoData = dexLines.filter((s) => s.includes(\"AMERICANO\"));\n//find PA1 object that contains FLAT WHITE\nvar flatWhiteData = dexLines.filter((s) => s.includes(\"FLAT WHITE\"));\n//find PA1 object that contains DOUBLE ESPRESSO\nvar doubleEspressoData = dexLines.filter((s) => s.includes(\"DOUBLE ESPRESSO\"));\n//find PA1 object that contains CAFFE MOCHA\nvar caffeeMochaData = dexLines.filter((s) => s.includes(\"CAFFE MOCHA\"));\n//find PA1 object that contains HOT CHOCOLATE\nvar hotChocolateData = dexLines.filter((s) => s.includes(\"HOT CHOCOLATE\"));\n//find PA1 object that contains BLACK TEA\nvar blackTeaData = dexLines.filter((s) => s.includes(\"BLACK TEA\"));\n//find PA1 object that contains WHITE TEA\nvar whiteTeaData = dexLines.filter((s) => s.includes(\"WHITE TEA\"));\nif (msg.payload.Body.includes(\"CARAMEL\")) {\n  //find PA1 object that contains CARAMEL\n  var caramelData = dexLines.filter((s) => s.includes(\"CARAMEL\"));\n}\nif (msg.payload.Body.includes(\"VANILLA\")) {\n  //find PA1 object that contains VANILLA\n  var vanillaData = dexLines.filter((s) => s.includes(\"VANILLA\"));\n}\nif (dexLines.includes(\"HAZELNUT\")) {\n  //find PA1 object that contains HAZELNUT\n  var hazelnutData = dexLines.filter((s) => s.includes(\"HAZELNUT\"));\n}\nif (dexLines.includes(\"TOMATO\")) {\n  //find PA1 object that contains TOMATO\n  var tomatoSoupData = dexLines.filter((s) => s.includes(\"TOMATO SOUP\"));\n}\n\n//find PA4 and split cappuccinoSalesVal & cappuccinoTestVendVal\nvar cappuccinoSalesVal = cappuccinoData[0].match(/(PA4)\\*([0-9]*)/);\nvar cappuccinoTestVendVal = cappuccinoData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split caffeeLatteSalesVal & caffeeLatteTestVendVal\nvar caffeeLatteSalesVal = caffeeLatteData[0].match(/(PA4)\\*([0-9]*)/);\nvar caffeeLatteTestVendVal = caffeeLatteData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split whiteCoffeeSalesVal & whiteCoffeeTestVendVal\nvar whiteCoffeeSalesVal = whiteCoffeeData[0].match(/(PA4)\\*([0-9]*)/);\nvar whiteCoffeeTestVendVal = whiteCoffeeData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split americanoSalesVal & americanoTestVendVal\nvar americanoSalesVal = americanoData[0].match(/(PA4)\\*([0-9]*)/);\nvar americanoTestVendVal = americanoData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split flatWhiteSalesVal & flatWhiteTestVendVal\nvar flatWhiteSalesVal = flatWhiteData[0].match(/(PA4)\\*([0-9]*)/);\nvar flatWhiteTestVendVal = flatWhiteData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split doubleEspressoSalesVal & doubleEspressoTestVendVal\nvar doubleEspressoSalesVal = doubleEspressoData[0].match(/(PA4)\\*([0-9]*)/);\nvar doubleEspressoTestVendVal = doubleEspressoData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split caffeeMochaSalesVal & caffeeMochaTestVendVal\nvar caffeeMochaSalesVal = caffeeMochaData[0].match(/(PA4)\\*([0-9]*)/);\nvar caffeeMochaTestVendVal = caffeeMochaData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split hotChocolateSalesVal & hotChocolateTestVendVal\nvar hotChocolateSalesVal = hotChocolateData[0].match(/(PA4)\\*([0-9]*)/);\nvar hotChocolateTestVendVal = hotChocolateData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split blackTeaSalesVal & blackTeaTestVendVal\nvar blackTeaSalesVal = blackTeaData[0].match(/(PA4)\\*([0-9]*)/);\nvar blackTeaTestVendVal = blackTeaData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split whiteTeaSalesVal & whiteTeaTestVendVal\nvar whiteTeaSalesVal = whiteTeaData[0].match(/(PA4)\\*([0-9]*)/);\nvar whiteTeaTestVendVal = whiteTeaData[0].match(/(PA3)\\*([0-9]*)/);\nif (caramelData !== null) {\n  //find PA4 and split caramelSalesVal & caramelTestVendVal\n  var caramelSalesVal = caramelData[0].match(/(PA4)\\*([0-9]*)/);\n  var caramelTestVendVal = caramelData[0].match(/(PA3)\\*([0-9]*)/);\n}\nif (vanillaData !== null) {\n  //find PA4 and split vanillaSalesVal & vanillaTestVendVal\n  var vanillaSalesVal = vanillaData[0].match(/(PA4)\\*([0-9]*)/);\n  var vanillaTestVendVal = vanillaData[0].match(/(PA3)\\*([0-9]*)/);\n}\nif (dexLines.includes(\"HAZELNUT\")) {\n  //find PA4 and split hazelnutSalesVal & hazelnutTestVendVal\n  var hazelnutSalesVal = hazelnutData[0].match(/(PA4)\\*([0-9]*)/);\n  var hazelnutTestVendVal = hazelnutData[0].match(/(PA3)\\*([0-9]*)/);\n}\nif (dexLines.includes(\"TOMATO\")) {\n  //find PA4 and split tomatoSoupSalesVal & tomatoSoupTestVendVal\n  var tomatoSoupSalesVal = tomatoSoupData[0].match(/(PA4)\\*([0-9]*)/);\n  var tomatoSoupTestVendVal = tomatoSoupData[0].match(/(PA3)\\*([0-9]*)/);\n}\n\n//include SalesVal and TestVendVal in msg.payload\nmsg.payload.machineDate = machineDate[1] + machineDate[2];\n//msg.payload.machineTime = machineDate[2];\nmsg.payload.HWSerial = HWSerial[1];\nmsg.payload.cappuccinoSales = cappuccinoSalesVal[2];\nmsg.payload.cappuccinoTestVend = cappuccinoTestVendVal[2];\nmsg.payload.caffeeLatteSales = caffeeLatteSalesVal[2];\nmsg.payload.caffeeLatteTestVend = caffeeLatteTestVendVal[2];\nmsg.payload.whiteCoffeeSales = whiteCoffeeSalesVal[2];\nmsg.payload.whiteCoffeeTestVend = whiteCoffeeTestVendVal[2];\nmsg.payload.americanoSales = americanoSalesVal[2];\nmsg.payload.americanoTestVend = americanoTestVendVal[2];\nmsg.payload.flatWhiteSales = flatWhiteSalesVal[2];\nmsg.payload.flatWhiteTestVend = flatWhiteTestVendVal[2];\nmsg.payload.doubleEspressoSales = doubleEspressoSalesVal[2];\nmsg.payload.doubleEspressoTestVend = doubleEspressoTestVendVal[2];\nmsg.payload.caffeeMochaSales = caffeeMochaSalesVal[2];\nmsg.payload.caffeeMochaTestVend = caffeeMochaTestVendVal[2];\nmsg.payload.hotChocolateSales = hotChocolateSalesVal[2];\nmsg.payload.hotChocolateTestVend = hotChocolateTestVendVal[2];\nmsg.payload.blackTeaSales = blackTeaSalesVal[2];\nmsg.payload.blackTeaTestVend = blackTeaTestVendVal[2];\nmsg.payload.whiteTeaSales = whiteTeaSalesVal[2];\nmsg.payload.whiteTeaTestVend = whiteTeaTestVendVal[2];\nif (dexLines.includes(\"VANILLA\")) {\n  msg.payload.vanillaSales = vanillaSalesVal[2];\n  msg.payload.vanillaTestVend = vanillaTestVendVal[2];\n}\nif (dexLines.includes(\"CARAMEL\")) {\n  msg.payload.caramelSales = caramelSalesVal[2];\n  msg.payload.caramelTestVend = caramelTestVendVal[2];\n}\nif (dexLines.includes(\"HAZELNUT\")) {\n  msg.payload.hazelnutSales = hazelnutSalesVal[2];\n  msg.payload.hazelnutTestVend = hazelnutTestVendVal[2];\n}\nif (dexLines.includes(\"TOMATO\")) {\n  msg.payload.tomatoSoupSales = tomatoSoupSalesVal[2];\n  msg.payload.tomatoSoupTestVend = tomatoSoupTestVendVal[2];\n}\n\n// debug data\n//    msg.parsedJSON = parsedJSON;\n// msg.lines = dexLines;\n// msg.cappuccinoData = cappuccinoData;\n\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
-        "x": 490,
+        "x": 510,
         "y": 160,
         "wires": [
             [
-                "a6c9e422.6aaea"
+                "e4e1c7ad.9a724"
             ]
         ]
     },
@@ -327,10 +327,10 @@
         "z": "15a0d5c9.3b9b92",
         "bigquery": "e288eb3f.29a54",
         "dataset": "test",
-        "table": "test_table",
+        "table": "test_table_3",
         "name": "Write Test BigQuery",
-        "x": 1040,
-        "y": 180,
+        "x": 540,
+        "y": 340,
         "wires": []
     },
     {
@@ -353,6 +353,11 @@
                 "t": "delete",
                 "p": "payload.MD5OfBody",
                 "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.Attributes",
+                "pt": "msg"
             }
         ],
         "action": "",
@@ -360,10 +365,11 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 510,
-        "y": 220,
+        "x": 530,
+        "y": 280,
         "wires": [
             [
+                "fe48ac50.d9ed58",
                 "1e21880e.6a5cd8"
             ]
         ]
@@ -401,8 +407,8 @@
         "persist": false,
         "proxy": "",
         "authType": "basic",
-        "x": 680,
-        "y": 680,
+        "x": 440,
+        "y": 740,
         "wires": [
             [
                 "1cfd5ca4.dc788b"
@@ -431,8 +437,8 @@
         "z": "15a0d5c9.3b9b92",
         "name": "Split Array",
         "property": "payload.value",
-        "x": 930,
-        "y": 680,
+        "x": 370,
+        "y": 800,
         "wires": [
             [
                 "1e21880e.6a5cd8"
@@ -445,7 +451,7 @@
         "type": "function",
         "z": "15a0d5c9.3b9b92",
         "name": "Set SQS Query Attributes",
-        "func": "//msg.MaxNumberOfMessages = '10'\nmsg.AttributeNames = ['ApproximateReceiveCount']\n\nreturn msg;",
+        "func": "msg.MaxNumberOfMessages = '1'\nmsg.AttributeNames = ['ApproximateReceiveCount']\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 210,
@@ -470,7 +476,8 @@
         "y": 340,
         "wires": [
             [
-                "18170c1.8e490f4"
+                "18170c1.8e490f4",
+                "1e21880e.6a5cd8"
             ],
             []
         ]
@@ -973,6 +980,53 @@
             [
                 "c518a28d.79ca98"
             ]
+        ]
+    },
+    {
+        "id": "e4e1c7ad.9a724",
+        "type": "switch",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Check ApproximateReceiveCount",
+        "property": "payload.Attributes.ApproximateReceiveCount",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "7",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 580,
+        "y": 220,
+        "wires": [
+            [
+                "a6c9e422.6aaea"
+            ]
+        ]
+    },
+    {
+        "id": "57885190.ade1e8",
+        "type": "join",
+        "z": "15a0d5c9.3b9b92",
+        "name": "",
+        "mode": "auto",
+        "build": "string",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": "false",
+        "timeout": "",
+        "count": "",
+        "reduceRight": false,
+        "x": 900,
+        "y": 200,
+        "wires": [
+            []
         ]
     }
 ]
