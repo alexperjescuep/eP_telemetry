@@ -14,6 +14,13 @@
         "info": ""
     },
     {
+        "id": "7f949f4.debdf6",
+        "type": "tab",
+        "label": "Website Contact Form",
+        "disabled": false,
+        "info": ""
+    },
+    {
         "id": "a76d987b.d992d",
         "type": "amazon config",
         "z": "",
@@ -27,25 +34,6 @@
         "type": "dropbox-config",
         "z": "",
         "name": ""
-    },
-    {
-        "id": "3c977df5.cbd1ca",
-        "type": "google-credentials",
-        "z": "",
-        "displayName": "https://www.googleapis.com/auth/bigquery",
-        "scopes": "https://www.googleapis.com/auth/bigquery"
-    },
-    {
-        "id": "5e4f84f3.84d33c",
-        "type": "google-cloud-credentials",
-        "z": "",
-        "name": "huginn"
-    },
-    {
-        "id": "2a123d60.c756e2",
-        "type": "google-cloud-credentials",
-        "z": "",
-        "name": "huginn_2"
     },
     {
         "id": "e288eb3f.29a54",
@@ -167,6 +155,13 @@
         "id": "8acedcb.f54ab2",
         "type": "gauth",
         "z": ""
+    },
+    {
+        "id": "683a339d.bc7bec",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/contact-form/receive",
+        "wholemsg": "false"
     },
     {
         "id": "23889661.c1e502",
@@ -329,8 +324,8 @@
         "dataset": "test",
         "table": "test_table_3",
         "name": "Write Test BigQuery",
-        "x": 540,
-        "y": 340,
+        "x": 900,
+        "y": 280,
         "wires": []
     },
     {
@@ -585,7 +580,8 @@
         "y": 120,
         "wires": [
             [
-                "b58ce3e.ff5eda"
+                "b58ce3e.ff5eda",
+                "ab44d67e.d3cc1"
             ]
         ]
     },
@@ -1008,25 +1004,190 @@
         ]
     },
     {
-        "id": "57885190.ade1e8",
-        "type": "join",
-        "z": "15a0d5c9.3b9b92",
-        "name": "",
-        "mode": "auto",
-        "build": "string",
-        "property": "payload",
-        "propertyType": "msg",
-        "key": "topic",
-        "joiner": "\\n",
-        "joinerType": "str",
-        "accumulate": "false",
-        "timeout": "",
-        "count": "",
-        "reduceRight": false,
-        "x": 900,
-        "y": 200,
+        "id": "f0603a6c.8d23e8",
+        "type": "http in",
+        "z": "7f949f4.debdf6",
+        "name": "Receive contact form",
+        "url": "/contact_form",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 240,
         "wires": [
+            [
+                "fd5122c6.487b78",
+                "1afcf994.1fa71e",
+                "8393c236.520e28"
+            ]
+        ]
+    },
+    {
+        "id": "9a3de1b4.705f78",
+        "type": "debug",
+        "z": "7f949f4.debdf6",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 1040,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "b2fe7dbd.26c1e",
+        "type": "AWS DynamoDB",
+        "z": "15a0d5c9.3b9b92",
+        "aws": "a76d987b.d992d",
+        "operation": "PutItem",
+        "RequestItems": "",
+        "TableName": "DEXdataBackup",
+        "BackupName": "",
+        "GlobalTableName": "",
+        "ReplicationGroup": "",
+        "AttributeDefinitions": "",
+        "KeySchema": "",
+        "ProvisionedThroughput": "",
+        "BackupArn": "",
+        "Key": "",
+        "ResourceArn": "",
+        "Item": "test",
+        "TargetTableName": "",
+        "SourceTableName": "",
+        "Tags": "",
+        "TagKeys": "",
+        "PointInTimeRecoverySpecification": "",
+        "ReplicaUpdates": "",
+        "TimeToLiveSpecification": "",
+        "name": "Back-up DEX messages",
+        "x": 560,
+        "y": 80,
+        "wires": [
+            [],
             []
+        ]
+    },
+    {
+        "id": "56d2626e.a70a8c",
+        "type": "GSheet",
+        "z": "7f949f4.debdf6",
+        "creds": "8acedcb.f54ab2",
+        "method": "append",
+        "action": "",
+        "sheet": "1_LxYh5puWtTfyfFmLd7wQh47vg1z4L9tw5VqmQhEkTU",
+        "cells": "FormSubmissions!A2",
+        "name": "Add row",
+        "x": 820,
+        "y": 180,
+        "wires": [
+            [
+                "9a3de1b4.705f78"
+            ]
+        ]
+    },
+    {
+        "id": "ab44d67e.d3cc1",
+        "type": "debug",
+        "z": "ecb0dc75.e2c838",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1300,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "8393c236.520e28",
+        "type": "change",
+        "z": "7f949f4.debdf6",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.[costcutterAccountNumber, storeName, storeAddress, storePostcode, storeContactName, storeContactNumber, bdmName, bdmEmail, branding, floorstandingQuantity, tabletopQuantity, solutionType, solutionQuantity, shippingChargesAcknowledge]",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 180,
+        "wires": [
+            [
+                "56d2626e.a70a8c"
+            ]
+        ]
+    },
+    {
+        "id": "fd5122c6.487b78",
+        "type": "http response",
+        "z": "7f949f4.debdf6",
+        "name": "Send http response",
+        "statusCode": "200",
+        "headers": {},
+        "x": 440,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "ad745ac7.371798",
+        "type": "http request",
+        "z": "7f949f4.debdf6",
+        "name": "POST to Excel",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "https://prod-08.uksouth.logic.azure.com:443/workflows/f844dc78c2af462cbae56f1722c2cf04/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=KlVJp9P7LNzH3tkw2Vmzot7P4-LnNHyr_3B4iioBApk",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 800,
+        "y": 240,
+        "wires": [
+            [
+                "9a3de1b4.705f78"
+            ]
+        ]
+    },
+    {
+        "id": "1afcf994.1fa71e",
+        "type": "simpletime",
+        "z": "7f949f4.debdf6",
+        "name": "",
+        "x": 410,
+        "y": 240,
+        "wires": [
+            [
+                "cf6c5a6.742c3a8"
+            ]
+        ]
+    },
+    {
+        "id": "cf6c5a6.742c3a8",
+        "type": "function",
+        "z": "7f949f4.debdf6",
+        "name": "Add time to Payload",
+        "func": "var rawTime = msg.myrawdate;\n\nmsg.payload.rawTime = rawTime;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 600,
+        "y": 240,
+        "wires": [
+            [
+                "ad745ac7.371798"
+            ]
         ]
     }
 ]
