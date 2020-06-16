@@ -21,6 +21,13 @@
         "info": ""
     },
     {
+        "id": "812297d7.4a626",
+        "type": "tab",
+        "label": "ProspectSoft reporting",
+        "disabled": false,
+        "info": ""
+    },
+    {
         "id": "a76d987b.d992d",
         "type": "amazon config",
         "z": "",
@@ -1034,7 +1041,7 @@
         "complete": "payload",
         "targetType": "msg",
         "x": 1040,
-        "y": 380,
+        "y": 240,
         "wires": []
     },
     {
@@ -1136,7 +1143,7 @@
         "name": "Send http response",
         "statusCode": "200",
         "headers": {},
-        "x": 440,
+        "x": 430,
         "y": 300,
         "wires": []
     },
@@ -1187,6 +1194,207 @@
         "wires": [
             [
                 "ad745ac7.371798"
+            ]
+        ]
+    },
+    {
+        "id": "ce0c78cf.c533a8",
+        "type": "inject",
+        "z": "812297d7.4a626",
+        "name": "Check number of leads",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "3600",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 150,
+        "y": 120,
+        "wires": [
+            [
+                "5ed37ee.a3b688"
+            ]
+        ]
+    },
+    {
+        "id": "6421adcb.0955c4",
+        "type": "http request",
+        "z": "812297d7.4a626",
+        "name": "Get Total Leads",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "https://api-v1.prospect365.com/Leads/$count?$filter=contains(Description, 'sanitiser')",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 580,
+        "y": 120,
+        "wires": [
+            [
+                "487d1d1b.8aac24"
+            ]
+        ]
+    },
+    {
+        "id": "545322c5.f9f2c4",
+        "type": "debug",
+        "z": "812297d7.4a626",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1210,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "487d1d1b.8aac24",
+        "type": "GSheet",
+        "z": "812297d7.4a626",
+        "creds": "8acedcb.f54ab2",
+        "method": "update",
+        "action": "",
+        "sheet": "1un-cRNKri9mc5K32EdyrPmrILUekxj1sIqZXFW79GDE",
+        "cells": "Sheet1!B2",
+        "name": "Add Total leads",
+        "x": 840,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ca8d72a1.abc65",
+        "type": "GSheet",
+        "z": "812297d7.4a626",
+        "creds": "8acedcb.f54ab2",
+        "method": "update",
+        "action": "",
+        "sheet": "1un-cRNKri9mc5K32EdyrPmrILUekxj1sIqZXFW79GDE",
+        "cells": "Sheet1!C2",
+        "name": "Add Web leads",
+        "x": 850,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "66d9c603.0ee2d8",
+        "type": "http request",
+        "z": "812297d7.4a626",
+        "name": "Get Web Leads",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "https://api-v1.prospect365.com/Leads/$count?&$filter=contains(SourceId, 'WEB') and contains(Description, 'sanitiser')",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 580,
+        "y": 180,
+        "wires": [
+            [
+                "ca8d72a1.abc65"
+            ]
+        ]
+    },
+    {
+        "id": "5ed37ee.a3b688",
+        "type": "function",
+        "z": "812297d7.4a626",
+        "name": "Set Bearer Token",
+        "func": "msg.headers = {\n    Authorization: \"Bearer \"+\"a187f0827402b6e7be3da3bbb7835d71\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 370,
+        "y": 120,
+        "wires": [
+            [
+                "66d9c603.0ee2d8",
+                "6421adcb.0955c4",
+                "4d689715.a814c8",
+                "8efbab7.8121bd8"
+            ]
+        ]
+    },
+    {
+        "id": "317bf520.89ce9a",
+        "type": "GSheet",
+        "z": "812297d7.4a626",
+        "creds": "8acedcb.f54ab2",
+        "method": "update",
+        "action": "",
+        "sheet": "1un-cRNKri9mc5K32EdyrPmrILUekxj1sIqZXFW79GDE",
+        "cells": "Sheet1!D2",
+        "name": "Add Newsletter leads",
+        "x": 870,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4d689715.a814c8",
+        "type": "http request",
+        "z": "812297d7.4a626",
+        "name": "Get Newsletter Leads",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "https://api-v1.prospect365.com/Leads/$count?&$filter=contains(SourceId, 'E-SHOT') and contains(Description, 'sanitiser')",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 600,
+        "y": 240,
+        "wires": [
+            [
+                "317bf520.89ce9a"
+            ]
+        ]
+    },
+    {
+        "id": "4a75f887.2633b8",
+        "type": "GSheet",
+        "z": "812297d7.4a626",
+        "creds": "8acedcb.f54ab2",
+        "method": "update",
+        "action": "",
+        "sheet": "1un-cRNKri9mc5K32EdyrPmrILUekxj1sIqZXFW79GDE",
+        "cells": "Sheet1!E2",
+        "name": "Add Direct Email leads",
+        "x": 870,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8efbab7.8121bd8",
+        "type": "http request",
+        "z": "812297d7.4a626",
+        "name": "Get Newsletter Leads",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "https://api-v1.prospect365.com/Leads/$count?&$filter=contains(SourceId, '8ac76c') and contains(Description, 'sanitiser')",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 600,
+        "y": 300,
+        "wires": [
+            [
+                "4a75f887.2633b8"
             ]
         ]
     }
