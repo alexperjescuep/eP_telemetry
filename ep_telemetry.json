@@ -238,7 +238,7 @@
         "TagKeys": "",
         "name": "Delete Message",
         "x": 500,
-        "y": 480,
+        "y": 440,
         "wires": [
             [],
             [
@@ -253,7 +253,7 @@
         "name": "",
         "active": true,
         "tosidebar": true,
-        "console": false,
+        "console": true,
         "tostatus": false,
         "complete": "true",
         "targetType": "full",
@@ -270,7 +270,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 530,
-        "y": 420,
+        "y": 380,
         "wires": [
             [
                 "2f7a05d.72d887a"
@@ -303,8 +303,8 @@
         "createDir": false,
         "overwriteFile": "false",
         "encoding": "none",
-        "x": 210,
-        "y": 600,
+        "x": 170,
+        "y": 540,
         "wires": [
             [
                 "e207f7b0.37d498"
@@ -319,8 +319,8 @@
         "filename": "",
         "localFilename": "",
         "name": "Back-up DEX data to Dropbox",
-        "x": 550,
-        "y": 600,
+        "x": 510,
+        "y": 540,
         "wires": []
     },
     {
@@ -374,78 +374,6 @@
                 "fe48ac50.d9ed58",
                 "1e21880e.6a5cd8"
             ]
-        ]
-    },
-    {
-        "id": "2451e529.c06d02",
-        "type": "inject",
-        "z": "15a0d5c9.3b9b92",
-        "name": "",
-        "topic": "msg.rejectUnauthorized = false; ",
-        "payload": "",
-        "payloadType": "date",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "x": 200,
-        "y": 680,
-        "wires": [
-            [
-                "62d719ee.0beec8"
-            ]
-        ]
-    },
-    {
-        "id": "61ab88d7.20aac8",
-        "type": "http request",
-        "z": "15a0d5c9.3b9b92",
-        "name": "Get Yesterday's sale from Critica",
-        "method": "GET",
-        "ret": "obj",
-        "paytoqs": false,
-        "url": "https://critica.promate.com/odata/ODataFilters/2020-05-04T00:00:00_2020-05-04T01:59:59?$orderby=TxTime",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "basic",
-        "x": 440,
-        "y": 740,
-        "wires": [
-            [
-                "1cfd5ca4.dc788b"
-            ]
-        ]
-    },
-    {
-        "id": "62d719ee.0beec8",
-        "type": "function",
-        "z": "15a0d5c9.3b9b92",
-        "name": "Set rejectUnauthorized",
-        "func": "msg.rejectUnauthorized = false; \n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 400,
-        "y": 680,
-        "wires": [
-            [
-                "61ab88d7.20aac8"
-            ]
-        ]
-    },
-    {
-        "id": "1cfd5ca4.dc788b",
-        "type": "bigsplitter",
-        "z": "15a0d5c9.3b9b92",
-        "name": "Split Array",
-        "property": "payload.value",
-        "x": 370,
-        "y": 800,
-        "wires": [
-            [
-                "1e21880e.6a5cd8"
-            ],
-            []
         ]
     },
     {
@@ -1239,6 +1167,20 @@
         ]
     },
     {
+        "id": "545322c5.f9f2c4",
+        "type": "debug",
+        "z": "812297d7.4a626",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1210,
+        "y": 120,
+        "wires": []
+    },
+    {
         "id": "487d1d1b.8aac24",
         "type": "GSheet",
         "z": "812297d7.4a626",
@@ -1382,6 +1324,168 @@
             [
                 "4a75f887.2633b8"
             ]
+        ]
+    },
+    {
+        "id": "d3932164.25316",
+        "type": "bigquery insert",
+        "z": "15a0d5c9.3b9b92",
+        "bigquery": "e288eb3f.29a54",
+        "dataset": "Critica_Data",
+        "table": "Sales",
+        "name": "Write Critica to BigQuery",
+        "x": 1210,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "400fe382.8249a4",
+        "type": "change",
+        "z": "15a0d5c9.3b9b92",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "time",
+                "pt": "msg",
+                "to": "$now()",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 170,
+        "y": 840,
+        "wires": [
+            [
+                "927b56f.166ba28"
+            ]
+        ]
+    },
+    {
+        "id": "c8f2f40e.6c8f",
+        "type": "inject",
+        "z": "15a0d5c9.3b9b92",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "600",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 170,
+        "y": 780,
+        "wires": [
+            [
+                "400fe382.8249a4"
+            ]
+        ]
+    },
+    {
+        "id": "927b56f.166ba28",
+        "type": "moment",
+        "z": "15a0d5c9.3b9b92",
+        "name": "",
+        "topic": "",
+        "input": "time",
+        "inputType": "msg",
+        "inTz": "Europe/London",
+        "adjAmount": "1",
+        "adjType": "hours",
+        "adjDir": "add",
+        "format": "YYYY-MM-DDTHH:mm:ss",
+        "locale": "en_US",
+        "output": "real_timezone",
+        "outputType": "msg",
+        "outTz": "Europe/London",
+        "x": 420,
+        "y": 780,
+        "wires": [
+            [
+                "d56f6434.5abe78"
+            ]
+        ]
+    },
+    {
+        "id": "ea3033fc.83a9f8",
+        "type": "function",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Set rejectUnauthorized",
+        "func": "msg.rejectUnauthorized = false; \n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 700,
+        "y": 780,
+        "wires": [
+            [
+                "ba34566c.37a9"
+            ]
+        ]
+    },
+    {
+        "id": "ba34566c.37a9",
+        "type": "http request",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Get Yesterday's sale from Critica",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": false,
+        "url": "https://critica.promate.com/odata/ODataFilters/{{{real_timezone_minus10mins}}}_{{{real_timezone}}}?$orderby=TxTime",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "basic",
+        "x": 740,
+        "y": 840,
+        "wires": [
+            [
+                "894bc035.4b7e",
+                "1e21880e.6a5cd8"
+            ]
+        ]
+    },
+    {
+        "id": "d56f6434.5abe78",
+        "type": "moment",
+        "z": "15a0d5c9.3b9b92",
+        "name": "",
+        "topic": "",
+        "input": "real_timezone",
+        "inputType": "msg",
+        "inTz": "Europe/London",
+        "adjAmount": "10",
+        "adjType": "minutes",
+        "adjDir": "subtract",
+        "format": "YYYY-MM-DDTHH:mm:ss",
+        "locale": "en_US",
+        "output": "real_timezone_minus10mins",
+        "outputType": "msg",
+        "outTz": "Europe/London",
+        "x": 420,
+        "y": 840,
+        "wires": [
+            [
+                "ea3033fc.83a9f8"
+            ]
+        ]
+    },
+    {
+        "id": "894bc035.4b7e",
+        "type": "bigsplitter",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Split Array",
+        "property": "payload.value",
+        "x": 970,
+        "y": 840,
+        "wires": [
+            [
+                "d3932164.25316"
+            ],
+            []
         ]
     }
 ]
