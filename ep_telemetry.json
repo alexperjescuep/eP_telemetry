@@ -1335,7 +1335,7 @@
         "table": "Sales",
         "name": "Write Critica to BigQuery",
         "x": 1210,
-        "y": 760,
+        "y": 840,
         "wires": []
     },
     {
@@ -1479,7 +1479,7 @@
         "z": "15a0d5c9.3b9b92",
         "name": "Split Array",
         "property": "payload.value",
-        "x": 970,
+        "x": 990,
         "y": 840,
         "wires": [
             [
