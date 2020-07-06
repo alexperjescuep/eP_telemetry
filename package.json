@@ -10,7 +10,9 @@
         "node-red-contrib-iot-in-gcp": "0.1.1",
         "node-red-dashboard": "2.20.0",
         "node-red-node-dropbox": "1.0.2",
-        "node-red-contrib-google-sheets": "0.0.3"
+        "node-red-contrib-google-sheets": "0.0.3",
+        "node-red-contrib-moment": "3.0.3",
+        "node-red-contrib-simpletime": "2.9.1"
     },
     "node-red": {
         "settings": {

@@ -145,30 +145,16 @@
         }
     },
     {
-        "id": "ba508030.cd154",
-        "type": "tls-config",
-        "z": "",
-        "name": "",
-        "cert": "",
-        "key": "",
-        "ca": "",
-        "certname": "critica-promate-com.pem",
-        "keyname": "critica-promate-com-chain.pem",
-        "caname": "",
-        "servername": "",
-        "verifyservercert": true
-    },
-    {
         "id": "8acedcb.f54ab2",
         "type": "gauth",
         "z": ""
     },
     {
-        "id": "683a339d.bc7bec",
-        "type": "websocket-listener",
+        "id": "40278292.796554",
+        "type": "amazon config",
         "z": "",
-        "path": "/contact-form/receive",
-        "wholemsg": "false"
+        "name": "AWS",
+        "region": "us-east-1"
     },
     {
         "id": "23889661.c1e502",
@@ -176,7 +162,7 @@
         "z": "15a0d5c9.3b9b92",
         "aws": "a76d987b.d992d",
         "operation": "ReceiveMessage",
-        "QueueUrl": "https://sqs.eu-west-1.amazonaws.com/935852492816/Nayax-Dex-DLQ",
+        "QueueUrl": "https://sqs.eu-west-1.amazonaws.com/935852492816/Nayax-DEX",
         "Label": "",
         "AWSAccountIds": "",
         "Actions": "",
@@ -206,7 +192,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "repeat": "",
+        "repeat": "60",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
@@ -224,11 +210,11 @@
         "z": "15a0d5c9.3b9b92",
         "aws": "a76d987b.d992d",
         "operation": "DeleteMessage",
-        "QueueUrl": "https://sqs.eu-west-1.amazonaws.com/935852492816/Nayax-Dex-DLQ",
+        "QueueUrl": "https://sqs.eu-west-1.amazonaws.com/935852492816/Nayax-DEX",
         "Label": "",
         "AWSAccountIds": "",
         "Actions": "",
-        "ReceiptHandle": "msg.encodedReceiptHandle",
+        "ReceiptHandle": "",
         "VisibilityTimeout": "",
         "Entries": "",
         "QueueName": "",
@@ -237,8 +223,8 @@
         "Tags": "",
         "TagKeys": "",
         "name": "Delete Message",
-        "x": 500,
-        "y": 440,
+        "x": 960,
+        "y": 100,
         "wires": [
             [],
             [
@@ -257,8 +243,8 @@
         "tostatus": false,
         "complete": "true",
         "targetType": "full",
-        "x": 1030,
-        "y": 380,
+        "x": 1210,
+        "y": 420,
         "wires": []
     },
     {
@@ -266,11 +252,11 @@
         "type": "function",
         "z": "15a0d5c9.3b9b92",
         "name": "Encode ReceiptHandle",
-        "func": "var encReceiptHandle = encodeURIComponent(msg.payload.Messages[0].ReceiptHandle)\nmsg.encodedReceiptHandle = encReceiptHandle;\nreturn msg;",
+        "func": "var encReceiptHandle = encodeURIComponent(msg.payload.Messages[0].ReceiptHandle)\nmsg.ReceiptHandle = encReceiptHandle;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 530,
-        "y": 380,
+        "x": 750,
+        "y": 100,
         "wires": [
             [
                 "2f7a05d.72d887a"
@@ -282,14 +268,14 @@
         "type": "function",
         "z": "15a0d5c9.3b9b92",
         "name": "Parse DEX",
-        "func": "//ADMIN\n//first parse pass to isolate elements\nparsedJSON = JSON.parse(msg.payload.Body);\n//isolate receiveCount\nvar machineDate = msg.payload.Body.match(\n  /(?:MachineDate\":\")([0-9]{8}).([0-9]{6})/\n);\nvar HWSerial = msg.payload.Body.match(\n  /(?:HWSerial\":\")([0-9]*)/\n);\n\n//split DexData into PA1 objects\nvar dexLines = parsedJSON.DexData.toString().split(\"PA1\");\n//find PA1 object that contains CAPPUCCINO\nvar cappuccinoData = dexLines.filter((s) => s.includes(\"CAPPUCCINO\"));\n//find PA1 object that contains CAFFE LATTE\nvar caffeeLatteData = dexLines.filter((s) => s.includes(\"CAFFE LATTE\"));\n//find PA1 object that contains WHITE COFFEE\nvar whiteCoffeeData = dexLines.filter((s) => s.includes(\"WHITE COFFEE\"));\n//find PA1 object that contains AMERICANO\nvar americanoData = dexLines.filter((s) => s.includes(\"AMERICANO\"));\n//find PA1 object that contains FLAT WHITE\nvar flatWhiteData = dexLines.filter((s) => s.includes(\"FLAT WHITE\"));\n//find PA1 object that contains DOUBLE ESPRESSO\nvar doubleEspressoData = dexLines.filter((s) => s.includes(\"DOUBLE ESPRESSO\"));\n//find PA1 object that contains CAFFE MOCHA\nvar caffeeMochaData = dexLines.filter((s) => s.includes(\"CAFFE MOCHA\"));\n//find PA1 object that contains HOT CHOCOLATE\nvar hotChocolateData = dexLines.filter((s) => s.includes(\"HOT CHOCOLATE\"));\n//find PA1 object that contains BLACK TEA\nvar blackTeaData = dexLines.filter((s) => s.includes(\"BLACK TEA\"));\n//find PA1 object that contains WHITE TEA\nvar whiteTeaData = dexLines.filter((s) => s.includes(\"WHITE TEA\"));\nif (msg.payload.Body.includes(\"CARAMEL\")) {\n  //find PA1 object that contains CARAMEL\n  var caramelData = dexLines.filter((s) => s.includes(\"CARAMEL\"));\n}\nif (msg.payload.Body.includes(\"VANILLA\")) {\n  //find PA1 object that contains VANILLA\n  var vanillaData = dexLines.filter((s) => s.includes(\"VANILLA\"));\n}\nif (dexLines.includes(\"HAZELNUT\")) {\n  //find PA1 object that contains HAZELNUT\n  var hazelnutData = dexLines.filter((s) => s.includes(\"HAZELNUT\"));\n}\nif (dexLines.includes(\"TOMATO\")) {\n  //find PA1 object that contains TOMATO\n  var tomatoSoupData = dexLines.filter((s) => s.includes(\"TOMATO SOUP\"));\n}\n\n//find PA4 and split cappuccinoSalesVal & cappuccinoTestVendVal\nvar cappuccinoSalesVal = cappuccinoData[0].match(/(PA4)\\*([0-9]*)/);\nvar cappuccinoTestVendVal = cappuccinoData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split caffeeLatteSalesVal & caffeeLatteTestVendVal\nvar caffeeLatteSalesVal = caffeeLatteData[0].match(/(PA4)\\*([0-9]*)/);\nvar caffeeLatteTestVendVal = caffeeLatteData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split whiteCoffeeSalesVal & whiteCoffeeTestVendVal\nvar whiteCoffeeSalesVal = whiteCoffeeData[0].match(/(PA4)\\*([0-9]*)/);\nvar whiteCoffeeTestVendVal = whiteCoffeeData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split americanoSalesVal & americanoTestVendVal\nvar americanoSalesVal = americanoData[0].match(/(PA4)\\*([0-9]*)/);\nvar americanoTestVendVal = americanoData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split flatWhiteSalesVal & flatWhiteTestVendVal\nvar flatWhiteSalesVal = flatWhiteData[0].match(/(PA4)\\*([0-9]*)/);\nvar flatWhiteTestVendVal = flatWhiteData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split doubleEspressoSalesVal & doubleEspressoTestVendVal\nvar doubleEspressoSalesVal = doubleEspressoData[0].match(/(PA4)\\*([0-9]*)/);\nvar doubleEspressoTestVendVal = doubleEspressoData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split caffeeMochaSalesVal & caffeeMochaTestVendVal\nvar caffeeMochaSalesVal = caffeeMochaData[0].match(/(PA4)\\*([0-9]*)/);\nvar caffeeMochaTestVendVal = caffeeMochaData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split hotChocolateSalesVal & hotChocolateTestVendVal\nvar hotChocolateSalesVal = hotChocolateData[0].match(/(PA4)\\*([0-9]*)/);\nvar hotChocolateTestVendVal = hotChocolateData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split blackTeaSalesVal & blackTeaTestVendVal\nvar blackTeaSalesVal = blackTeaData[0].match(/(PA4)\\*([0-9]*)/);\nvar blackTeaTestVendVal = blackTeaData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split whiteTeaSalesVal & whiteTeaTestVendVal\nvar whiteTeaSalesVal = whiteTeaData[0].match(/(PA4)\\*([0-9]*)/);\nvar whiteTeaTestVendVal = whiteTeaData[0].match(/(PA3)\\*([0-9]*)/);\nif (caramelData !== null) {\n  //find PA4 and split caramelSalesVal & caramelTestVendVal\n  var caramelSalesVal = caramelData[0].match(/(PA4)\\*([0-9]*)/);\n  var caramelTestVendVal = caramelData[0].match(/(PA3)\\*([0-9]*)/);\n}\nif (vanillaData !== null) {\n  //find PA4 and split vanillaSalesVal & vanillaTestVendVal\n  var vanillaSalesVal = vanillaData[0].match(/(PA4)\\*([0-9]*)/);\n  var vanillaTestVendVal = vanillaData[0].match(/(PA3)\\*([0-9]*)/);\n}\nif (dexLines.includes(\"HAZELNUT\")) {\n  //find PA4 and split hazelnutSalesVal & hazelnutTestVendVal\n  var hazelnutSalesVal = hazelnutData[0].match(/(PA4)\\*([0-9]*)/);\n  var hazelnutTestVendVal = hazelnutData[0].match(/(PA3)\\*([0-9]*)/);\n}\nif (dexLines.includes(\"TOMATO\")) {\n  //find PA4 and split tomatoSoupSalesVal & tomatoSoupTestVendVal\n  var tomatoSoupSalesVal = tomatoSoupData[0].match(/(PA4)\\*([0-9]*)/);\n  var tomatoSoupTestVendVal = tomatoSoupData[0].match(/(PA3)\\*([0-9]*)/);\n}\n\n//include SalesVal and TestVendVal in msg.payload\nmsg.payload.machineDate = machineDate[1] + machineDate[2];\n//msg.payload.machineTime = machineDate[2];\nmsg.payload.HWSerial = HWSerial[1];\nmsg.payload.cappuccinoSales = cappuccinoSalesVal[2];\nmsg.payload.cappuccinoTestVend = cappuccinoTestVendVal[2];\nmsg.payload.caffeeLatteSales = caffeeLatteSalesVal[2];\nmsg.payload.caffeeLatteTestVend = caffeeLatteTestVendVal[2];\nmsg.payload.whiteCoffeeSales = whiteCoffeeSalesVal[2];\nmsg.payload.whiteCoffeeTestVend = whiteCoffeeTestVendVal[2];\nmsg.payload.americanoSales = americanoSalesVal[2];\nmsg.payload.americanoTestVend = americanoTestVendVal[2];\nmsg.payload.flatWhiteSales = flatWhiteSalesVal[2];\nmsg.payload.flatWhiteTestVend = flatWhiteTestVendVal[2];\nmsg.payload.doubleEspressoSales = doubleEspressoSalesVal[2];\nmsg.payload.doubleEspressoTestVend = doubleEspressoTestVendVal[2];\nmsg.payload.caffeeMochaSales = caffeeMochaSalesVal[2];\nmsg.payload.caffeeMochaTestVend = caffeeMochaTestVendVal[2];\nmsg.payload.hotChocolateSales = hotChocolateSalesVal[2];\nmsg.payload.hotChocolateTestVend = hotChocolateTestVendVal[2];\nmsg.payload.blackTeaSales = blackTeaSalesVal[2];\nmsg.payload.blackTeaTestVend = blackTeaTestVendVal[2];\nmsg.payload.whiteTeaSales = whiteTeaSalesVal[2];\nmsg.payload.whiteTeaTestVend = whiteTeaTestVendVal[2];\nif (dexLines.includes(\"VANILLA\")) {\n  msg.payload.vanillaSales = vanillaSalesVal[2];\n  msg.payload.vanillaTestVend = vanillaTestVendVal[2];\n}\nif (dexLines.includes(\"CARAMEL\")) {\n  msg.payload.caramelSales = caramelSalesVal[2];\n  msg.payload.caramelTestVend = caramelTestVendVal[2];\n}\nif (dexLines.includes(\"HAZELNUT\")) {\n  msg.payload.hazelnutSales = hazelnutSalesVal[2];\n  msg.payload.hazelnutTestVend = hazelnutTestVendVal[2];\n}\nif (dexLines.includes(\"TOMATO\")) {\n  msg.payload.tomatoSoupSales = tomatoSoupSalesVal[2];\n  msg.payload.tomatoSoupTestVend = tomatoSoupTestVendVal[2];\n}\n\n// debug data\n//    msg.parsedJSON = parsedJSON;\n// msg.lines = dexLines;\n// msg.cappuccinoData = cappuccinoData;\n\nreturn msg;\n",
+        "func": "//ADMIN\n//first parse pass to isolate elements\nparsedJSON = JSON.parse(msg.payload.Body);\n//isolate receiveCount\nvar machineDate = msg.payload.Body.match(\n  /(?:MachineDate\":\")([0-9]{4})([0-9]{2})([0-9]{2}).([0-9]{2})([0-9]{2})([0-9]{2})/\n);\nvar HWSerial = msg.payload.Body.match(\n  /(?:HWSerial\":\")([0-9]*)/\n);\n\n//split DexData into PA1 objects\nvar dexLines = parsedJSON.DexData.toString().split(\"PA1\");\n//find PA1 object that contains CAPPUCCINO\nvar cappuccinoData = dexLines.filter((s) => s.includes(\"CAPPUCCINO\"));\n//find PA1 object that contains CAFFE LATTE\nvar caffeeLatteData = dexLines.filter((s) => s.includes(\"CAFFE LATTE\"));\n//find PA1 object that contains WHITE COFFEE\nvar whiteCoffeeData = dexLines.filter((s) => s.includes(\"WHITE COFFEE\"));\n//find PA1 object that contains AMERICANO\nvar americanoData = dexLines.filter((s) => s.includes(\"AMERICANO\"));\n//find PA1 object that contains FLAT WHITE\nvar flatWhiteData = dexLines.filter((s) => s.includes(\"FLAT WHITE\"));\n//find PA1 object that contains DOUBLE ESPRESSO\nvar doubleEspressoData = dexLines.filter((s) => s.includes(\"DOUBLE ESPRESSO\"));\n//find PA1 object that contains CAFFE MOCHA\nvar caffeeMochaData = dexLines.filter((s) => s.includes(\"CAFFE MOCHA\"));\n//find PA1 object that contains HOT CHOCOLATE\nvar hotChocolateData = dexLines.filter((s) => s.includes(\"HOT CHOCOLATE\"));\n//find PA1 object that contains BLACK TEA\nvar blackTeaData = dexLines.filter((s) => s.includes(\"BLACK TEA\"));\n//find PA1 object that contains WHITE TEA\nvar whiteTeaData = dexLines.filter((s) => s.includes(\"WHITE TEA\"));\nif (msg.payload.Body.includes(\"CARAMEL\")) {\n  //find PA1 object that contains CARAMEL\n  var caramelData = dexLines.filter((s) => s.includes(\"CARAMEL\"));\n}\nif (msg.payload.Body.includes(\"VANILLA\")) {\n  //find PA1 object that contains VANILLA\n  var vanillaData = dexLines.filter((s) => s.includes(\"VANILLA\"));\n}\nif (msg.payload.Body.includes(\"HAZELNUT\")) {\n  //find PA1 object that contains HAZELNUT\n  var hazelnutData = dexLines.filter((s) => s.includes(\"HAZELNUT\"));\n}\nif (msg.payload.Body.includes(\"TOMATO\")) {\n  //find PA1 object that contains TOMATO\n  var tomatoSoupData = dexLines.filter((s) => s.includes(\"TOMATO SOUP\"));\n}\nif (msg.payload.Body.includes(\"CUP TYPE 1\")) {\n  //find PA1 object that contains TOMATO\n  var cupTypeOneData = dexLines.filter((s) => s.includes(\"CUP TYPE 1\"));\n}\n\n//find PA4 and split cappuccinoSalesVal & cappuccinoTestVendVal\nvar cappuccinoSalesVal = cappuccinoData[0].match(/(PA4)\\*([0-9]*)/);\nvar cappuccinoTestVendVal = cappuccinoData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split caffeeLatteSalesVal & caffeeLatteTestVendVal\nvar caffeeLatteSalesVal = caffeeLatteData[0].match(/(PA4)\\*([0-9]*)/);\nvar caffeeLatteTestVendVal = caffeeLatteData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split whiteCoffeeSalesVal & whiteCoffeeTestVendVal\nvar whiteCoffeeSalesVal = whiteCoffeeData[0].match(/(PA4)\\*([0-9]*)/);\nvar whiteCoffeeTestVendVal = whiteCoffeeData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split americanoSalesVal & americanoTestVendVal\nvar americanoSalesVal = americanoData[0].match(/(PA4)\\*([0-9]*)/);\nvar americanoTestVendVal = americanoData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split flatWhiteSalesVal & flatWhiteTestVendVal\nvar flatWhiteSalesVal = flatWhiteData[0].match(/(PA4)\\*([0-9]*)/);\nvar flatWhiteTestVendVal = flatWhiteData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split doubleEspressoSalesVal & doubleEspressoTestVendVal\nvar doubleEspressoSalesVal = doubleEspressoData[0].match(/(PA4)\\*([0-9]*)/);\nvar doubleEspressoTestVendVal = doubleEspressoData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split caffeeMochaSalesVal & caffeeMochaTestVendVal\nvar caffeeMochaSalesVal = caffeeMochaData[0].match(/(PA4)\\*([0-9]*)/);\nvar caffeeMochaTestVendVal = caffeeMochaData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split hotChocolateSalesVal & hotChocolateTestVendVal\nvar hotChocolateSalesVal = hotChocolateData[0].match(/(PA4)\\*([0-9]*)/);\nvar hotChocolateTestVendVal = hotChocolateData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split blackTeaSalesVal & blackTeaTestVendVal\nvar blackTeaSalesVal = blackTeaData[0].match(/(PA4)\\*([0-9]*)/);\nvar blackTeaTestVendVal = blackTeaData[0].match(/(PA3)\\*([0-9]*)/);\n//find PA4 and split whiteTeaSalesVal & whiteTeaTestVendVal\nvar whiteTeaSalesVal = whiteTeaData[0].match(/(PA4)\\*([0-9]*)/);\nvar whiteTeaTestVendVal = whiteTeaData[0].match(/(PA3)\\*([0-9]*)/);\nif (typeof caramelData !== 'undefined') {\n  //find PA4 and split caramelSalesVal & caramelTestVendVal\n  var caramelSalesVal = caramelData[0].match(/(PA4)\\*([0-9]*)/);\n  var caramelTestVendVal = caramelData[0].match(/(PA3)\\*([0-9]*)/);\n}\nif (typeof vanillaData !== 'undefined') {\n  //find PA4 and split vanillaSalesVal & vanillaTestVendVal\n  var vanillaSalesVal = vanillaData[0].match(/(PA4)\\*([0-9]*)/);\n  var vanillaTestVendVal = vanillaData[0].match(/(PA3)\\*([0-9]*)/);\n}\nif (typeof hazelnutData !== 'undefined') {\n  //find PA4 and split hazelnutSalesVal & hazelnutTestVendVal\n  var hazelnutSalesVal = hazelnutData[0].match(/(PA4)\\*([0-9]*)/);\n  var hazelnutTestVendVal = hazelnutData[0].match(/(PA3)\\*([0-9]*)/);\n}\nif (typeof tomatoSoupData !== 'undefined') {\n  //find PA4 and split tomatoSoupSalesVal & tomatoSoupTestVendVal\n  var tomatoSoupSalesVal = tomatoSoupData[0].match(/(PA4)\\*([0-9]*)/);\n  var tomatoSoupTestVendVal = tomatoSoupData[0].match(/(PA3)\\*([0-9]*)/);\n}\nif (typeof cupTypeOneData !== 'undefined') {\n  //find PA4 and split tomatoSoupSalesVal & tomatoSoupTestVendVal\n  var cupTypeOneSalesVal = cupTypeOneData[0].match(/(PA4)\\*([0-9]*)/);\n  var cupTypeOneTestVendVal = cupTypeOneData[0].match(/(PA3)\\*([0-9]*)/);\n}\n\n//include SalesVal and TestVendVal in msg.payload\nmsg.payload.machineDate = machineDate[1] + '-' + machineDate[2] + '-' + machineDate[3] + 'T' + machineDate[4] + ':' + machineDate[5] + ':' + machineDate[6];\n//msg.payload.machineTime = machineDate[2];\nmsg.payload.HWSerial = HWSerial[1];\nmsg.payload.cappuccinoSales = cappuccinoSalesVal[2];\nmsg.payload.cappuccinoTestVend = cappuccinoTestVendVal[2];\nmsg.payload.caffeeLatteSales = caffeeLatteSalesVal[2];\nmsg.payload.caffeeLatteTestVend = caffeeLatteTestVendVal[2];\nmsg.payload.whiteCoffeeSales = whiteCoffeeSalesVal[2];\nmsg.payload.whiteCoffeeTestVend = whiteCoffeeTestVendVal[2];\nmsg.payload.americanoSales = americanoSalesVal[2];\nmsg.payload.americanoTestVend = americanoTestVendVal[2];\nmsg.payload.flatWhiteSales = flatWhiteSalesVal[2];\nmsg.payload.flatWhiteTestVend = flatWhiteTestVendVal[2];\nmsg.payload.doubleEspressoSales = doubleEspressoSalesVal[2];\nmsg.payload.doubleEspressoTestVend = doubleEspressoTestVendVal[2];\nmsg.payload.caffeeMochaSales = caffeeMochaSalesVal[2];\nmsg.payload.caffeeMochaTestVend = caffeeMochaTestVendVal[2];\nmsg.payload.hotChocolateSales = hotChocolateSalesVal[2];\nmsg.payload.hotChocolateTestVend = hotChocolateTestVendVal[2];\nmsg.payload.blackTeaSales = blackTeaSalesVal[2];\nmsg.payload.blackTeaTestVend = blackTeaTestVendVal[2];\nmsg.payload.whiteTeaSales = whiteTeaSalesVal[2];\nmsg.payload.whiteTeaTestVend = whiteTeaTestVendVal[2];\nif (typeof vanillaData !== 'undefined') {\n  msg.payload.vanillaSales = vanillaSalesVal[2];\n  msg.payload.vanillaTestVend = vanillaTestVendVal[2];\n}\nif (typeof caramelData !== 'undefined') {\n  msg.payload.caramelSales = caramelSalesVal[2];\n  msg.payload.caramelTestVend = caramelTestVendVal[2];\n}\nif (typeof hazelnutData !== 'undefined') {\n  msg.payload.hazelnutSales = hazelnutSalesVal[2];\n  msg.payload.hazelnutTestVend = hazelnutTestVendVal[2];\n}\nif (typeof tomatoSoupData !== 'undefined') {\n  msg.payload.tomatoSoupSales = tomatoSoupSalesVal[2];\n  msg.payload.tomatoSoupTestVend = tomatoSoupTestVendVal[2];\n}\nif (typeof cupTypeOneData !== 'undefined') {\n  msg.payload.cupTypeOneSalesVal = cupTypeOneSalesVal[2];\n  msg.payload.cupTypeOneTestVend = cupTypeOneTestVendVal[2];\n}\n\n// debug data\n//    msg.parsedJSON = parsedJSON;\n// msg.lines = dexLines;\n// msg.cappuccinoData = cappuccinoData;\n\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
-        "x": 510,
-        "y": 160,
+        "x": 530,
+        "y": 220,
         "wires": [
             [
-                "e4e1c7ad.9a724"
+                "a6c9e422.6aaea"
             ]
         ]
     },
@@ -328,11 +314,11 @@
         "type": "bigquery insert",
         "z": "15a0d5c9.3b9b92",
         "bigquery": "e288eb3f.29a54",
-        "dataset": "test",
-        "table": "test_table_3",
-        "name": "Write Test BigQuery",
-        "x": 900,
-        "y": 280,
+        "dataset": "Nayax_Data",
+        "table": "SalesAndTestVends",
+        "name": "Write Data in BigQuery",
+        "x": 910,
+        "y": 340,
         "wires": []
     },
     {
@@ -367,8 +353,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 530,
-        "y": 280,
+        "x": 650,
+        "y": 340,
         "wires": [
             [
                 "fe48ac50.d9ed58",
@@ -381,7 +367,7 @@
         "type": "function",
         "z": "15a0d5c9.3b9b92",
         "name": "Set SQS Query Attributes",
-        "func": "msg.MaxNumberOfMessages = '1'\nmsg.AttributeNames = ['ApproximateReceiveCount']\n\nreturn msg;",
+        "func": "msg.MaxNumberOfMessages = '10'\nmsg.AttributeNames = ['ApproximateReceiveCount']\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 210,
@@ -406,8 +392,8 @@
         "y": 340,
         "wires": [
             [
-                "18170c1.8e490f4",
-                "1e21880e.6a5cd8"
+                "662a9a55.280364",
+                "18170c1.8e490f4"
             ],
             []
         ]
@@ -923,15 +909,15 @@
         "rules": [
             {
                 "t": "lt",
-                "v": "7",
+                "v": "2",
                 "vt": "str"
             }
         ],
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 580,
-        "y": 220,
+        "x": 620,
+        "y": 280,
         "wires": [
             [
                 "a6c9e422.6aaea"
@@ -971,39 +957,6 @@
         "x": 1040,
         "y": 240,
         "wires": []
-    },
-    {
-        "id": "b2fe7dbd.26c1e",
-        "type": "AWS DynamoDB",
-        "z": "15a0d5c9.3b9b92",
-        "aws": "a76d987b.d992d",
-        "operation": "PutItem",
-        "RequestItems": "",
-        "TableName": "DEXdataBackup",
-        "BackupName": "",
-        "GlobalTableName": "",
-        "ReplicationGroup": "",
-        "AttributeDefinitions": "",
-        "KeySchema": "",
-        "ProvisionedThroughput": "",
-        "BackupArn": "",
-        "Key": "",
-        "ResourceArn": "",
-        "Item": "test",
-        "TargetTableName": "",
-        "SourceTableName": "",
-        "Tags": "",
-        "TagKeys": "",
-        "PointInTimeRecoverySpecification": "",
-        "ReplicaUpdates": "",
-        "TimeToLiveSpecification": "",
-        "name": "Back-up DEX messages",
-        "x": 560,
-        "y": 80,
-        "wires": [
-            [],
-            []
-        ]
     },
     {
         "id": "56d2626e.a70a8c",
@@ -1334,8 +1287,8 @@
         "dataset": "Critica_Data",
         "table": "Sales",
         "name": "Write Critica to BigQuery",
-        "x": 1210,
-        "y": 840,
+        "x": 1270,
+        "y": 800,
         "wires": []
     },
     {
@@ -1357,8 +1310,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 170,
-        "y": 840,
+        "x": 230,
+        "y": 800,
         "wires": [
             [
                 "927b56f.166ba28"
@@ -1377,8 +1330,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 170,
-        "y": 780,
+        "x": 230,
+        "y": 740,
         "wires": [
             [
                 "400fe382.8249a4"
@@ -1402,8 +1355,8 @@
         "output": "real_timezone",
         "outputType": "msg",
         "outTz": "Europe/London",
-        "x": 420,
-        "y": 780,
+        "x": 480,
+        "y": 740,
         "wires": [
             [
                 "d56f6434.5abe78"
@@ -1418,8 +1371,8 @@
         "func": "msg.rejectUnauthorized = false; \n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 700,
-        "y": 780,
+        "x": 760,
+        "y": 740,
         "wires": [
             [
                 "ba34566c.37a9"
@@ -1439,14 +1392,15 @@
         "persist": false,
         "proxy": "",
         "authType": "basic",
-        "x": 740,
-        "y": 840,
+        "x": 800,
+        "y": 800,
         "wires": [
             [
                 "894bc035.4b7e",
                 "1e21880e.6a5cd8"
             ]
-        ]
+        ],
+        "info": "https://critica.promate.com/odata/ODataFilters/{{{real_timezone_minus10mins}}}_{{{real_timezone}}}?$orderby=TxTime"
     },
     {
         "id": "d56f6434.5abe78",
@@ -1465,8 +1419,8 @@
         "output": "real_timezone_minus10mins",
         "outputType": "msg",
         "outTz": "Europe/London",
-        "x": 420,
-        "y": 840,
+        "x": 480,
+        "y": 800,
         "wires": [
             [
                 "ea3033fc.83a9f8"
@@ -1479,13 +1433,168 @@
         "z": "15a0d5c9.3b9b92",
         "name": "Split Array",
         "property": "payload.value",
-        "x": 990,
-        "y": 840,
+        "x": 1050,
+        "y": 800,
         "wires": [
             [
+                "1e21880e.6a5cd8",
                 "d3932164.25316"
             ],
             []
+        ]
+    },
+    {
+        "id": "7ff373af.627c2c",
+        "type": "AWS SQS",
+        "z": "15a0d5c9.3b9b92",
+        "aws": "a76d987b.d992d",
+        "operation": "SendMessage",
+        "QueueUrl": "https://sqs.eu-west-1.amazonaws.com/935852492816/Nayax-DEX-backup",
+        "Label": "",
+        "AWSAccountIds": "",
+        "Actions": "",
+        "ReceiptHandle": "",
+        "VisibilityTimeout": "",
+        "Entries": "",
+        "QueueName": "",
+        "MessageBody": "",
+        "Attributes": "",
+        "Tags": "",
+        "TagKeys": "",
+        "name": "Backup message",
+        "x": 870,
+        "y": 160,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "e02cd880.1400e",
+        "type": "debug",
+        "z": "812297d7.4a626",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 830,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "580f8a8a.229ffc",
+        "type": "inject",
+        "z": "812297d7.4a626",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 317,
+        "y": 432.5,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "35fb8d15.2bf222",
+        "type": "http request",
+        "z": "812297d7.4a626",
+        "name": "Get kittens",
+        "method": "GET",
+        "ret": "bin",
+        "url": "https://raw.githubusercontent.com/wiki/Daniel-t/node-red-contrib-aws/images/kitty.jpg",
+        "tls": "",
+        "x": 407,
+        "y": 523.5,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7761e7f.aeb3f18",
+        "type": "AWS Rekognition",
+        "z": "812297d7.4a626",
+        "aws": "40278292.796554",
+        "operation": "DetectLabels",
+        "SourceImage": "",
+        "TargetImage": "",
+        "CollectionId": "",
+        "Input": "",
+        "Output": "",
+        "Name": "",
+        "Settings": "",
+        "RoleArn": "",
+        "FaceIds": "",
+        "Image": "",
+        "Id": "",
+        "JobId": "",
+        "FaceId": "",
+        "Video": "",
+        "name": "",
+        "x": 616,
+        "y": 569,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "5478372e.d43fb8",
+        "type": "function",
+        "z": "812297d7.4a626",
+        "name": "",
+        "func": "msg.Image={Bytes:msg.payload};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 547,
+        "y": 467.5,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "662a9a55.280364",
+        "type": "function",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Generate Back-up messages",
+        "func": "msg.MessageBody=msg.payload.Body;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 590,
+        "y": 160,
+        "wires": [
+            [
+                "7ff373af.627c2c"
+            ]
+        ]
+    },
+    {
+        "id": "56d93b70.c03fe4",
+        "type": "delay",
+        "z": "15a0d5c9.3b9b92",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "15",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 530,
+        "y": 100,
+        "wires": [
+            [
+                "77ce4b39.6b57b4"
+            ]
         ]
     }
 ]
