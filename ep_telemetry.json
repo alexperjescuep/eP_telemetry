@@ -37,12 +37,6 @@
         "proxy": ""
     },
     {
-        "id": "9b72deb0.1309b",
-        "type": "dropbox-config",
-        "z": "",
-        "name": ""
-    },
-    {
         "id": "e288eb3f.29a54",
         "type": "bigquery-config",
         "z": ""
@@ -176,7 +170,7 @@
         "TagKeys": "",
         "name": "Receive SQS message",
         "x": 210,
-        "y": 280,
+        "y": 240,
         "wires": [
             [
                 "346ed3a9.507cb4"
@@ -197,7 +191,7 @@
         "once": false,
         "onceDelay": 0.1,
         "x": 150,
-        "y": 160,
+        "y": 120,
         "wires": [
             [
                 "f09d09e7.1580e"
@@ -224,7 +218,7 @@
         "TagKeys": "",
         "name": "Delete Message",
         "x": 960,
-        "y": 100,
+        "y": 60,
         "wires": [
             [],
             [
@@ -244,7 +238,7 @@
         "complete": "true",
         "targetType": "full",
         "x": 1210,
-        "y": 420,
+        "y": 380,
         "wires": []
     },
     {
@@ -256,7 +250,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 750,
-        "y": 100,
+        "y": 60,
         "wires": [
             [
                 "2f7a05d.72d887a"
@@ -272,7 +266,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 530,
-        "y": 220,
+        "y": 180,
         "wires": [
             [
                 "a6c9e422.6aaea"
@@ -288,7 +282,7 @@
         "table": "SalesAndTestVends",
         "name": "Write Data in BigQuery",
         "x": 910,
-        "y": 340,
+        "y": 300,
         "wires": []
     },
     {
@@ -324,7 +318,7 @@
         "to": "",
         "reg": false,
         "x": 650,
-        "y": 340,
+        "y": 300,
         "wires": [
             [
                 "fe48ac50.d9ed58",
@@ -341,7 +335,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 210,
-        "y": 220,
+        "y": 180,
         "wires": [
             [
                 "23889661.c1e502"
@@ -359,7 +353,7 @@
         "name": "Split payload.Messages array",
         "property": "payload.Messages",
         "x": 230,
-        "y": 340,
+        "y": 300,
         "wires": [
             [
                 "662a9a55.280364",
@@ -887,7 +881,7 @@
         "repair": false,
         "outputs": 1,
         "x": 820,
-        "y": 220,
+        "y": 180,
         "wires": [
             [
                 "a6c9e422.6aaea"
@@ -1257,8 +1251,8 @@
         "dataset": "Critica_Data",
         "table": "Sales",
         "name": "Write Critica to BigQuery",
-        "x": 1270,
-        "y": 800,
+        "x": 1210,
+        "y": 540,
         "wires": []
     },
     {
@@ -1280,8 +1274,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 230,
-        "y": 800,
+        "x": 170,
+        "y": 540,
         "wires": [
             [
                 "927b56f.166ba28"
@@ -1300,8 +1294,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 230,
-        "y": 740,
+        "x": 170,
+        "y": 480,
         "wires": [
             [
                 "400fe382.8249a4"
@@ -1325,8 +1319,8 @@
         "output": "real_timezone",
         "outputType": "msg",
         "outTz": "Europe/London",
-        "x": 480,
-        "y": 740,
+        "x": 420,
+        "y": 480,
         "wires": [
             [
                 "d56f6434.5abe78"
@@ -1341,8 +1335,8 @@
         "func": "msg.rejectUnauthorized = false; \n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 760,
-        "y": 740,
+        "x": 700,
+        "y": 480,
         "wires": [
             [
                 "ba34566c.37a9"
@@ -1362,8 +1356,8 @@
         "persist": false,
         "proxy": "",
         "authType": "basic",
-        "x": 800,
-        "y": 800,
+        "x": 740,
+        "y": 540,
         "wires": [
             [
                 "894bc035.4b7e",
@@ -1389,8 +1383,8 @@
         "output": "real_timezone_minus10mins",
         "outputType": "msg",
         "outTz": "Europe/London",
-        "x": 480,
-        "y": 800,
+        "x": 420,
+        "y": 540,
         "wires": [
             [
                 "ea3033fc.83a9f8"
@@ -1403,8 +1397,8 @@
         "z": "15a0d5c9.3b9b92",
         "name": "Split Array",
         "property": "payload.value",
-        "x": 1050,
-        "y": 800,
+        "x": 990,
+        "y": 540,
         "wires": [
             [
                 "1e21880e.6a5cd8",
@@ -1433,7 +1427,7 @@
         "TagKeys": "",
         "name": "Backup message",
         "x": 870,
-        "y": 160,
+        "y": 120,
         "wires": [
             [],
             []
@@ -1537,7 +1531,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 590,
-        "y": 160,
+        "y": 120,
         "wires": [
             [
                 "7ff373af.627c2c"
@@ -1560,11 +1554,31 @@
         "randomUnits": "seconds",
         "drop": false,
         "x": 530,
-        "y": 100,
+        "y": 60,
         "wires": [
             [
                 "77ce4b39.6b57b4"
             ]
         ]
+    },
+    {
+        "id": "f5a61760.2178",
+        "type": "comment",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Critica",
+        "info": "",
+        "x": 130,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "5eec15d5.84cfbc",
+        "type": "comment",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Nayax",
+        "info": "",
+        "x": 140,
+        "y": 60,
+        "wires": []
     }
 ]
