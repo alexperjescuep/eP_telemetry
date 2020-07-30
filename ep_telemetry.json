@@ -30,9 +30,52 @@
     {
         "id": "24aabfeb.a5fbb8",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "Sendinblue",
         "disabled": false,
         "info": ""
+    },
+    {
+        "id": "81053105.60e14",
+        "type": "tab",
+        "label": "iAuditor",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "5eb044a.67306bc",
+        "type": "tab",
+        "label": "Heartbeat",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "db823d6a.3762f",
+        "type": "subflow",
+        "name": "Subflow 1",
+        "info": "",
+        "in": [
+            {
+                "x": -60,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "fecb4035.9d3958"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1100,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "e334f6ac.0af0e8",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
     },
     {
         "id": "a76d987b.d992d",
@@ -52,7 +95,7 @@
         "id": "e0691b19.afee48",
         "type": "ui_base",
         "theme": {
-            "name": "theme-dark",
+            "name": "theme-light",
             "lightTheme": {
                 "default": "#0094CE",
                 "baseColor": "#0094CE",
@@ -75,44 +118,44 @@
             },
             "themeState": {
                 "base-color": {
-                    "default": "#097479",
-                    "value": "#097479",
+                    "default": "#0094CE",
+                    "value": "#0094CE",
                     "edited": false
                 },
                 "page-titlebar-backgroundColor": {
-                    "value": "#097479",
+                    "value": "#0094CE",
                     "edited": false
                 },
                 "page-backgroundColor": {
-                    "value": "#111111",
+                    "value": "#fafafa",
                     "edited": false
                 },
                 "page-sidebar-backgroundColor": {
-                    "value": "#000000",
+                    "value": "#ffffff",
                     "edited": false
                 },
                 "group-textColor": {
-                    "value": "#0eb8c0",
+                    "value": "#1bbfff",
                     "edited": false
                 },
                 "group-borderColor": {
-                    "value": "#555555",
+                    "value": "#ffffff",
                     "edited": false
                 },
                 "group-backgroundColor": {
-                    "value": "#333333",
+                    "value": "#ffffff",
                     "edited": false
                 },
                 "widget-textColor": {
-                    "value": "#eeeeee",
+                    "value": "#111111",
                     "edited": false
                 },
                 "widget-backgroundColor": {
-                    "value": "#097479",
+                    "value": "#0094ce",
                     "edited": false
                 },
                 "widget-borderColor": {
-                    "value": "#333333",
+                    "value": "#ffffff",
                     "edited": false
                 },
                 "base-font": {
@@ -151,11 +194,39 @@
         "z": ""
     },
     {
-        "id": "40278292.796554",
-        "type": "amazon config",
+        "id": "746e2d73.12c1c4",
+        "type": "config-log",
         "z": "",
-        "name": "AWS",
-        "region": "us-east-1"
+        "logname": "Logs config",
+        "logdir": "logs",
+        "stamp": "utc",
+        "stampFormat": "YYYY/MM/DD HH:mm:ss",
+        "logstyle": "plain",
+        "logrotate": false,
+        "logcompress": false,
+        "logrotatecount": "5",
+        "logsize": "1000",
+        "logtopic": false,
+        "logsource": true
+    },
+    {
+        "id": "df70b1ef.8188",
+        "type": "ui_tab",
+        "z": "",
+        "name": "20200704",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e00c0130.cfaae8",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
     },
     {
         "id": "23889661.c1e502",
@@ -190,13 +261,13 @@
         "type": "inject",
         "z": "15a0d5c9.3b9b92",
         "name": "Check SQS",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
         "repeat": "60",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
         "x": 150,
         "y": 120,
         "wires": [
@@ -244,6 +315,8 @@
         "tostatus": false,
         "complete": "true",
         "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
         "x": 1210,
         "y": 380,
         "wires": []
@@ -276,7 +349,7 @@
         "y": 180,
         "wires": [
             [
-                "a6c9e422.6aaea"
+                "e4e1c7ad.9a724"
             ]
         ]
     },
@@ -329,7 +402,8 @@
         "wires": [
             [
                 "fe48ac50.d9ed58",
-                "1e21880e.6a5cd8"
+                "1e21880e.6a5cd8",
+                "d63b205c.c31468"
             ]
         ]
     },
@@ -364,7 +438,8 @@
         "wires": [
             [
                 "662a9a55.280364",
-                "18170c1.8e490f4"
+                "18170c1.8e490f4",
+                "d63b205c.c31468"
             ],
             []
         ]
@@ -374,14 +449,23 @@
         "type": "inject",
         "z": "ecb0dc75.e2c838",
         "name": "Trigger",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "repeat": "86400",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 100,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 90,
         "y": 120,
         "wires": [
             [
@@ -887,7 +971,7 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 820,
+        "x": 780,
         "y": 180,
         "wires": [
             [
@@ -1054,13 +1138,13 @@
         "type": "inject",
         "z": "812297d7.4a626",
         "name": "Check number of leads",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
         "repeat": "3600",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
         "x": 150,
         "y": 120,
         "wires": [
@@ -1294,13 +1378,13 @@
         "type": "inject",
         "z": "15a0d5c9.3b9b92",
         "name": "",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
         "repeat": "600",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
         "x": 170,
         "y": 480,
         "wires": [
@@ -1357,7 +1441,7 @@
         "name": "Get Yesterday's sale from Critica",
         "method": "GET",
         "ret": "obj",
-        "paytoqs": false,
+        "paytoqs": "ignore",
         "url": "https://critica.promate.com/odata/ODataFilters/{{{real_timezone_minus10mins}}}_{{{real_timezone}}}?$orderby=TxTime",
         "tls": "",
         "persist": false,
@@ -1367,8 +1451,7 @@
         "y": 540,
         "wires": [
             [
-                "894bc035.4b7e",
-                "1e21880e.6a5cd8"
+                "894bc035.4b7e"
             ]
         ],
         "info": "https://critica.promate.com/odata/ODataFilters/{{{real_timezone_minus10mins}}}_{{{real_timezone}}}?$orderby=TxTime"
@@ -1409,7 +1492,8 @@
         "wires": [
             [
                 "1e21880e.6a5cd8",
-                "d3932164.25316"
+                "d3932164.25316",
+                "399e7340.952dac"
             ],
             []
         ]
@@ -1503,15 +1587,992 @@
         "id": "b5427a8.4ebd888",
         "type": "http in",
         "z": "24aabfeb.a5fbb8",
-        "name": "Receive Mailchimp unsubscribes",
+        "name": "Receive Sendinblue unsubscribes",
         "url": "/unsubscribe",
-        "method": "get",
+        "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 290,
+        "x": 180,
+        "y": 60,
+        "wires": [
+            [
+                "999e7ad5.7e3618",
+                "8db2d7d.b345aa8",
+                "99e65973.593d3"
+            ]
+        ]
+    },
+    {
+        "id": "999e7ad5.7e3618",
+        "type": "http response",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Send http response",
+        "statusCode": "200",
+        "headers": {},
+        "x": 140,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "8db2d7d.b345aa8",
+        "type": "debug",
+        "z": "24aabfeb.a5fbb8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1250,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "afc47201.1a4e",
+        "type": "http request",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Find Contact in Prospectsoft",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api-batch-v1.prospect365.com/Contacts?&$filter=email eq '{{{payload}}}'&$select=ContactId",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "bearer",
+        "x": 560,
+        "y": 220,
+        "wires": [
+            [
+                "a2ef9556.5d06b8",
+                "8db2d7d.b345aa8"
+            ]
+        ]
+    },
+    {
+        "id": "2eb8fb87.fce404",
+        "type": "http request",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Change flag in Prospectsoft",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "bearer",
+        "x": 1060,
+        "y": 220,
+        "wires": [
+            [
+                "8db2d7d.b345aa8"
+            ]
+        ]
+    },
+    {
+        "id": "a415f15a.e9971",
+        "type": "http response",
+        "z": "81053105.60e14",
+        "name": "Send http response",
+        "statusCode": "200",
+        "headers": {},
+        "x": 160,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "62376fc3.72a4a8",
+        "type": "http in",
+        "z": "81053105.60e14",
+        "name": "Receive New Visit Report",
+        "url": "/new_visit_report",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 60,
+        "wires": [
+            [
+                "a415f15a.e9971",
+                "e816c957.1d99",
+                "9a171bb.8409ce8"
+            ]
+        ]
+    },
+    {
+        "id": "e816c957.1d99",
+        "type": "debug",
+        "z": "81053105.60e14",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1270,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "d63b205c.c31468",
+        "type": "flogger",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Logger",
+        "logfile": "Nayax-SQS.log",
+        "inputchoice": "fullmsg",
+        "inputobject": "payload",
+        "inputobjectType": "msg",
+        "inputmoustache": "Recieved payload {{payload}} and topic {{topic}}",
+        "loglevel": "INFO",
+        "logconfig": "746e2d73.12c1c4",
+        "sendpane": true,
+        "x": 1160,
         "y": 120,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "399e7340.952dac",
+        "type": "flogger",
+        "z": "15a0d5c9.3b9b92",
+        "name": "Critica Logger",
+        "logfile": "Critica.log",
+        "inputchoice": "fullmsg",
+        "inputobject": "payload",
+        "inputobjectType": "msg",
+        "inputmoustache": "Recieved payload {{payload}} and topic {{topic}}",
+        "loglevel": "INFO",
+        "logconfig": "746e2d73.12c1c4",
+        "sendpane": true,
+        "x": 1200,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "99e65973.593d3",
+        "type": "change",
+        "z": "24aabfeb.a5fbb8",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.email",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 270,
+        "y": 220,
+        "wires": [
+            [
+                "afc47201.1a4e"
+            ]
+        ]
+    },
+    {
+        "id": "a2ef9556.5d06b8",
+        "type": "function",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Build http request",
+        "func": "msg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.url = \"https://api-batch-v1.prospect365.com/ContactXtras(\" + msg.payload.value[0].ContactId + \")\";\nmsg.method = \"PATCH\";\nmsg.payload = '{ \"EPEmailFlag\": 0 }';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 810,
+        "y": 220,
+        "wires": [
+            [
+                "2eb8fb87.fce404"
+            ]
+        ]
+    },
+    {
+        "id": "e43b1949.e22938",
+        "type": "http response",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Send http response",
+        "statusCode": "200",
+        "headers": {},
+        "x": 480,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "93f09f59.ec147",
+        "type": "http in",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Receive Sendinblue new contacts",
+        "url": "/ps_contactxtra_update",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 300,
+        "wires": [
+            [
+                "e43b1949.e22938"
+            ]
+        ]
+    },
+    {
+        "id": "9e5ca125.9314c8",
+        "type": "http in",
+        "z": "5eb044a.67306bc",
+        "name": "Heartbeat API monitoring",
+        "url": "/heartbeat",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 310,
+        "y": 160,
+        "wires": [
+            [
+                "a01be39c.33a4e"
+            ]
+        ]
+    },
+    {
+        "id": "a01be39c.33a4e",
+        "type": "http response",
+        "z": "5eb044a.67306bc",
+        "name": "Send http response",
+        "statusCode": "200",
+        "headers": {},
+        "x": 610,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "8c6abfcd.570ea8",
+        "type": "http in",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Receive ProspectSoft ContactXtra updates",
+        "url": "/ps_contactxtra_update",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 220,
+        "y": 460,
+        "wires": [
+            [
+                "9798be11.c642",
+                "e1e9087f.4eb04"
+            ]
+        ]
+    },
+    {
+        "id": "9798be11.c642",
+        "type": "http response",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Send http response",
+        "statusCode": "200",
+        "headers": {},
+        "x": 160,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "e1e9087f.4eb04",
+        "type": "switch",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Check if EPEmailFlag has updates",
+        "property": "payload.updatedFields",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "EPEmailFlag",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 200,
+        "y": 520,
+        "wires": [
+            [
+                "1df8350e.8be893"
+            ]
+        ]
+    },
+    {
+        "id": "1df8350e.8be893",
+        "type": "switch",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Check flag status",
+        "property": "payload.updatedEntity.epEmailFlag",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 470,
+        "y": 520,
+        "wires": [
+            [
+                "e27c1ec3.9b2f2"
+            ],
+            [
+                "82ac1677.fb98b8"
+            ]
+        ],
+        "info": "Check the new flag status"
+    },
+    {
+        "id": "33011f4c.d3444",
+        "type": "function",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Build http request",
+        "func": "msg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"api-key\"] = \"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\";\nmsg.url = \"https://api.sendinblue.com/v3/contacts/\"+msg.payload.email+\"\";\nmsg.method = \"PUT\";\nmsg.payload = '{\"emailBlacklisted\": false}';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 970,
+        "y": 480,
+        "wires": [
+            [
+                "53be66b7.39eb2"
+            ]
+        ]
+    },
+    {
+        "id": "53be66b7.39eb2",
+        "type": "http request",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Change flag in Sendinblue",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "bearer",
+        "x": 1220,
+        "y": 520,
+        "wires": [
+            [
+                "8db2d7d.b345aa8"
+            ]
+        ]
+    },
+    {
+        "id": "bd5180e1.ca4e2",
+        "type": "http request",
+        "z": "db823d6a.3762f",
+        "name": "Find Contact in Prospectsoft",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 700,
+        "y": 80,
+        "wires": [
+            [
+                "e334f6ac.0af0e8"
+            ]
+        ]
+    },
+    {
+        "id": "fecb4035.9d3958",
+        "type": "change",
+        "z": "db823d6a.3762f",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload.updatedEntity.contactId",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 190,
+        "y": 80,
+        "wires": [
+            [
+                "786c217.c52a7e"
+            ]
+        ]
+    },
+    {
+        "id": "786c217.c52a7e",
+        "type": "function",
+        "z": "db823d6a.3762f",
+        "name": "Build http request",
+        "func": "msg.headers = {\n      Authorization: \"Bearer a187f0827402b6e7be3da3bbb7835d71\"\n};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.url = \"https://api-batch-v1.prospect365.com/Contacts(\"+ msg.payload +\")\";\nmsg.method = \"GET\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 470,
+        "y": 80,
+        "wires": [
+            [
+                "bd5180e1.ca4e2"
+            ]
+        ]
+    },
+    {
+        "id": "e334f6ac.0af0e8",
+        "type": "function",
+        "z": "db823d6a.3762f",
+        "name": "Encode Email",
+        "func": "var encEmail = encodeURIComponent(msg.payload.value[0].Email)\nmsg.payload.email = encEmail;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 920,
+        "y": 80,
+        "wires": [
+            [
+                "a3847e9.229db8"
+            ]
+        ]
+    },
+    {
+        "id": "56dd6377.0ba17c",
+        "type": "function",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Build http request",
+        "func": "msg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"api-key\"] = \"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\";\nmsg.url = \"https://api.sendinblue.com/v3/contacts/\"+ msg.payload.email +\"\";\nmsg.method = \"PUT\";\nmsg.payload = '{\"emailBlacklisted\": true}';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 970,
+        "y": 560,
+        "wires": [
+            [
+                "53be66b7.39eb2"
+            ]
+        ]
+    },
+    {
+        "id": "e27c1ec3.9b2f2",
+        "type": "subflow:db823d6a.3762f",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Find contact in ProspectSoft",
+        "env": [],
+        "x": 720,
+        "y": 480,
+        "wires": [
+            [
+                "33011f4c.d3444"
+            ]
+        ]
+    },
+    {
+        "id": "82ac1677.fb98b8",
+        "type": "subflow:db823d6a.3762f",
+        "z": "24aabfeb.a5fbb8",
+        "name": "Find contact in ProspectSoft",
+        "env": [],
+        "x": 720,
+        "y": 560,
+        "wires": [
+            [
+                "56dd6377.0ba17c"
+            ]
+        ]
+    },
+    {
+        "id": "a3847e9.229db8",
+        "type": "debug",
+        "z": "db823d6a.3762f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "e04381b4.688a",
+        "type": "function",
+        "z": "81053105.60e14",
+        "name": "Build http request",
+        "func": "var reportAddress = flow.get([\"reportURL\"]);\nvar machineType = flow.get([\"machineType\"]);\nvar machineCleanliness = flow.get([\"machineCleanliness\"]);\nvar posCondition = flow.get([\"posCondition\"]);\nvar signoffSheets = flow.get([\"signoffSheets\"])\nvar trainingRequired = flow.get([\"trainingRequired\"]);\nvar operatingManual = flow.get([\"operatingManual\"]);\nvar author = flow.get(['author']);\nvar site = flow.get(['site']);\nvar reportWebLink = flow.get(['reportWebLink']);\nvar visitScore = flow.get(['visitScore']);\nvar serialNo = flow.get(['serialNo']);\nvar date_completed = flow.get(['date_completed']);\nmsg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"accept\"] = \"application/json\";\nmsg.headers[\"api-key\"] = \"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\";\nmsg.url = \"https://api.sendinblue.com/v3/smtp/email\";\nmsg.method = \"POST\";\nmsg.payload= '{\"sender\":{\"name\":\"ePRobot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"alex.perjescu@expressoplus.com\",\"name\":\"Alex\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"attachment\":[{\"url\":\"'+reportAddress+'\"}],\"templateId\":10,\"subject\":\"'+ site +'-'+ visitScore +'%\",\"params\":{\"site\":\"' + site + '\",\"machineType\":\"' + machineType + '\",\"score\":\"' + visitScore +'\",\"posCondition\":\"' + posCondition +'\",\"machineCleanliness\":\"'+ machineCleanliness +'\",\"operatingManual\":\"' + operatingManual + '\",\"signoffSheets\":\"' + signoffSheets + '\",\"trainingRequired\":\"' + trainingRequired + '\",\"author\":\"' + author +'\",\"reportWebLink\":\"' + reportWebLink + '\",\"serialNo\":\"' + serialNo + '\",\"date_completed\":\"'+ date_completed +'\"}}';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 410,
+        "y": 660,
+        "wires": [
+            [
+                "2c2aa46.477e85c"
+            ]
+        ],
+        "info": "curl --request POST \\\n  --url https://api.sendinblue.com/v3/smtp/email \\\n  --header 'accept: application/json' \\\n  --header 'content-type: application/json' \\\n  --data '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"Alex\",\"name\":\"alex.perjescu@expressoplus.com\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"attachment\":[{\"url\":\"http://urlofattacment.com\"}],\"textContent\":\"this is the body of the email\",\"subject\":\"this is the subject line\"}'\nreturn msg;"
+    },
+    {
+        "id": "a714aed3.76e668",
+        "type": "inject",
+        "z": "81053105.60e14",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"template_id\":\"template_0ab45897e28c45f78dbc8065976ea6ee\",\"audit_id\":\"audit_ce6e7f6c2cc74c588ce0cd96d1f27303\",\"archived\":false,\"created_at\":\"2020-07-22T11:49:40.253Z\",\"modified_at\":\"2020-07-22T11:49:40.253Z\",\"audit_data\":{\"score\":130,\"total_score\":130,\"score_percentage\":100,\"name\":\"Chelmsford Star Co-Op - King's Road\",\"duration\":2087,\"location\":{\"started\":{\"accuracy\":16,\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.4593361,51.7447622]}}},\"authorship\":{\"device_id\":\"1bc777245a16532f\",\"owner\":\"Ryan Rich\",\"owner_id\":\"user_2ec914e33a3546a3aeeb50721e7a41ac\",\"author\":\"Ryan Rich\",\"author_id\":\"user_2ec914e33a3546a3aeeb50721e7a41ac\"},\"date_completed\":\"2020-07-22T11:49:33.000Z\",\"date_modified\":\"2020-07-22T11:49:33.000Z\",\"date_started\":\"2020-07-22T11:10:23.000Z\",\"site\":{\"name\":\"Chelmsford Star Co-Op - King's Road\",\"area\":{\"name\":\"CM1 2BB\"},\"region\":{\"name\":\"England\"}}},\"template_data\":{\"authorship\":{\"device_id\":\"user_efa9765283cf4b3e83a1528deda41f23\",\"owner\":\"Alex Perjescu\",\"owner_id\":\"user_efa9765283cf4b3e83a1528deda41f23\",\"author\":\"Alex Perjescu\",\"author_id\":\"user_efa9765283cf4b3e83a1528deda41f23\"},\"metadata\":{\"description\":\"FINISHED & SIGNED OFF\",\"name\":\"Lavazza Lusso Audit\",\"image\":{\"date_created\":\"2020-07-06T09:18:04.000Z\",\"file_ext\":\"png\",\"label\":\"Lusso.PNG\",\"media_id\":\"074047e9-ddb7-4708-897d-52826e963b46\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/074047e9-ddb7-4708-897d-52826e963b46\"}},\"response_sets\":{\"234faa20-40fb-40fc-932b-bc3d5833d00b\":{\"id\":\"234faa20-40fb-40fc-932b-bc3d5833d00b\",\"type\":\"question\",\"responses\":[{\"id\":\"448d804d-bd38-4fcb-9414-3b5b0194baa2\",\"label\":\"Present & Filled In\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"d2cea458-28c7-4924-ac9e-478added11fa\",\"label\":\"Present & Not Filled In\",\"colour\":\"255,176,0\",\"score\":1,\"enable_score\":false},{\"id\":\"a20d6264-c4fa-4adb-8cd1-4023dec45a15\",\"label\":\"Not Present\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false},{\"id\":\"39e23975-c94e-4047-92a0-f824ce7ce57e\",\"label\":\"Other\",\"colour\":\"112,112,112\",\"score\":1,\"enable_score\":false}]},\"264cf413-24d4-4299-8d10-9178feb0731a\":{\"id\":\"264cf413-24d4-4299-8d10-9178feb0731a\",\"type\":\"question\",\"responses\":[{\"id\":\"b4f6ea38-7f10-4d96-b35b-f6911bbf0c09\",\"label\":\"Required\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false},{\"id\":\"057e5c1c-f332-4a5b-9a05-404d03d4adeb\",\"label\":\"Not required\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"3d7b9677-7f87-4452-a6bd-2209085cf4d1\":{\"id\":\"3d7b9677-7f87-4452-a6bd-2209085cf4d1\",\"type\":\"question\",\"responses\":[{\"id\":\"db32aa1b-6cb6-4bd2-8cfa-d78aa63b662c\",\"label\":\"Present\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"16d754bb-2885-49df-9a04-015488f51f64\",\"label\":\"Not Present\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false}]},\"4728b690-6be3-4c45-83bd-02b0718e3404\":{\"id\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"type\":\"question\",\"responses\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"label\":\"Satisfactory\",\"colour\":\"255,176,0\",\"score\":1,\"enable_score\":false},{\"id\":\"c3c234aa-9cd4-4002-bf6d-8337362dae24\",\"label\":\"Poor\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false},{\"id\":\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\",\"label\":\"N/A\",\"colour\":\"112,112,112\",\"score\":1,\"enable_score\":false}]},\"5b69aee5-0532-46a4-b2f5-d020d4d5381d\":{\"id\":\"5b69aee5-0532-46a4-b2f5-d020d4d5381d\",\"type\":\"question\",\"responses\":[{\"id\":\"ef4abf51-3361-46f5-ba04-70c23c85ca20\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":10,\"enable_score\":true},{\"id\":\"ef4abf51-3361-46f5-ba04-70c23c85ca21\",\"label\":\"Satisfactory\",\"colour\":\"129,181,50\",\"score\":7,\"enable_score\":true},{\"id\":\"ef4abf51-3361-46f5-ba04-70c23c85ca22\",\"label\":\"Poor\",\"colour\":\"254,133,0\",\"score\":5,\"failed\":true,\"enable_score\":true},{\"id\":\"d53a801d-3985-4b0b-a4f9-1dd3bf56c381\",\"label\":\"Very poor\",\"colour\":\"198,0,34\",\"score\":2,\"failed\":true,\"enable_score\":true}]},\"5f785d00-1b76-4d56-84f8-6d0f52caa884\":{\"id\":\"5f785d00-1b76-4d56-84f8-6d0f52caa884\",\"type\":\"question\",\"responses\":[{\"id\":\"2062ef4f-8d36-43c7-96a8-ec901556c047\",\"label\":\"Information is Known\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"3ad7fa81-4376-4ab1-b51e-217428b633a3\",\"label\":\"Information Explained\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"6909bc0b-27b2-470d-b4ab-fbd1ac2928f3\":{\"id\":\"6909bc0b-27b2-470d-b4ab-fbd1ac2928f3\",\"type\":\"question\",\"responses\":[{\"id\":\"3c7c1b75-c740-4572-a736-1739b2659855\",\"label\":\"Issued\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"167a3672-d076-46c1-826b-066a101a0042\",\"label\":\"Not Issued\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false}]},\"74cce119-02cc-4ab3-9d69-47c379857cbb\":{\"id\":\"74cce119-02cc-4ab3-9d69-47c379857cbb\",\"type\":\"question\",\"responses\":[{\"id\":\"9b1a9789-1956-4aee-8aef-019badce6cf0\",\"label\":\"Present & up to date\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"95d6f951-3f60-402a-a791-bfe84c4e9dfa\",\"label\":\"Present & not up to date\",\"colour\":\"254,133,0\",\"score\":0,\"failed\":true,\"enable_score\":false},{\"id\":\"4eedb162-c048-4b79-b895-4672dd0d0697\",\"label\":\"Not present\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false}]},\"7601fb75-80ae-4409-b31a-9acd58d45445\":{\"id\":\"7601fb75-80ae-4409-b31a-9acd58d45445\",\"type\":\"question\",\"responses\":[{\"id\":\"af89ffa0-5db2-4a49-93e5-7dd392ab8f10\",\"label\":\"Full\",\"colour\":\"19,133,95\",\"score\":10,\"enable_score\":true},{\"id\":\"af89ffa1-5db2-4a49-93e5-7dd392ab8f10\",\"label\":\"Satisfactory\",\"colour\":\"129,181,50\",\"score\":7,\"failed\":false,\"enable_score\":true},{\"id\":\"af89ffa2-5db2-4a49-93e5-7dd392ab8f10\",\"label\":\"Below required level\",\"colour\":\"255,176,0\",\"score\":5,\"failed\":true,\"enable_score\":true},{\"id\":\"f65439a8-28e4-423b-a7e4-3610dcf71f42\",\"label\":\"Nearly Empty\",\"colour\":\"254,133,0\",\"score\":2,\"failed\":true,\"enable_score\":true},{\"id\":\"27501c84-03fc-4c98-8710-fede05b8f21c\",\"label\":\"Empty\",\"colour\":\"198,0,34\",\"score\":0,\"failed\":true,\"enable_score\":true}]},\"770e09c4-9acf-4b51-b2d4-9212a4a47901\":{\"id\":\"770e09c4-9acf-4b51-b2d4-9212a4a47901\",\"type\":\"question\",\"responses\":[{\"id\":\"1b2907a4-9ec2-4f72-8007-ccd356ce4458\",\"label\":\"Present\",\"colour\":\"112,112,112\",\"score\":0,\"enable_score\":false},{\"id\":\"de6e4f46-a930-410b-be7d-628d0d651b0a\",\"label\":\"Not Present\",\"colour\":\"112,112,112\",\"score\":0,\"enable_score\":false}]},\"7ffeab79-fe0e-4d10-8efd-1dce74198762\":{\"id\":\"7ffeab79-fe0e-4d10-8efd-1dce74198762\",\"type\":\"question\",\"responses\":[{\"id\":\"de43b084-c86e-41a3-a2ef-50c4db81e4aa\",\"label\":\"Present & up to date\",\"colour\":\"19,133,95\",\"score\":10,\"enable_score\":true},{\"id\":\"d9d28ebf-852c-48f6-a94d-e8b83c3e343b\",\"label\":\"Present & not up to date\",\"colour\":\"254,133,0\",\"score\":5,\"failed\":true,\"enable_score\":true},{\"id\":\"472ccff5-3c74-482f-95ba-a327661bd0bf\",\"label\":\"No present\",\"colour\":\"198,0,34\",\"score\":0,\"failed\":true,\"enable_score\":true}]},\"93a855ae-871c-4337-b0ee-c221428e1631\":{\"id\":\"93a855ae-871c-4337-b0ee-c221428e1631\",\"type\":\"question\",\"responses\":[{\"id\":\"75ae8a50-78ba-4a5b-bed7-5115b2ceeef0\",\"label\":\"Yes\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"fc83abca-96fe-4ddc-bd46-d7fa5e76f34f\",\"label\":\"To Be Arranged\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"df808f99-7e10-4658-92b3-edb4e71ebb08\",\"label\":\"No\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false}]},\"ad3a43b5-cf17-48cb-a515-a3c433021ea8\":{\"id\":\"ad3a43b5-cf17-48cb-a515-a3c433021ea8\",\"type\":\"question\",\"responses\":[{\"id\":\"3f2120b7-d9d6-4196-9ce7-5f7689a1031c\",\"label\":\"Changed\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"1a715901-2f0a-47a6-9481-7ab44adad917\",\"label\":\"Not Changed\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false}]},\"b52a8b4c-048b-4f7d-99b9-c6b9680be5ed\":{\"id\":\"b52a8b4c-048b-4f7d-99b9-c6b9680be5ed\",\"type\":\"question\",\"responses\":[{\"id\":\"2a2b8507-c53d-4d0e-83ec-164cb179b6a0\",\"label\":\"Pass\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":true},{\"id\":\"2a2b8507-c53d-4d0e-83ec-164cb179b6a1\",\"label\":\"Fail\",\"colour\":\"198,0,34\",\"score\":0,\"failed\":true,\"enable_score\":true},{\"id\":\"2a2b8507-c53d-4d0e-83ec-164cb179b6a2\",\"label\":\"N/A\",\"colour\":\"112,112,112\",\"score\":1,\"enable_score\":false}]},\"b5774aac-4e98-4ddf-af0d-2d402a2f98f2\":{\"id\":\"b5774aac-4e98-4ddf-af0d-2d402a2f98f2\",\"type\":\"question\",\"responses\":[{\"id\":\"3ae94c5e-a833-4b67-9193-c77d027521c5\",\"label\":\"Swapped\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"feb27b4c-13bd-49aa-84e7-1a9593cc27b2\",\"label\":\"Not Swapped\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false}]},\"b786ea78-79a4-4b60-97ba-ae0ef2ec50ff\":{\"id\":\"b786ea78-79a4-4b60-97ba-ae0ef2ec50ff\",\"type\":\"question\",\"responses\":[{\"id\":\"fc739d28-112c-40b5-9a99-d0d76f8e2e50\",\"label\":\"Applied\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"18a4c9bd-074c-431d-951c-badd32bce52e\",\"label\":\"Not Applied\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false}]},\"be33de9d-7db6-45eb-a9d5-65986b351b0a\":{\"id\":\"be33de9d-7db6-45eb-a9d5-65986b351b0a\",\"type\":\"question\",\"responses\":[{\"id\":\"0ae07391-98fb-4fa2-8300-bb1db973132c\",\"label\":\"Replenished\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"a49ff74f-e77e-4a07-a3f1-66f455f350d0\",\"label\":\"Not Replenished\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false},{\"id\":\"647cf616-97cc-4492-8b55-0353b957aa94\",\"label\":\"N/A\",\"colour\":\"112,112,112\",\"score\":1,\"enable_score\":false}]},\"c361e12b-ebc9-4755-9cb0-ca656a6471a0\":{\"id\":\"c361e12b-ebc9-4755-9cb0-ca656a6471a0\",\"type\":\"question\",\"responses\":[{\"id\":\"08719a65-0562-47ad-97ce-574604fae8e3\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"24052431-602d-4103-866f-7437f49cd0e4\",\"label\":\"Satisfactory\",\"colour\":\"129,181,50\",\"score\":1,\"enable_score\":false},{\"id\":\"5c8439e1-1226-44ed-979a-56e74254307f\",\"label\":\"Poor\",\"colour\":\"254,133,0\",\"score\":1,\"enable_score\":false},{\"id\":\"7881f618-c835-45a1-86d3-569ae13e3808\",\"label\":\"Very Poor\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false},{\"id\":\"a3ddd1ff-b4c1-4990-b1a6-ef33554101d4\",\"label\":\"N/A\",\"colour\":\"112,112,112\",\"score\":1,\"enable_score\":false}]},\"c6c011ed-4ade-460d-a04b-da730834b667\":{\"id\":\"c6c011ed-4ade-460d-a04b-da730834b667\",\"type\":\"question\",\"responses\":[{\"id\":\"060ace00-1f61-468e-9c42-918fa93badcf\",\"label\":\"Good condition\",\"colour\":\"19,133,95\",\"score\":0,\"enable_score\":false},{\"id\":\"060ace01-1f61-468e-9c42-918fa93badcf\",\"label\":\"Bad condition\",\"colour\":\"198,0,34\",\"score\":1,\"failed\":false,\"enable_score\":false},{\"id\":\"060ace02-1f61-468e-9c42-918fa93badcf\",\"label\":\"No POS\",\"colour\":\"112,112,112\",\"score\":1,\"enable_score\":false}]},\"d743f356-a147-472c-a790-0c46a187de92\":{\"id\":\"d743f356-a147-472c-a790-0c46a187de92\",\"type\":\"question\",\"responses\":[{\"id\":\"6bb1beb4-494e-4a17-bff7-bed8a6fcd3d0\",\"label\":\"Working\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"6bb1beb4-494e-4a17-bff7-bed8a6fcd3d1\",\"label\":\"Not Working\",\"colour\":\"198,0,34\",\"score\":0,\"failed\":false,\"enable_score\":false}]},\"e786f03e-806f-4f18-815a-cae696fa017d\":{\"id\":\"e786f03e-806f-4f18-815a-cae696fa017d\",\"type\":\"question\",\"responses\":[{\"id\":\"3508f4c7-79d3-45fe-ae90-e4fd149bfceb\",\"label\":\"Provided\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"496d7c26-b988-46f0-b75e-2cbfb8d6aebf\",\"label\":\"Not provided\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false}]},\"ea34ce11-c71a-4bc8-9902-b4e39fceadd2\":{\"id\":\"ea34ce11-c71a-4bc8-9902-b4e39fceadd2\",\"type\":\"question\",\"responses\":[{\"id\":\"20c4b731-70ee-46c9-a00f-814f6d785482\",\"label\":\"Correct\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"20253f5a-e498-492e-ac6b-7904af23c8f1\",\"label\":\"Incorrect\",\"colour\":\"198,0,34\",\"score\":0,\"failed\":true,\"enable_score\":false}]},\"f3932779-5f6f-49fb-8ea7-321e975d3782\":{\"id\":\"f3932779-5f6f-49fb-8ea7-321e975d3782\",\"type\":\"question\",\"responses\":[{\"id\":\"900eb300-2779-45a9-aef9-a4a5d6113734\",\"label\":\"Set\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false},{\"id\":\"f53979dc-8253-4984-a5a5-ab90671a9c90\",\"label\":\"Not Set\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false}]}}},\"header_items\":[{\"item_id\":\"f3245d39-ea77-11e1-aff1-0800200c9a66\",\"label\":\"Title Page\",\"type\":\"section\",\"options\":{\"weighting\":1,\"is_mandatory\":false},\"children\":[\"1e36c281-1f0b-475d-8812-b80e473b023d\",\"f3245d46-ea77-11e1-aff1-0800200c9a66\",\"f3245d42-ea77-11e1-aff1-0800200c9a66\",\"f3245d44-ea77-11e1-aff1-0800200c9a66\",\"4ce40c05-2173-40a1-8645-929ae4a4f9d0\",\"fb739b87-c27a-461d-b29a-a962cd253af8\",\"5fa2777b-dfb8-4735-a434-38b0675104af\"]},{\"parent_id\":\"f3245d39-ea77-11e1-aff1-0800200c9a66\",\"item_id\":\"1e36c281-1f0b-475d-8812-b80e473b023d\",\"label\":\"Machine Type \",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"Lusso\"}},{\"parent_id\":\"f3245d39-ea77-11e1-aff1-0800200c9a66\",\"item_id\":\"f3245d46-ea77-11e1-aff1-0800200c9a66\",\"label\":\"Document Number\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"BG000004\"}},{\"parent_id\":\"f3245d39-ea77-11e1-aff1-0800200c9a66\",\"item_id\":\"f3245d42-ea77-11e1-aff1-0800200c9a66\",\"label\":\"Conducted On\",\"type\":\"datetime\",\"options\":{\"weighting\":1,\"is_mandatory\":true,\"enable_date\":true,\"enable_time\":true},\"responses\":{\"datetime\":\"2020-07-22T11:10:23.000Z\"}},{\"parent_id\":\"f3245d39-ea77-11e1-aff1-0800200c9a66\",\"item_id\":\"f3245d44-ea77-11e1-aff1-0800200c9a66\",\"label\":\"Location\",\"type\":\"address\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"location_text\":\"108 Kings Rd, Chelmsford CM1 2BB, UK\\n(51.7447551, 0.4592846)\",\"location\":{\"name\":\"108\",\"country\":\"United Kingdom\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[0.4592846,51.7447551]},\"locality\":null,\"postal_code\":\"CM1 2BB\",\"sub_locality\":null,\"thoroughfare\":\"Kings Road\",\"iso_country_code\":\"GB\",\"sub_thoroughfare\":\"108\",\"administrative_area\":\"England\",\"sub_administrative_area\":\"Essex\"}}},{\"parent_id\":\"f3245d39-ea77-11e1-aff1-0800200c9a66\",\"item_id\":\"4ce40c05-2173-40a1-8645-929ae4a4f9d0\",\"label\":\"Name of Site Contact\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"Andrea\"}},{\"parent_id\":\"f3245d39-ea77-11e1-aff1-0800200c9a66\",\"item_id\":\"fb739b87-c27a-461d-b29a-a962cd253af8\",\"label\":\"Machine Serial Number\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"60043275\"}},{\"parent_id\":\"f3245d39-ea77-11e1-aff1-0800200c9a66\",\"item_id\":\"5fa2777b-dfb8-4735-a434-38b0675104af\",\"label\":\"Telemetry Serial Number\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"388141\"}}],\"items\":[{\"item_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"label\":\"Audit Scores\",\"type\":\"section\",\"scoring\":{\"combined_score\":130,\"combined_max_score\":130,\"combined_score_percentage\":100},\"options\":{\"weighting\":1,\"is_mandatory\":false},\"children\":[\"5de83cb2-6300-4733-9a82-1f5da6285e09\",\"e962af93-d383-4e74-8eec-6b3609199fad\",\"a69aa94d-246d-4e87-913b-7a4dadd87fcf\",\"cdb92e87-36f2-4316-9b99-f9ac9d593b02\",\"8f51b8b4-1152-487e-9336-bab5ecdbc966\",\"0b2edd77-d1c4-4eeb-9369-1718f7d86bee\",\"b642f9c9-0a17-44ea-af66-493561c60af0\",\"adaf952e-948f-4eb4-b407-7e9af8bfbcb6\",\"64aded88-f5bc-4a54-a4a0-df7c7587326f\",\"ff3ae517-f075-4443-bf5f-f0ee5b831ab2\",\"b9dceef0-63a0-4f1a-bdf4-37195fb79cc4\",\"94d9ec78-76ef-43d5-924c-142031e2ba4b\",\"262f55b0-1a38-484f-9f22-8011be09f620\"]},{\"parent_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"item_id\":\"5de83cb2-6300-4733-9a82-1f5da6285e09\",\"label\":\"Ingredient Levels\",\"type\":\"slider\",\"scoring\":{\"score\":10,\"max_score\":10,\"score_percentage\":100},\"options\":{\"weighting\":1,\"increment\":1,\"max\":10,\"min\":1,\"is_mandatory\":true},\"responses\":{\"value\":10},\"children\":[\"ac6ca947-39ec-479e-a90f-cff12c8f1420\",\"b400d324-01cd-4e90-ac9b-d20542e8c906\"]},{\"parent_id\":\"5de83cb2-6300-4733-9a82-1f5da6285e09\",\"item_id\":\"ac6ca947-39ec-479e-a90f-cff12c8f1420\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"7\"],\"weighting\":1,\"condition\":\"cda7c330-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"a50c808f-2961-4856-acf1-cd3d83033cee\"]},{\"parent_id\":\"ac6ca947-39ec-479e-a90f-cff12c8f1420\",\"item_id\":\"a50c808f-2961-4856-acf1-cd3d83033cee\",\"label\":\"Please give a reason for this score:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"5de83cb2-6300-4733-9a82-1f5da6285e09\",\"item_id\":\"b400d324-01cd-4e90-ac9b-d20542e8c906\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"cda7c335-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"a04c5f26-36d6-4b7a-9b5e-0e8d5ac2177d\"]},{\"parent_id\":\"b400d324-01cd-4e90-ac9b-d20542e8c906\",\"item_id\":\"a04c5f26-36d6-4b7a-9b5e-0e8d5ac2177d\",\"label\":\"Please take a photo(s) of the area:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:14:10.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"5233efb4-e80f-4415-a614-be1f9aae2938\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/5233efb4-e80f-4415-a614-be1f9aae2938\"}]},{\"parent_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"item_id\":\"e962af93-d383-4e74-8eec-6b3609199fad\",\"label\":\"Bowls & Pipes Cleanliness\",\"type\":\"slider\",\"scoring\":{\"score\":10,\"max_score\":10,\"score_percentage\":100},\"options\":{\"weighting\":1,\"increment\":1,\"max\":10,\"min\":1,\"is_mandatory\":true},\"responses\":{\"value\":10},\"children\":[\"d41696cd-0cc4-4cfa-b008-ff93935c8c2d\",\"cff76483-1e7f-49ad-b3c3-0b0e10ea568a\"]},{\"parent_id\":\"e962af93-d383-4e74-8eec-6b3609199fad\",\"item_id\":\"d41696cd-0cc4-4cfa-b008-ff93935c8c2d\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"7\"],\"weighting\":1,\"condition\":\"cda7c330-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"6e9ac2ca-cd69-4422-9d93-44d242f1a977\"]},{\"parent_id\":\"d41696cd-0cc4-4cfa-b008-ff93935c8c2d\",\"item_id\":\"6e9ac2ca-cd69-4422-9d93-44d242f1a977\",\"label\":\"Please give a reason for this score:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"e962af93-d383-4e74-8eec-6b3609199fad\",\"item_id\":\"cff76483-1e7f-49ad-b3c3-0b0e10ea568a\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"cda7c334-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"299d406e-80c6-42fc-b3a2-fdd5cadcc668\"]},{\"parent_id\":\"cff76483-1e7f-49ad-b3c3-0b0e10ea568a\",\"item_id\":\"299d406e-80c6-42fc-b3a2-fdd5cadcc668\",\"label\":\"Please take a photo(s) of the area:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:14:10.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"6621d2a6-ad80-4ba4-83c6-a58f34dbd073\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/6621d2a6-ad80-4ba4-83c6-a58f34dbd073\"},{\"date_created\":\"2020-07-22T11:14:10.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"79f3c232-6287-4990-9bdf-0eba1bf4fb54\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/79f3c232-6287-4990-9bdf-0eba1bf4fb54\"},{\"date_created\":\"2020-07-22T11:14:10.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"941f10b2-1fa4-46af-8532-a7868ea78c3f\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/941f10b2-1fa4-46af-8532-a7868ea78c3f\"},{\"date_created\":\"2020-07-22T11:14:10.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"ce5f141b-2c4d-4b7b-97dd-95a722a72d80\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/ce5f141b-2c4d-4b7b-97dd-95a722a72d80\"},{\"date_created\":\"2020-07-22T11:14:10.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"1df535c9-da85-4727-b53e-ac35c8cc6e22\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/1df535c9-da85-4727-b53e-ac35c8cc6e22\"},{\"date_created\":\"2020-07-22T11:14:10.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"2b392052-a38c-43bc-9cdb-a1312de797c4\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/2b392052-a38c-43bc-9cdb-a1312de797c4\"},{\"date_created\":\"2020-07-22T11:14:10.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"bb0ecc7a-631c-49f3-b500-e1c674628e92\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/bb0ecc7a-631c-49f3-b500-e1c674628e92\"},{\"date_created\":\"2020-07-22T11:18:20.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"8a916c49-a0cf-468f-a6e4-4815470c4914\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/8a916c49-a0cf-468f-a6e4-4815470c4914\"},{\"date_created\":\"2020-07-22T11:18:20.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"50733905-f1e1-4511-bfaa-57d592a4c4c7\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/50733905-f1e1-4511-bfaa-57d592a4c4c7\"},{\"date_created\":\"2020-07-22T11:18:20.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"a96f5fd9-bd18-455b-a68e-a3f9137aa471\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/a96f5fd9-bd18-455b-a68e-a3f9137aa471\"}]},{\"parent_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"item_id\":\"a69aa94d-246d-4e87-913b-7a4dadd87fcf\",\"label\":\"Dispense Heads Cleanliness:\",\"type\":\"slider\",\"scoring\":{\"score\":10,\"max_score\":10,\"score_percentage\":100},\"options\":{\"weighting\":1,\"increment\":1,\"max\":10,\"min\":1,\"is_mandatory\":true},\"responses\":{\"value\":10},\"children\":[\"8c38e6e2-c8ed-4aa9-800a-80be25e41491\",\"ef20f89f-e7d1-47f4-abbe-4ea187b85c54\"]},{\"parent_id\":\"a69aa94d-246d-4e87-913b-7a4dadd87fcf\",\"item_id\":\"8c38e6e2-c8ed-4aa9-800a-80be25e41491\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"7\"],\"weighting\":1,\"condition\":\"cda7c330-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"e8ad3db3-9e9f-443d-824d-bd665485a2ed\"]},{\"parent_id\":\"8c38e6e2-c8ed-4aa9-800a-80be25e41491\",\"item_id\":\"e8ad3db3-9e9f-443d-824d-bd665485a2ed\",\"label\":\"Please give a reason for this score:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"a69aa94d-246d-4e87-913b-7a4dadd87fcf\",\"item_id\":\"ef20f89f-e7d1-47f4-abbe-4ea187b85c54\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"cda7c334-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"04babdc6-b70b-400a-8ad5-4cb3de16ce86\"]},{\"parent_id\":\"ef20f89f-e7d1-47f4-abbe-4ea187b85c54\",\"item_id\":\"04babdc6-b70b-400a-8ad5-4cb3de16ce86\",\"label\":\"Please take a photo(s) of the area:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:18:20.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"a6ffb5fb-999a-408e-9320-64b3cf112b59\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/a6ffb5fb-999a-408e-9320-64b3cf112b59\"},{\"date_created\":\"2020-07-22T11:18:20.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"c9b98799-5d5d-4dc8-a5c6-99de72cb6728\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/c9b98799-5d5d-4dc8-a5c6-99de72cb6728\"}]},{\"parent_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"item_id\":\"cdb92e87-36f2-4316-9b99-f9ac9d593b02\",\"label\":\"Machine Surfaces & Extraction Plates Cleanliness\",\"type\":\"slider\",\"scoring\":{\"score\":10,\"max_score\":10,\"score_percentage\":100},\"options\":{\"weighting\":1,\"increment\":1,\"max\":10,\"min\":1,\"is_mandatory\":true},\"responses\":{\"value\":10},\"children\":[\"5ef3342f-7b6a-4c68-946c-e6692443b1f8\",\"fe5c64d7-d149-4d03-96fa-594ac21b15ce\"]},{\"parent_id\":\"cdb92e87-36f2-4316-9b99-f9ac9d593b02\",\"item_id\":\"5ef3342f-7b6a-4c68-946c-e6692443b1f8\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"7\"],\"weighting\":1,\"condition\":\"cda7c330-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"5d9b3ccc-a4a0-42b1-9205-0bb989b81350\"]},{\"parent_id\":\"5ef3342f-7b6a-4c68-946c-e6692443b1f8\",\"item_id\":\"5d9b3ccc-a4a0-42b1-9205-0bb989b81350\",\"label\":\"Please give a reason for this score:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"cdb92e87-36f2-4316-9b99-f9ac9d593b02\",\"item_id\":\"fe5c64d7-d149-4d03-96fa-594ac21b15ce\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"cda7c334-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"e64b70c5-7abe-475c-b9bd-9294a5062de2\"]},{\"parent_id\":\"fe5c64d7-d149-4d03-96fa-594ac21b15ce\",\"item_id\":\"e64b70c5-7abe-475c-b9bd-9294a5062de2\",\"label\":\"Please take a photo(s) of the area:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:18:20.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"badebd93-2ef8-4fed-b74e-0405c51a0d9c\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/badebd93-2ef8-4fed-b74e-0405c51a0d9c\"},{\"date_created\":\"2020-07-22T11:18:20.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"c6d11908-fbbf-4fc8-b3ce-b25f0abfbea7\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/c6d11908-fbbf-4fc8-b3ce-b25f0abfbea7\"},{\"date_created\":\"2020-07-22T11:20:30.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"9b473120-2cd3-4621-9042-d02fb4b90ea1\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/9b473120-2cd3-4621-9042-d02fb4b90ea1\"},{\"date_created\":\"2020-07-22T11:20:30.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"fcf382c4-c957-4530-907d-d1cfde4fbe88\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/fcf382c4-c957-4530-907d-d1cfde4fbe88\"},{\"date_created\":\"2020-07-22T11:20:30.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"9413ec17-af82-45cf-9cd8-5a2bc9eeb3a0\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/9413ec17-af82-45cf-9cd8-5a2bc9eeb3a0\"}]},{\"parent_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"item_id\":\"8f51b8b4-1152-487e-9336-bab5ecdbc966\",\"label\":\"Coffee Brewer Cleanliness\",\"type\":\"slider\",\"scoring\":{\"score\":10,\"max_score\":10,\"score_percentage\":100},\"options\":{\"weighting\":1,\"increment\":1,\"max\":10,\"min\":1,\"is_mandatory\":true},\"responses\":{\"value\":10},\"children\":[\"d440ea98-440c-4ce5-8d64-27941400d804\",\"ab2389a8-a5c0-412a-8d40-814b56952ec3\"]},{\"parent_id\":\"8f51b8b4-1152-487e-9336-bab5ecdbc966\",\"item_id\":\"d440ea98-440c-4ce5-8d64-27941400d804\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"7\"],\"weighting\":1,\"condition\":\"cda7c330-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"0e4a80c5-3c87-4f3d-b08c-bcc7af1959b3\"]},{\"parent_id\":\"d440ea98-440c-4ce5-8d64-27941400d804\",\"item_id\":\"0e4a80c5-3c87-4f3d-b08c-bcc7af1959b3\",\"label\":\"Please give a reason for this score:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"8f51b8b4-1152-487e-9336-bab5ecdbc966\",\"item_id\":\"ab2389a8-a5c0-412a-8d40-814b56952ec3\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"cda7c334-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"feca5ba5-8fc1-4809-9b98-0df3a11c97e6\"]},{\"parent_id\":\"ab2389a8-a5c0-412a-8d40-814b56952ec3\",\"item_id\":\"feca5ba5-8fc1-4809-9b98-0df3a11c97e6\",\"label\":\"Please take a photo(s) of the area:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:20:30.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"7246fbea-44d5-4697-b68e-0ec5307f9681\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/7246fbea-44d5-4697-b68e-0ec5307f9681\"},{\"date_created\":\"2020-07-22T11:20:30.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"ad3dae88-f115-42ae-b7ab-f1296c522732\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/ad3dae88-f115-42ae-b7ab-f1296c522732\"},{\"date_created\":\"2020-07-22T11:20:30.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"0f77d234-2ab6-4615-92d2-391d8dcfea9f\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/0f77d234-2ab6-4615-92d2-391d8dcfea9f\"}]},{\"parent_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"item_id\":\"0b2edd77-d1c4-4eeb-9369-1718f7d86bee\",\"label\":\"Tea Brewer Cleanliness\",\"type\":\"slider\",\"scoring\":{\"score\":10,\"max_score\":10,\"score_percentage\":100},\"options\":{\"weighting\":1,\"increment\":1,\"max\":10,\"min\":1,\"is_mandatory\":true},\"responses\":{\"value\":10},\"children\":[\"60b6279e-80ec-4c78-baeb-bc1a50eee05e\",\"9efcca8e-411e-4176-9ed9-4425c9d337ac\"]},{\"parent_id\":\"0b2edd77-d1c4-4eeb-9369-1718f7d86bee\",\"item_id\":\"60b6279e-80ec-4c78-baeb-bc1a50eee05e\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"7\"],\"weighting\":1,\"condition\":\"cda7c330-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"c2f830d5-50ba-4c32-b2fc-377cc815c27c\"]},{\"parent_id\":\"60b6279e-80ec-4c78-baeb-bc1a50eee05e\",\"item_id\":\"c2f830d5-50ba-4c32-b2fc-377cc815c27c\",\"label\":\"Please give a reason for this score:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"0b2edd77-d1c4-4eeb-9369-1718f7d86bee\",\"item_id\":\"9efcca8e-411e-4176-9ed9-4425c9d337ac\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"cda7c334-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"29e021cb-3fb4-4a06-8669-624a91fc9461\"]},{\"parent_id\":\"9efcca8e-411e-4176-9ed9-4425c9d337ac\",\"item_id\":\"29e021cb-3fb4-4a06-8669-624a91fc9461\",\"label\":\"Please take a photo(s) of the area:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:20:30.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"7eeed48f-4153-44a8-bc4f-7d461cb71b58\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/7eeed48f-4153-44a8-bc4f-7d461cb71b58\"},{\"date_created\":\"2020-07-22T11:20:30.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"93d31048-1f7e-444b-86e3-916aab35c27a\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/93d31048-1f7e-444b-86e3-916aab35c27a\"},{\"date_created\":\"2020-07-22T11:20:30.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"6d59e235-379c-493f-b4b4-47e5d5456e3d\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/6d59e235-379c-493f-b4b4-47e5d5456e3d\"}]},{\"parent_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"item_id\":\"b642f9c9-0a17-44ea-af66-493561c60af0\",\"label\":\"Drip Tray & Dispense Area Cleanliness\",\"type\":\"slider\",\"scoring\":{\"score\":10,\"max_score\":10,\"score_percentage\":100},\"options\":{\"weighting\":1,\"increment\":1,\"max\":10,\"min\":1,\"is_mandatory\":true},\"responses\":{\"value\":10},\"children\":[\"b4688769-65e6-42e2-a0ca-d4564d2c5b52\",\"5741f24e-831e-4741-8729-13d2225a856f\"]},{\"parent_id\":\"b642f9c9-0a17-44ea-af66-493561c60af0\",\"item_id\":\"b4688769-65e6-42e2-a0ca-d4564d2c5b52\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"7\"],\"weighting\":1,\"condition\":\"cda7c330-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"d49eccf2-d6de-45c4-a4cb-365d59d7d4d5\"]},{\"parent_id\":\"b4688769-65e6-42e2-a0ca-d4564d2c5b52\",\"item_id\":\"d49eccf2-d6de-45c4-a4cb-365d59d7d4d5\",\"label\":\"Please give a reason for this score:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"b642f9c9-0a17-44ea-af66-493561c60af0\",\"item_id\":\"5741f24e-831e-4741-8729-13d2225a856f\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"cda7c334-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"e0260dd7-96ef-429b-8649-bcfcff5cd0fe\"]},{\"parent_id\":\"5741f24e-831e-4741-8729-13d2225a856f\",\"item_id\":\"e0260dd7-96ef-429b-8649-bcfcff5cd0fe\",\"label\":\"Please take a photo(s) of the area:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:22:40.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"67f910d0-3e9b-4ce5-b402-aab6a8d1a8b1\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/67f910d0-3e9b-4ce5-b402-aab6a8d1a8b1\"},{\"date_created\":\"2020-07-22T11:22:40.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"053c5a72-d2f1-494e-9ffe-ba07831a7a84\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/053c5a72-d2f1-494e-9ffe-ba07831a7a84\"}]},{\"parent_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"item_id\":\"adaf952e-948f-4eb4-b407-7e9af8bfbcb6\",\"label\":\"Machine Exterior Clean & Free From Smear Marks\",\"type\":\"slider\",\"scoring\":{\"score\":10,\"max_score\":10,\"score_percentage\":100},\"options\":{\"weighting\":1,\"increment\":1,\"max\":10,\"min\":1,\"is_mandatory\":true},\"responses\":{\"value\":10},\"children\":[\"fbcdf7a6-75f1-44e0-8c27-960e1cdca196\",\"68af21e8-c9c8-4094-80df-dc166f50991c\"]},{\"parent_id\":\"adaf952e-948f-4eb4-b407-7e9af8bfbcb6\",\"item_id\":\"fbcdf7a6-75f1-44e0-8c27-960e1cdca196\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"7\"],\"weighting\":1,\"condition\":\"cda7c330-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"fe574221-4df4-4893-a94a-9dc80372a846\"]},{\"parent_id\":\"fbcdf7a6-75f1-44e0-8c27-960e1cdca196\",\"item_id\":\"fe574221-4df4-4893-a94a-9dc80372a846\",\"label\":\"Please give a reason for this score:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"adaf952e-948f-4eb4-b407-7e9af8bfbcb6\",\"item_id\":\"68af21e8-c9c8-4094-80df-dc166f50991c\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"cda7c334-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"4d111475-10bb-4644-93ae-6430f194b930\"]},{\"parent_id\":\"68af21e8-c9c8-4094-80df-dc166f50991c\",\"item_id\":\"4d111475-10bb-4644-93ae-6430f194b930\",\"label\":\"Please take a photo(s) of the area:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:22:40.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"4ccb4b52-dd1c-4e8e-927e-f20547a30057\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/4ccb4b52-dd1c-4e8e-927e-f20547a30057\"}]},{\"parent_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"item_id\":\"64aded88-f5bc-4a54-a4a0-df7c7587326f\",\"label\":\"Bins Cleanliness\",\"type\":\"slider\",\"scoring\":{\"score\":10,\"max_score\":10,\"score_percentage\":100},\"options\":{\"weighting\":1,\"increment\":1,\"max\":10,\"min\":1,\"is_mandatory\":true},\"responses\":{\"value\":10},\"children\":[\"9a8733f9-6dfd-48f6-8201-9951b85aa012\",\"02d0013b-95b0-40b1-8fd8-e5a0e93baf3a\"]},{\"parent_id\":\"64aded88-f5bc-4a54-a4a0-df7c7587326f\",\"item_id\":\"9a8733f9-6dfd-48f6-8201-9951b85aa012\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"7\"],\"weighting\":1,\"condition\":\"cda7c330-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"5f70eeab-fe99-4942-b0b9-07062e485ed3\"]},{\"parent_id\":\"9a8733f9-6dfd-48f6-8201-9951b85aa012\",\"item_id\":\"5f70eeab-fe99-4942-b0b9-07062e485ed3\",\"label\":\"Please give a reason for this score:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"64aded88-f5bc-4a54-a4a0-df7c7587326f\",\"item_id\":\"02d0013b-95b0-40b1-8fd8-e5a0e93baf3a\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"cda7c334-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"17fb164c-d7c9-4417-a9dd-098f833f144e\"]},{\"parent_id\":\"02d0013b-95b0-40b1-8fd8-e5a0e93baf3a\",\"item_id\":\"17fb164c-d7c9-4417-a9dd-098f833f144e\",\"label\":\"Please take a photo(s) of the area:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:22:40.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"3db5cc20-1a8f-4879-b742-21248c2bce19\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/3db5cc20-1a8f-4879-b742-21248c2bce19\"},{\"date_created\":\"2020-07-22T11:22:40.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"3221bcc7-4b00-4cfc-9ccb-3273c6c1c4ea\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/3221bcc7-4b00-4cfc-9ccb-3273c6c1c4ea\"}]},{\"parent_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"item_id\":\"ff3ae517-f075-4443-bf5f-f0ee5b831ab2\",\"label\":\"Floor Cleanliness\",\"type\":\"slider\",\"scoring\":{\"score\":10,\"max_score\":10,\"score_percentage\":100},\"options\":{\"weighting\":1,\"increment\":1,\"max\":10,\"min\":1,\"is_mandatory\":true},\"responses\":{\"value\":10},\"children\":[\"ac814cdd-957f-488f-8f82-41e89c2f2496\",\"0aa2504a-e078-4758-b490-72a98afe2ef4\"]},{\"parent_id\":\"ff3ae517-f075-4443-bf5f-f0ee5b831ab2\",\"item_id\":\"ac814cdd-957f-488f-8f82-41e89c2f2496\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"7\"],\"weighting\":1,\"condition\":\"cda7c330-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"8e5ecb33-05e3-43cd-b797-4cf5c27276d5\"]},{\"parent_id\":\"ac814cdd-957f-488f-8f82-41e89c2f2496\",\"item_id\":\"8e5ecb33-05e3-43cd-b797-4cf5c27276d5\",\"label\":\"Please give a reason for this score:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"ff3ae517-f075-4443-bf5f-f0ee5b831ab2\",\"item_id\":\"0aa2504a-e078-4758-b490-72a98afe2ef4\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"cda7c334-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"e9ad821c-2e63-49a9-b860-8cd405a77b04\"]},{\"parent_id\":\"0aa2504a-e078-4758-b490-72a98afe2ef4\",\"item_id\":\"e9ad821c-2e63-49a9-b860-8cd405a77b04\",\"label\":\"Please take a photo(s) of the area:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:24:50.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"f818f83c-c7a3-4470-aefb-616aa3b8d900\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/f818f83c-c7a3-4470-aefb-616aa3b8d900\"}]},{\"parent_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"item_id\":\"b9dceef0-63a0-4f1a-bdf4-37195fb79cc4\",\"label\":\"Condiments / Cups / Lids Cleanliness\",\"type\":\"slider\",\"scoring\":{\"score\":10,\"max_score\":10,\"score_percentage\":100},\"options\":{\"weighting\":1,\"increment\":1,\"max\":10,\"min\":1,\"is_mandatory\":true},\"responses\":{\"value\":10},\"children\":[\"6868a54d-4db1-495d-bcbd-2965f9d0e272\",\"f1d54170-aa1d-4a38-85fe-1e34f7f619aa\"]},{\"parent_id\":\"b9dceef0-63a0-4f1a-bdf4-37195fb79cc4\",\"item_id\":\"6868a54d-4db1-495d-bcbd-2965f9d0e272\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"7\"],\"weighting\":1,\"condition\":\"cda7c330-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"b3649d6f-04ff-4d9a-8882-6450629da6f8\"]},{\"parent_id\":\"6868a54d-4db1-495d-bcbd-2965f9d0e272\",\"item_id\":\"b3649d6f-04ff-4d9a-8882-6450629da6f8\",\"label\":\"Please give a reason for this score:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"b9dceef0-63a0-4f1a-bdf4-37195fb79cc4\",\"item_id\":\"f1d54170-aa1d-4a38-85fe-1e34f7f619aa\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"cda7c334-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"cd370b4a-5d5c-4709-9a35-f6c347afe0ff\"]},{\"parent_id\":\"f1d54170-aa1d-4a38-85fe-1e34f7f619aa\",\"item_id\":\"cd370b4a-5d5c-4709-9a35-f6c347afe0ff\",\"label\":\"Please take a photo(s) of the area:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:24:50.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"ee26f95d-616f-479b-b0c5-b69c22e13999\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/ee26f95d-616f-479b-b0c5-b69c22e13999\"}]},{\"parent_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"item_id\":\"94d9ec78-76ef-43d5-924c-142031e2ba4b\",\"label\":\"Condiments / Cups / Lids Fill Level\",\"type\":\"slider\",\"scoring\":{\"score\":10,\"max_score\":10,\"score_percentage\":100},\"options\":{\"weighting\":1,\"increment\":1,\"max\":10,\"min\":1,\"is_mandatory\":true},\"responses\":{\"value\":10},\"children\":[\"a452b991-d8b0-48da-93bd-f74b72266b77\",\"0e01e36d-b858-409e-9def-547552895854\"]},{\"parent_id\":\"94d9ec78-76ef-43d5-924c-142031e2ba4b\",\"item_id\":\"a452b991-d8b0-48da-93bd-f74b72266b77\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"7\"],\"weighting\":1,\"condition\":\"cda7c330-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"f64e30a4-97e8-4973-9d0f-0c6eed7e529d\"]},{\"parent_id\":\"a452b991-d8b0-48da-93bd-f74b72266b77\",\"item_id\":\"f64e30a4-97e8-4973-9d0f-0c6eed7e529d\",\"label\":\"Please give a reason for this score:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"94d9ec78-76ef-43d5-924c-142031e2ba4b\",\"item_id\":\"0e01e36d-b858-409e-9def-547552895854\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"cda7c334-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"6bef7f52-2eee-497b-957b-d587fbb1a964\"]},{\"parent_id\":\"0e01e36d-b858-409e-9def-547552895854\",\"item_id\":\"6bef7f52-2eee-497b-957b-d587fbb1a964\",\"label\":\"Please take a photo(s) of the area:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:24:50.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"b6c374b0-f89a-4d19-969e-23d9004fddac\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/b6c374b0-f89a-4d19-969e-23d9004fddac\"}]},{\"parent_id\":\"a1c3b0c6-b71f-4f3b-b4c7-46881b3ebdc9\",\"item_id\":\"262f55b0-1a38-484f-9f22-8011be09f620\",\"label\":\"Operating Manual Present & Cleaning Checklist Filled In\",\"type\":\"slider\",\"scoring\":{\"score\":10,\"max_score\":10,\"score_percentage\":100},\"options\":{\"weighting\":1,\"increment\":1,\"max\":10,\"min\":1,\"is_mandatory\":true},\"responses\":{\"value\":10},\"children\":[\"8c0f9f29-c3fa-4239-ba2c-449d965891eb\",\"bbc4b471-999e-48b2-832b-31fdc04f909e\"]},{\"parent_id\":\"262f55b0-1a38-484f-9f22-8011be09f620\",\"item_id\":\"8c0f9f29-c3fa-4239-ba2c-449d965891eb\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"7\"],\"weighting\":1,\"condition\":\"cda7c330-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"7faf3b3e-a6e4-4187-a7eb-3d719e328792\"]},{\"parent_id\":\"8c0f9f29-c3fa-4239-ba2c-449d965891eb\",\"item_id\":\"7faf3b3e-a6e4-4187-a7eb-3d719e328792\",\"label\":\"Please give a reason for this score:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"262f55b0-1a38-484f-9f22-8011be09f620\",\"item_id\":\"bbc4b471-999e-48b2-832b-31fdc04f909e\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"cda7c334-e500-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"c6650dec-92e0-4b61-b617-ad4e33b696f6\"]},{\"parent_id\":\"bbc4b471-999e-48b2-832b-31fdc04f909e\",\"item_id\":\"c6650dec-92e0-4b61-b617-ad4e33b696f6\",\"label\":\"Please take a photo(s) of the area:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:24:50.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"879e69eb-5ee2-491b-88cd-2a4083ec1718\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/879e69eb-5ee2-491b-88cd-2a4083ec1718\"},{\"date_created\":\"2020-07-22T11:44:00.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"af1c530c-a343-4d08-9e98-c6cc69ee86f7\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/af1c530c-a343-4d08-9e98-c6cc69ee86f7\"}]},{\"item_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"label\":\"Visit Report\",\"type\":\"section\",\"options\":{\"weighting\":1,\"is_mandatory\":false},\"children\":[\"6dd94a1c-d02a-49b4-9224-0a0fb5cf2e07\",\"2d758316-ce20-4662-88d7-b5b8ffc508e0\",\"13f7fb17-72c2-4f44-8731-690293129ef9\",\"63ba1360-3874-4a58-892d-c69b3d274e39\",\"75962c61-fd19-4c35-8308-f5119f4e83c1\",\"98c69298-d093-4cb7-a666-6a7369d99f8c\",\"8866a17c-b4c9-4327-b3b1-80b4fdc10303\",\"9fc8f16c-5405-42cd-aa6f-87fdbbd0f6ad\",\"c3cf85d2-b7f4-450a-87c3-0650f1cde03a\",\"1e91276d-2e17-4995-b508-4af9e4080a55\",\"291fa9cf-f685-44fc-9957-6efe2dcb97ed\",\"4aa986b3-212d-426f-a1e9-776207bd90f6\",\"f3d0030f-2dec-49bd-8c11-25f4a133c528\",\"30d07248-a3c0-4a34-827b-e30f92eb9372\"]},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"6dd94a1c-d02a-49b4-9224-0a0fb5cf2e07\",\"label\":\"Meet with the key contact on site (Coffee Champions) and obtain feedback on the general operation of the machine.\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"645976dd-3df0-4226-8406-2922b38e79e6\"]},{\"parent_id\":\"6dd94a1c-d02a-49b4-9224-0a0fb5cf2e07\",\"item_id\":\"645976dd-3df0-4226-8406-2922b38e79e6\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"weighting\":1,\"condition\":\"3f206180-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"7f45628d-ed29-4b42-836f-fd1001cd450e\"]},{\"parent_id\":\"645976dd-3df0-4226-8406-2922b38e79e6\",\"item_id\":\"7f45628d-ed29-4b42-836f-fd1001cd450e\",\"label\":\"Please detail all feedback:\",\"type\":\"text\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"Machine has been running well. Andrea has mentioned the Milk & Chocolate Bowl is still clogging on occasions. Other than that, there have been no issues. \"}},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"2d758316-ce20-4662-88d7-b5b8ffc508e0\",\"label\":\"Perform a full site walk around checking all point of sale is in good condition and has the correct price point displayed. Replenish any items if necessary.\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"c6c011ed-4ade-460d-a04b-da730834b667\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"060ace00-1f61-468e-9c42-918fa93badcf\",\"label\":\"Good condition\",\"colour\":\"19,133,95\",\"score\":0,\"enable_score\":false}]},\"children\":[\"b3ad9267-549c-481a-af52-160518913a59\",\"a76d564d-fd38-47d6-902d-4d76b6223f8d\",\"0ac851c7-5814-4fe9-b982-1ef9376eed66\"]},{\"parent_id\":\"2d758316-ce20-4662-88d7-b5b8ffc508e0\",\"item_id\":\"b3ad9267-549c-481a-af52-160518913a59\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"060ace00-1f61-468e-9c42-918fa93badcf\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"2a6c20b1-18a3-417b-a95c-d02ecd7b0afd\"]},{\"parent_id\":\"b3ad9267-549c-481a-af52-160518913a59\",\"item_id\":\"2a6c20b1-18a3-417b-a95c-d02ecd7b0afd\",\"label\":\"Take pictures of all POS on site:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:39:40.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"1e8cea2e-8e23-4395-9c15-e24bfe9af869\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/1e8cea2e-8e23-4395-9c15-e24bfe9af869\"},{\"date_created\":\"2020-07-22T11:50:20.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"35db80ce-1936-4e59-9cc7-ae8c0852cd00\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/35db80ce-1936-4e59-9cc7-ae8c0852cd00\"}]},{\"parent_id\":\"2d758316-ce20-4662-88d7-b5b8ffc508e0\",\"item_id\":\"a76d564d-fd38-47d6-902d-4d76b6223f8d\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"060ace01-1f61-468e-9c42-918fa93badcf\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"5c3af0c6-7715-4bc6-9a0d-8b389528d074\"]},{\"parent_id\":\"a76d564d-fd38-47d6-902d-4d76b6223f8d\",\"item_id\":\"5c3af0c6-7715-4bc6-9a0d-8b389528d074\",\"label\":\"Please replenish POS.\",\"type\":\"question\",\"inactive\":true,\"options\":{\"weighting\":1,\"response_set\":\"be33de9d-7db6-45eb-a9d5-65986b351b0a\",\"is_mandatory\":true},\"responses\":{\"text\":\"\"},\"children\":[\"0a1cd514-f882-4600-a591-399b8d056647\",\"99f7415a-b090-43ac-835c-4c492f10010e\"]},{\"parent_id\":\"5c3af0c6-7715-4bc6-9a0d-8b389528d074\",\"item_id\":\"0a1cd514-f882-4600-a591-399b8d056647\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":false,\"options\":{\"values\":[\"a49ff74f-e77e-4a07-a3f1-66f455f350d0\",\"647cf616-97cc-4492-8b55-0353b957aa94\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"eb697411-dc2b-4e6e-bf01-8475cd9b0fe0\"]},{\"parent_id\":\"0a1cd514-f882-4600-a591-399b8d056647\",\"item_id\":\"eb697411-dc2b-4e6e-bf01-8475cd9b0fe0\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"5c3af0c6-7715-4bc6-9a0d-8b389528d074\",\"item_id\":\"99f7415a-b090-43ac-835c-4c492f10010e\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":false,\"options\":{\"values\":[\"0ae07391-98fb-4fa2-8300-bb1db973132c\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"653ac709-f1c1-4811-925e-5522b676168f\"]},{\"parent_id\":\"99f7415a-b090-43ac-835c-4c492f10010e\",\"item_id\":\"653ac709-f1c1-4811-925e-5522b676168f\",\"label\":\"Take photos of all POS:\",\"type\":\"media\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"2d758316-ce20-4662-88d7-b5b8ffc508e0\",\"item_id\":\"0ac851c7-5814-4fe9-b982-1ef9376eed66\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"060ace02-1f61-468e-9c42-918fa93badcf\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"6aa2dcb4-5d04-44b8-9ad2-baaac817e7c0\"]},{\"parent_id\":\"0ac851c7-5814-4fe9-b982-1ef9376eed66\",\"item_id\":\"6aa2dcb4-5d04-44b8-9ad2-baaac817e7c0\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"13f7fb17-72c2-4f44-8731-690293129ef9\",\"label\":\"Ensure that the site has an Out Of Order sign.\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"3d7b9677-7f87-4452-a6bd-2209085cf4d1\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"db32aa1b-6cb6-4bd2-8cfa-d78aa63b662c\",\"label\":\"Present\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"066bab22-732f-4906-bf08-9b251ed360cb\",\"c4c6ef9e-02e7-44b6-86e2-2382003fccdf\"]},{\"parent_id\":\"13f7fb17-72c2-4f44-8731-690293129ef9\",\"item_id\":\"066bab22-732f-4906-bf08-9b251ed360cb\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"16d754bb-2885-49df-9a04-015488f51f64\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"640bfd04-36d5-444b-a71a-0794b2cfb051\"]},{\"parent_id\":\"066bab22-732f-4906-bf08-9b251ed360cb\",\"item_id\":\"640bfd04-36d5-444b-a71a-0794b2cfb051\",\"label\":\"Issue the site with an Out Of Order sign.\",\"type\":\"question\",\"inactive\":true,\"options\":{\"weighting\":1,\"response_set\":\"6909bc0b-27b2-470d-b4ab-fbd1ac2928f3\",\"is_mandatory\":true},\"responses\":{\"text\":\"\"},\"children\":[\"c863e3d9-c0b3-44e8-8a52-017c4a922b8e\",\"dde68e25-cda7-4999-a810-6f9fcd09bb28\"]},{\"parent_id\":\"640bfd04-36d5-444b-a71a-0794b2cfb051\",\"item_id\":\"c863e3d9-c0b3-44e8-8a52-017c4a922b8e\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":false,\"options\":{\"values\":[\"167a3672-d076-46c1-826b-066a101a0042\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"3dba15ce-83d8-4c8a-9dd0-d8ceef2a2af9\"]},{\"parent_id\":\"c863e3d9-c0b3-44e8-8a52-017c4a922b8e\",\"item_id\":\"3dba15ce-83d8-4c8a-9dd0-d8ceef2a2af9\",\"label\":\"What actions have been taken to rectify this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"640bfd04-36d5-444b-a71a-0794b2cfb051\",\"item_id\":\"dde68e25-cda7-4999-a810-6f9fcd09bb28\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":false,\"options\":{\"values\":[\"3c7c1b75-c740-4572-a736-1739b2659855\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"b036df36-43ef-4c6d-b0f8-78b183ac97c1\"]},{\"parent_id\":\"dde68e25-cda7-4999-a810-6f9fcd09bb28\",\"item_id\":\"b036df36-43ef-4c6d-b0f8-78b183ac97c1\",\"label\":\"Take a photo of the Out Of Order sign:\",\"type\":\"media\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"13f7fb17-72c2-4f44-8731-690293129ef9\",\"item_id\":\"c4c6ef9e-02e7-44b6-86e2-2382003fccdf\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"db32aa1b-6cb6-4bd2-8cfa-d78aa63b662c\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"f2f36b6e-f3c5-42f2-a947-fc01a9066f91\"]},{\"parent_id\":\"c4c6ef9e-02e7-44b6-86e2-2382003fccdf\",\"item_id\":\"f2f36b6e-f3c5-42f2-a947-fc01a9066f91\",\"label\":\"Take a photo of the Out Of Order sign:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:46:10.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"c64049c8-ce19-4247-a6f8-0d0e6a163aec\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/c64049c8-ce19-4247-a6f8-0d0e6a163aec\"}]},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"63ba1360-3874-4a58-892d-c69b3d274e39\",\"label\":\"Ensure the machine has correct Allergen Advice notice on clear display.\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"3d7b9677-7f87-4452-a6bd-2209085cf4d1\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"db32aa1b-6cb6-4bd2-8cfa-d78aa63b662c\",\"label\":\"Present\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"cca1855a-f551-4275-8fa9-e4ae86fdb564\",\"5027a558-4d87-4d48-b578-3d55a3a9351b\"]},{\"parent_id\":\"63ba1360-3874-4a58-892d-c69b3d274e39\",\"item_id\":\"cca1855a-f551-4275-8fa9-e4ae86fdb564\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"db32aa1b-6cb6-4bd2-8cfa-d78aa63b662c\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"702cc171-1eb3-466a-9cb0-d692121f7450\"]},{\"parent_id\":\"cca1855a-f551-4275-8fa9-e4ae86fdb564\",\"item_id\":\"702cc171-1eb3-466a-9cb0-d692121f7450\",\"label\":\"Take a photo of the Allergen Advice:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:27:00.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"8954c0a3-5b37-4564-abc3-663d69d8be2d\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/8954c0a3-5b37-4564-abc3-663d69d8be2d\"}]},{\"parent_id\":\"63ba1360-3874-4a58-892d-c69b3d274e39\",\"item_id\":\"5027a558-4d87-4d48-b578-3d55a3a9351b\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"16d754bb-2885-49df-9a04-015488f51f64\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"48a562b2-c34c-4f2c-88d2-3178b70a57a8\"]},{\"parent_id\":\"5027a558-4d87-4d48-b578-3d55a3a9351b\",\"item_id\":\"48a562b2-c34c-4f2c-88d2-3178b70a57a8\",\"label\":\"Apply Allergen Advice to the front of the machine.\",\"type\":\"question\",\"inactive\":true,\"options\":{\"weighting\":1,\"response_set\":\"b786ea78-79a4-4b60-97ba-ae0ef2ec50ff\",\"is_mandatory\":true},\"responses\":{\"text\":\"\"},\"children\":[\"c99a2050-d6d4-4611-8fd9-7366a7f8b421\",\"4b6c63c8-9a85-4f41-96cc-45ecd754faeb\"]},{\"parent_id\":\"48a562b2-c34c-4f2c-88d2-3178b70a57a8\",\"item_id\":\"c99a2050-d6d4-4611-8fd9-7366a7f8b421\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":false,\"options\":{\"values\":[\"18a4c9bd-074c-431d-951c-badd32bce52e\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"260fb4cf-46e3-4faa-94c4-1922560e2c36\"]},{\"parent_id\":\"c99a2050-d6d4-4611-8fd9-7366a7f8b421\",\"item_id\":\"260fb4cf-46e3-4faa-94c4-1922560e2c36\",\"label\":\"What steps have been taken to rectify this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"48a562b2-c34c-4f2c-88d2-3178b70a57a8\",\"item_id\":\"4b6c63c8-9a85-4f41-96cc-45ecd754faeb\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":false,\"options\":{\"values\":[\"fc739d28-112c-40b5-9a99-d0d76f8e2e50\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"b8a66b76-099e-442c-8428-0133ad9a8d25\"]},{\"parent_id\":\"4b6c63c8-9a85-4f41-96cc-45ecd754faeb\",\"item_id\":\"b8a66b76-099e-442c-8428-0133ad9a8d25\",\"label\":\"Take a photo of the Allergen Advice:\",\"type\":\"media\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"75962c61-fd19-4c35-8308-f5119f4e83c1\",\"label\":\"Ensure the machine has a hot water / safety caution sticker / label on clear display.\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"3d7b9677-7f87-4452-a6bd-2209085cf4d1\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"db32aa1b-6cb6-4bd2-8cfa-d78aa63b662c\",\"label\":\"Present\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"066a8f02-debe-40d2-b19a-9ec681dda82d\",\"3b3782bb-8075-4a19-901e-bf4c17a81779\"]},{\"parent_id\":\"75962c61-fd19-4c35-8308-f5119f4e83c1\",\"item_id\":\"066a8f02-debe-40d2-b19a-9ec681dda82d\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"16d754bb-2885-49df-9a04-015488f51f64\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"fd81b881-8cad-4219-b74c-1b7b3b8a22c9\"]},{\"parent_id\":\"066a8f02-debe-40d2-b19a-9ec681dda82d\",\"item_id\":\"fd81b881-8cad-4219-b74c-1b7b3b8a22c9\",\"label\":\"Apply a Caution Sticker to the front of the machine.\",\"type\":\"question\",\"inactive\":true,\"options\":{\"weighting\":1,\"response_set\":\"b786ea78-79a4-4b60-97ba-ae0ef2ec50ff\",\"is_mandatory\":true},\"responses\":{\"text\":\"\"},\"children\":[\"0c3170f2-9622-43ee-9f26-afd4f3b2e43f\",\"43b4f495-fd24-44eb-8445-3203c787458e\"]},{\"parent_id\":\"fd81b881-8cad-4219-b74c-1b7b3b8a22c9\",\"item_id\":\"0c3170f2-9622-43ee-9f26-afd4f3b2e43f\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":false,\"options\":{\"values\":[\"18a4c9bd-074c-431d-951c-badd32bce52e\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"21fa104d-d415-4c84-bbb2-0584ebf29c5f\"]},{\"parent_id\":\"0c3170f2-9622-43ee-9f26-afd4f3b2e43f\",\"item_id\":\"21fa104d-d415-4c84-bbb2-0584ebf29c5f\",\"label\":\"What steps have been taken to rectify this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"fd81b881-8cad-4219-b74c-1b7b3b8a22c9\",\"item_id\":\"43b4f495-fd24-44eb-8445-3203c787458e\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":false,\"options\":{\"values\":[\"fc739d28-112c-40b5-9a99-d0d76f8e2e50\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"e3eb4e3b-67b6-41f5-82a9-ca03bc64c678\"]},{\"parent_id\":\"43b4f495-fd24-44eb-8445-3203c787458e\",\"item_id\":\"e3eb4e3b-67b6-41f5-82a9-ca03bc64c678\",\"label\":\"Take a photo of the Caution Sticker:\",\"type\":\"media\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"75962c61-fd19-4c35-8308-f5119f4e83c1\",\"item_id\":\"3b3782bb-8075-4a19-901e-bf4c17a81779\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"db32aa1b-6cb6-4bd2-8cfa-d78aa63b662c\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"47c7ef5b-163a-4f3f-b75f-78a5ab8f1a7b\"]},{\"parent_id\":\"3b3782bb-8075-4a19-901e-bf4c17a81779\",\"item_id\":\"47c7ef5b-163a-4f3f-b75f-78a5ab8f1a7b\",\"label\":\"Take a photo of the Caution Label:\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{},\"media\":[{\"date_created\":\"2020-07-22T11:27:00.000Z\",\"file_ext\":\"jpg\",\"label\":\"0ab45897-e28c-45f7-8dbc-8065976ea6ee\",\"media_id\":\"7b226dff-3932-4be9-80bd-ce28c6d1c530\",\"href\":\"https://api.safetyculture.io/audits/audit_ce6e7f6c2cc74c588ce0cd96d1f27303/media/7b226dff-3932-4be9-80bd-ce28c6d1c530\"}]},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"98c69298-d093-4cb7-a666-6a7369d99f8c\",\"label\":\"Check the date on the Water Filter and input the age of filter in months.\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"5\"},\"children\":[\"38900ab3-e6a8-467d-bcf2-8c788dbd98f2\"]},{\"parent_id\":\"98c69298-d093-4cb7-a666-6a7369d99f8c\",\"item_id\":\"38900ab3-e6a8-467d-bcf2-8c788dbd98f2\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"12\"],\"weighting\":1,\"condition\":\"f8b5db76-1941-444f-b14e-6f22109bb234\",\"is_mandatory\":false},\"children\":[\"eb42e760-dc52-4db2-88d7-18602d129e36\"]},{\"parent_id\":\"38900ab3-e6a8-467d-bcf2-8c788dbd98f2\",\"item_id\":\"eb42e760-dc52-4db2-88d7-18602d129e36\",\"label\":\"Please change the Water Filter.\",\"type\":\"question\",\"inactive\":true,\"options\":{\"weighting\":1,\"response_set\":\"ad3a43b5-cf17-48cb-a515-a3c433021ea8\",\"is_mandatory\":true},\"responses\":{\"text\":\"\"},\"children\":[\"40614226-2abf-449e-863a-da6cf32c38c8\"]},{\"parent_id\":\"eb42e760-dc52-4db2-88d7-18602d129e36\",\"item_id\":\"40614226-2abf-449e-863a-da6cf32c38c8\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":false,\"options\":{\"values\":[\"1a715901-2f0a-47a6-9481-7ab44adad917\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"579f27b6-aece-42f4-8e64-282737384731\"]},{\"parent_id\":\"40614226-2abf-449e-863a-da6cf32c38c8\",\"item_id\":\"579f27b6-aece-42f4-8e64-282737384731\",\"label\":\"What steps have been taken to rectify this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"8866a17c-b4c9-4327-b3b1-80b4fdc10303\",\"label\":\"Check the level of stock in the machine canisters, condiment holders and syrup bottles. Ensure that correct bean management is being used.\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"c361e12b-ebc9-4755-9cb0-ca656a6471a0\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"08719a65-0562-47ad-97ce-574604fae8e3\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"ab38dabe-f53d-4938-9ed1-cee9359ad465\"]},{\"parent_id\":\"8866a17c-b4c9-4327-b3b1-80b4fdc10303\",\"item_id\":\"ab38dabe-f53d-4938-9ed1-cee9359ad465\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"5c8439e1-1226-44ed-979a-56e74254307f\",\"7881f618-c835-45a1-86d3-569ae13e3808\",\"a3ddd1ff-b4c1-4990-b1a6-ef33554101d4\",\"24052431-602d-4103-866f-7437f49cd0e4\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"982f2688-1420-413c-977d-92ae0d8d5304\"]},{\"parent_id\":\"ab38dabe-f53d-4938-9ed1-cee9359ad465\",\"item_id\":\"982f2688-1420-413c-977d-92ae0d8d5304\",\"label\":\"Provide a reason for your answer:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"9fc8f16c-5405-42cd-aa6f-87fdbbd0f6ad\",\"label\":\"Write a brief report on the state of the machine’s cleanliness, checking all internal parts, machine floor and exterior.\",\"type\":\"text\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"The machine's cleanliness was fantastic throughout. Staff do a brilliant job at keeping on top of the cleaning procedures. \"}},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"c3cf85d2-b7f4-450a-87c3-0650f1cde03a\",\"label\":\"Check that the site has an Operating Manual and that the Daily Cleaning Sign Off Sheet is being filled in. \",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"234faa20-40fb-40fc-932b-bc3d5833d00b\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"448d804d-bd38-4fcb-9414-3b5b0194baa2\",\"label\":\"Present & Filled In\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"e4ba2b25-4c1f-4a31-b016-1473a5b8bbd1\",\"074b9762-2086-444c-83e8-01a9f5c87e16\"]},{\"parent_id\":\"c3cf85d2-b7f4-450a-87c3-0650f1cde03a\",\"item_id\":\"e4ba2b25-4c1f-4a31-b016-1473a5b8bbd1\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"a20d6264-c4fa-4adb-8cd1-4023dec45a15\",\"39e23975-c94e-4047-92a0-f824ce7ce57e\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"11d2cf4b-4e09-4fc1-ab79-553f4a3f6cee\"]},{\"parent_id\":\"e4ba2b25-4c1f-4a31-b016-1473a5b8bbd1\",\"item_id\":\"11d2cf4b-4e09-4fc1-ab79-553f4a3f6cee\",\"label\":\"Please provide additional details:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"c3cf85d2-b7f4-450a-87c3-0650f1cde03a\",\"item_id\":\"074b9762-2086-444c-83e8-01a9f5c87e16\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"448d804d-bd38-4fcb-9414-3b5b0194baa2\",\"d2cea458-28c7-4924-ac9e-478added11fa\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"b00d8d6a-6944-4223-a991-bb2b86a66dcb\"]},{\"parent_id\":\"074b9762-2086-444c-83e8-01a9f5c87e16\",\"item_id\":\"b00d8d6a-6944-4223-a991-bb2b86a66dcb\",\"label\":\"Please take a photo of the Operating Manual and sign off sheets:\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"c6c011ed-4ade-460d-a04b-da730834b667\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"060ace00-1f61-468e-9c42-918fa93badcf\",\"label\":\"Good condition\",\"colour\":\"19,133,95\",\"score\":0,\"enable_score\":false}]}},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"1e91276d-2e17-4995-b508-4af9e4080a55\",\"label\":\"Ensure that the machine is setup to carry out an automatic “Flush” and “Flush Brewers” cycle every day between 05:00 – 06:00.\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"f3932779-5f6f-49fb-8ea7-321e975d3782\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"900eb300-2779-45a9-aef9-a4a5d6113734\",\"label\":\"Set\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"08181c0a-b3b2-46a8-8967-ca729f98986a\"]},{\"parent_id\":\"1e91276d-2e17-4995-b508-4af9e4080a55\",\"item_id\":\"08181c0a-b3b2-46a8-8967-ca729f98986a\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"f53979dc-8253-4984-a5a5-ab90671a9c90\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"872feb1b-eac6-4272-9522-542178938666\"]},{\"parent_id\":\"08181c0a-b3b2-46a8-8967-ca729f98986a\",\"item_id\":\"872feb1b-eac6-4272-9522-542178938666\",\"label\":\"Please set up the automatic flushes. \",\"type\":\"question\",\"inactive\":true,\"options\":{\"weighting\":1,\"response_set\":\"f3932779-5f6f-49fb-8ea7-321e975d3782\",\"is_mandatory\":true},\"responses\":{\"text\":\"\"},\"children\":[\"0f896cb7-f873-4ba1-a8c7-f02d18f3f8dc\"]},{\"parent_id\":\"872feb1b-eac6-4272-9522-542178938666\",\"item_id\":\"0f896cb7-f873-4ba1-a8c7-f02d18f3f8dc\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":false,\"options\":{\"values\":[\"f53979dc-8253-4984-a5a5-ab90671a9c90\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"7d125d8c-c6a3-460b-8267-6549992b912e\"]},{\"parent_id\":\"0f896cb7-f873-4ba1-a8c7-f02d18f3f8dc\",\"item_id\":\"7d125d8c-c6a3-460b-8267-6549992b912e\",\"label\":\"Why have the flushes not been set up?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"291fa9cf-f685-44fc-9957-6efe2dcb97ed\",\"label\":\"Test that the machine’s telemetry and payment systems are working (if applicable) by sending a manual DEX on the Nayax AMIT Box and making a paid drink with card, cash and contactless methods of payment.\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"d743f356-a147-472c-a790-0c46a187de92\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"6bb1beb4-494e-4a17-bff7-bed8a6fcd3d0\",\"label\":\"Working\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"aa21508d-39b3-43ca-b84f-4525ca764927\",\"ade7218e-2e92-46b8-aad7-9e020b51fbcc\",\"bfb0dc90-b47d-4358-97c7-815ca34a901d\"]},{\"parent_id\":\"291fa9cf-f685-44fc-9957-6efe2dcb97ed\",\"item_id\":\"aa21508d-39b3-43ca-b84f-4525ca764927\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"6bb1beb4-494e-4a17-bff7-bed8a6fcd3d1\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"c8aebb6f-9e69-49d8-ac8d-3dba8b702d97\"]},{\"parent_id\":\"aa21508d-39b3-43ca-b84f-4525ca764927\",\"item_id\":\"c8aebb6f-9e69-49d8-ac8d-3dba8b702d97\",\"label\":\"Please contact technical support and troubleshoot the problem. \",\"type\":\"information\",\"inactive\":true,\"options\":{\"weighting\":1,\"type\":\"text\",\"is_mandatory\":false,\"visible_in_audit\":true,\"visible_in_report\":true}},{\"parent_id\":\"291fa9cf-f685-44fc-9957-6efe2dcb97ed\",\"item_id\":\"ade7218e-2e92-46b8-aad7-9e020b51fbcc\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"6bb1beb4-494e-4a17-bff7-bed8a6fcd3d0\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"b11f81e9-0928-4e53-bb3f-1f948567159a\"]},{\"parent_id\":\"ade7218e-2e92-46b8-aad7-9e020b51fbcc\",\"item_id\":\"b11f81e9-0928-4e53-bb3f-1f948567159a\",\"label\":\"What is the signal strength? \",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"24\"}},{\"parent_id\":\"291fa9cf-f685-44fc-9957-6efe2dcb97ed\",\"item_id\":\"bfb0dc90-b47d-4358-97c7-815ca34a901d\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"6bb1beb4-494e-4a17-bff7-bed8a6fcd3d1\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"c9bcd22e-c239-4524-87af-9e8501507aaa\"]},{\"parent_id\":\"bfb0dc90-b47d-4358-97c7-815ca34a901d\",\"item_id\":\"c9bcd22e-c239-4524-87af-9e8501507aaa\",\"label\":\"What is the signal strength?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"4aa986b3-212d-426f-a1e9-776207bd90f6\",\"label\":\"Find out how many members of staff are trained on the machine’s daily, weekly and monthly cleaning procedures. Provide any additional training if required or schedule a session with the Store Manager.\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"3\"},\"children\":[\"bd180307-fd33-4c8d-8192-480bd61409f9\"]},{\"parent_id\":\"4aa986b3-212d-426f-a1e9-776207bd90f6\",\"item_id\":\"bd180307-fd33-4c8d-8192-480bd61409f9\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"0\"],\"weighting\":1,\"condition\":\"f8b5db76-1941-444f-b14e-6f22109bb234\",\"is_mandatory\":false},\"children\":[\"fd887de4-f96b-4f5f-8e2b-f8c9a73b0751\"]},{\"parent_id\":\"bd180307-fd33-4c8d-8192-480bd61409f9\",\"item_id\":\"fd887de4-f96b-4f5f-8e2b-f8c9a73b0751\",\"label\":\"Has additional training been arranged?\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"93a855ae-871c-4337-b0ee-c221428e1631\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"df808f99-7e10-4658-92b3-edb4e71ebb08\",\"label\":\"No\",\"colour\":\"198,0,34\",\"score\":1,\"enable_score\":false}]}},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"f3d0030f-2dec-49bd-8c11-25f4a133c528\",\"label\":\"Explain the call out procedure for any faults or breakdowns with the machine and run through all main contacts for stock ordering and general assistance. Ensure there is a copy of these details on site.\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"5f785d00-1b76-4d56-84f8-6d0f52caa884\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"2062ef4f-8d36-43c7-96a8-ec901556c047\",\"label\":\"Information is Known\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]}},{\"parent_id\":\"7673d3ae-d3dd-40fe-8076-88fbf769adb9\",\"item_id\":\"30d07248-a3c0-4a34-827b-e30f92eb9372\",\"label\":\"Please take any further pictures you think are required.\",\"type\":\"media\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"item_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"label\":\"Drink Testing\",\"type\":\"section\",\"options\":{\"weighting\":1,\"is_mandatory\":false},\"children\":[\"219e97aa-6fba-4266-a47c-cccd8541a58f\",\"3149d893-7d56-4b7d-b9d0-cb6dd75e437d\",\"9afb4991-60ac-43e6-a09b-c6f49aec19f6\",\"89edc221-8983-4aa6-b9b8-a003a6d33b87\",\"7a13b584-d054-49a6-baa3-fb2c6e737d66\",\"b422060c-d446-4cdf-bed0-394f37bf71c1\",\"6c5bb2e7-2bca-497c-b3fb-43e40fb915d5\",\"8a7944f2-238f-4681-a341-e669548315d8\",\"576270be-7f77-4382-ab40-f66d68c0731a\",\"72bd1ba1-212c-40bf-b9e3-c124cca8e47d\",\"87dedce5-a5ab-437d-b72e-5c26dd433947\",\"4900ace6-aaf2-44c3-8157-7ff56eec3bc8\",\"e367001f-b019-49e7-b7b7-d303c3080a35\"]},{\"parent_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"item_id\":\"219e97aa-6fba-4266-a47c-cccd8541a58f\",\"label\":\"Cappuccino\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"9fc6ef08-8880-4f52-abe3-007c9a858db0\",\"83da38f6-5267-49c4-9cd1-3f14da48f20e\"]},{\"parent_id\":\"219e97aa-6fba-4266-a47c-cccd8541a58f\",\"item_id\":\"9fc6ef08-8880-4f52-abe3-007c9a858db0\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"7c50ae8c-610c-4636-b47c-8d92e6b9b780\"]},{\"parent_id\":\"9fc6ef08-8880-4f52-abe3-007c9a858db0\",\"item_id\":\"7c50ae8c-610c-4636-b47c-8d92e6b9b780\",\"label\":\"What adjustments have been made to improve this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true},\"children\":[\"4015cf2f-b8e3-4194-af5d-07ea7d94f82c\"]},{\"parent_id\":\"7c50ae8c-610c-4636-b47c-8d92e6b9b780\",\"item_id\":\"4015cf2f-b8e3-4194-af5d-07ea7d94f82c\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":true,\"options\":{\"values\":[\"\"],\"weighting\":1,\"condition\":\"6ff300f0-e501-11e1-aff1-0800200c9a66\",\"is_mandatory\":false}},{\"parent_id\":\"219e97aa-6fba-4266-a47c-cccd8541a58f\",\"item_id\":\"83da38f6-5267-49c4-9cd1-3f14da48f20e\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"420969b6-efa8-4937-9358-192031f76fea\"]},{\"parent_id\":\"83da38f6-5267-49c4-9cd1-3f14da48f20e\",\"item_id\":\"420969b6-efa8-4937-9358-192031f76fea\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"item_id\":\"3149d893-7d56-4b7d-b9d0-cb6dd75e437d\",\"label\":\"Latte\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"7e209cc2-a21a-413d-ad04-afb75a6e8291\",\"3238bbca-a34e-4c8b-88a2-cab6fe86bd19\"]},{\"parent_id\":\"3149d893-7d56-4b7d-b9d0-cb6dd75e437d\",\"item_id\":\"7e209cc2-a21a-413d-ad04-afb75a6e8291\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"22f03606-1454-4d61-8313-711a2f234230\"]},{\"parent_id\":\"7e209cc2-a21a-413d-ad04-afb75a6e8291\",\"item_id\":\"22f03606-1454-4d61-8313-711a2f234230\",\"label\":\"What adjustments have been made to improve this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true},\"children\":[\"6d8dc350-a0f3-4d45-ba8d-41548e38fe8b\"]},{\"parent_id\":\"22f03606-1454-4d61-8313-711a2f234230\",\"item_id\":\"6d8dc350-a0f3-4d45-ba8d-41548e38fe8b\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":true,\"options\":{\"values\":[\"\"],\"weighting\":1,\"condition\":\"6ff300f0-e501-11e1-aff1-0800200c9a66\",\"is_mandatory\":false}},{\"parent_id\":\"3149d893-7d56-4b7d-b9d0-cb6dd75e437d\",\"item_id\":\"3238bbca-a34e-4c8b-88a2-cab6fe86bd19\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"b796a2bd-c750-4094-a674-fc3080c35cc5\"]},{\"parent_id\":\"3238bbca-a34e-4c8b-88a2-cab6fe86bd19\",\"item_id\":\"b796a2bd-c750-4094-a674-fc3080c35cc5\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"item_id\":\"9afb4991-60ac-43e6-a09b-c6f49aec19f6\",\"label\":\"White Coffee\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"934dbf04-18ba-4283-a178-bdb8c5e21e79\",\"f14b3aff-0647-4365-b3cc-f4ddb9ecd7fe\"]},{\"parent_id\":\"9afb4991-60ac-43e6-a09b-c6f49aec19f6\",\"item_id\":\"934dbf04-18ba-4283-a178-bdb8c5e21e79\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"6ddf95df-53bd-4377-a6c0-9bb81a218ac5\"]},{\"parent_id\":\"934dbf04-18ba-4283-a178-bdb8c5e21e79\",\"item_id\":\"6ddf95df-53bd-4377-a6c0-9bb81a218ac5\",\"label\":\"What adjustments have been made to improve this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true},\"children\":[\"8b135513-ca25-47f8-832f-7e2e343346a7\"]},{\"parent_id\":\"6ddf95df-53bd-4377-a6c0-9bb81a218ac5\",\"item_id\":\"8b135513-ca25-47f8-832f-7e2e343346a7\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":true,\"options\":{\"values\":[\"\"],\"weighting\":1,\"condition\":\"6ff300f0-e501-11e1-aff1-0800200c9a66\",\"is_mandatory\":false}},{\"parent_id\":\"9afb4991-60ac-43e6-a09b-c6f49aec19f6\",\"item_id\":\"f14b3aff-0647-4365-b3cc-f4ddb9ecd7fe\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"2ec3be8f-8bab-4869-b0df-60c90a0fd2bb\"]},{\"parent_id\":\"f14b3aff-0647-4365-b3cc-f4ddb9ecd7fe\",\"item_id\":\"2ec3be8f-8bab-4869-b0df-60c90a0fd2bb\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"item_id\":\"89edc221-8983-4aa6-b9b8-a003a6d33b87\",\"label\":\"Americano\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"60c3dc32-5051-477a-b7da-4d7bdb080642\",\"39a3f89d-d1e4-4fd1-b2b3-61d1e1db2022\"]},{\"parent_id\":\"89edc221-8983-4aa6-b9b8-a003a6d33b87\",\"item_id\":\"60c3dc32-5051-477a-b7da-4d7bdb080642\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"e26c9760-d8ef-48ff-9b1b-18e95619b051\"]},{\"parent_id\":\"60c3dc32-5051-477a-b7da-4d7bdb080642\",\"item_id\":\"e26c9760-d8ef-48ff-9b1b-18e95619b051\",\"label\":\"What adjustments have been made to improve this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true},\"children\":[\"0c23512e-4df7-40ba-8f49-6492bbbc9085\"]},{\"parent_id\":\"e26c9760-d8ef-48ff-9b1b-18e95619b051\",\"item_id\":\"0c23512e-4df7-40ba-8f49-6492bbbc9085\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":true,\"options\":{\"values\":[\"\"],\"weighting\":1,\"condition\":\"6ff300f0-e501-11e1-aff1-0800200c9a66\",\"is_mandatory\":false}},{\"parent_id\":\"89edc221-8983-4aa6-b9b8-a003a6d33b87\",\"item_id\":\"39a3f89d-d1e4-4fd1-b2b3-61d1e1db2022\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"5ac77e86-57f5-4967-a101-e8fd519d0fcd\"]},{\"parent_id\":\"39a3f89d-d1e4-4fd1-b2b3-61d1e1db2022\",\"item_id\":\"5ac77e86-57f5-4967-a101-e8fd519d0fcd\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"item_id\":\"7a13b584-d054-49a6-baa3-fb2c6e737d66\",\"label\":\"Flat White\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"16cd90d4-512b-49ad-9f39-f559c55111ff\",\"449b30d2-7e10-43a5-84a2-7ac4aa4b09ff\"]},{\"parent_id\":\"7a13b584-d054-49a6-baa3-fb2c6e737d66\",\"item_id\":\"16cd90d4-512b-49ad-9f39-f559c55111ff\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"7403889f-8a04-4277-83a0-6302f9853f63\"]},{\"parent_id\":\"16cd90d4-512b-49ad-9f39-f559c55111ff\",\"item_id\":\"7403889f-8a04-4277-83a0-6302f9853f63\",\"label\":\"What adjustments have been made to improve this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true},\"children\":[\"790c1ff6-4496-47e8-8c40-3888548ad121\"]},{\"parent_id\":\"7403889f-8a04-4277-83a0-6302f9853f63\",\"item_id\":\"790c1ff6-4496-47e8-8c40-3888548ad121\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":true,\"options\":{\"values\":[\"\"],\"weighting\":1,\"condition\":\"6ff300f0-e501-11e1-aff1-0800200c9a66\",\"is_mandatory\":false}},{\"parent_id\":\"7a13b584-d054-49a6-baa3-fb2c6e737d66\",\"item_id\":\"449b30d2-7e10-43a5-84a2-7ac4aa4b09ff\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"848661c7-4532-4134-a50d-2cd20b590f75\"]},{\"parent_id\":\"449b30d2-7e10-43a5-84a2-7ac4aa4b09ff\",\"item_id\":\"848661c7-4532-4134-a50d-2cd20b590f75\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"item_id\":\"b422060c-d446-4cdf-bed0-394f37bf71c1\",\"label\":\"Double Espresso\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"bd74cafe-eb85-4935-90e4-033a845ea7a9\",\"8f02f721-81ae-4f90-b771-08c55d8764d0\",\"94d2b784-a659-477d-bab8-a39830f2f420\",\"ad9964d5-cb44-4590-b664-d22ad6fae0fd\"]},{\"parent_id\":\"b422060c-d446-4cdf-bed0-394f37bf71c1\",\"item_id\":\"bd74cafe-eb85-4935-90e4-033a845ea7a9\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"5e0e693c-b070-43ab-aacd-8f23954b7956\"]},{\"parent_id\":\"bd74cafe-eb85-4935-90e4-033a845ea7a9\",\"item_id\":\"5e0e693c-b070-43ab-aacd-8f23954b7956\",\"label\":\"What adjustments have been made to improve this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true},\"children\":[\"857cd599-225f-458f-bf71-549c664830f9\"]},{\"parent_id\":\"5e0e693c-b070-43ab-aacd-8f23954b7956\",\"item_id\":\"857cd599-225f-458f-bf71-549c664830f9\",\"label\":\"\",\"type\":\"smartfield\",\"inactive\":true,\"evaluation\":true,\"options\":{\"values\":[\"\"],\"weighting\":1,\"condition\":\"6ff300f0-e501-11e1-aff1-0800200c9a66\",\"is_mandatory\":false}},{\"parent_id\":\"b422060c-d446-4cdf-bed0-394f37bf71c1\",\"item_id\":\"8f02f721-81ae-4f90-b771-08c55d8764d0\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"dc641bcb-7a89-4ba1-937f-af2748f29175\"]},{\"parent_id\":\"8f02f721-81ae-4f90-b771-08c55d8764d0\",\"item_id\":\"dc641bcb-7a89-4ba1-937f-af2748f29175\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"b422060c-d446-4cdf-bed0-394f37bf71c1\",\"item_id\":\"94d2b784-a659-477d-bab8-a39830f2f420\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"0cf336c1-0a42-493f-b090-b243e85e60a9\"]},{\"parent_id\":\"94d2b784-a659-477d-bab8-a39830f2f420\",\"item_id\":\"0cf336c1-0a42-493f-b090-b243e85e60a9\",\"label\":\"Espresso extraction time in seconds:\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"13\"}},{\"parent_id\":\"b422060c-d446-4cdf-bed0-394f37bf71c1\",\"item_id\":\"ad9964d5-cb44-4590-b664-d22ad6fae0fd\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":true,\"options\":{\"values\":[\"3634cb99-09d4-479f-9ae5-7366431aae38\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false}},{\"parent_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"item_id\":\"6c5bb2e7-2bca-497c-b3fb-43e40fb915d5\",\"label\":\"Mocha\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"f61a586c-79af-40a0-b9a6-022ef2ae1d0e\",\"6112bcd9-7fb2-4d07-8940-fd9b27b437e8\"]},{\"parent_id\":\"6c5bb2e7-2bca-497c-b3fb-43e40fb915d5\",\"item_id\":\"f61a586c-79af-40a0-b9a6-022ef2ae1d0e\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"0eefb5dc-7039-420c-8071-77c4494795f0\"]},{\"parent_id\":\"f61a586c-79af-40a0-b9a6-022ef2ae1d0e\",\"item_id\":\"0eefb5dc-7039-420c-8071-77c4494795f0\",\"label\":\"What adjustments have been made to improve this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"6c5bb2e7-2bca-497c-b3fb-43e40fb915d5\",\"item_id\":\"6112bcd9-7fb2-4d07-8940-fd9b27b437e8\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"ecc9586b-337b-4f03-b50d-e16847be2854\"]},{\"parent_id\":\"6112bcd9-7fb2-4d07-8940-fd9b27b437e8\",\"item_id\":\"ecc9586b-337b-4f03-b50d-e16847be2854\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"item_id\":\"8a7944f2-238f-4681-a341-e669548315d8\",\"label\":\"Hot Chocolate\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"4aec8ad6-6663-44bd-a0f7-8a8425f1abfc\",\"62af5a6e-df60-42ae-956e-f01683a0453b\"]},{\"parent_id\":\"8a7944f2-238f-4681-a341-e669548315d8\",\"item_id\":\"4aec8ad6-6663-44bd-a0f7-8a8425f1abfc\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"48706806-55b0-4af6-bb0a-be6517c41c4d\"]},{\"parent_id\":\"4aec8ad6-6663-44bd-a0f7-8a8425f1abfc\",\"item_id\":\"48706806-55b0-4af6-bb0a-be6517c41c4d\",\"label\":\"What adjustments have been made to improve this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"8a7944f2-238f-4681-a341-e669548315d8\",\"item_id\":\"62af5a6e-df60-42ae-956e-f01683a0453b\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"0f61fb3c-e3b6-47f0-abdf-6e652f1553bc\"]},{\"parent_id\":\"62af5a6e-df60-42ae-956e-f01683a0453b\",\"item_id\":\"0f61fb3c-e3b6-47f0-abdf-6e652f1553bc\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"item_id\":\"576270be-7f77-4382-ab40-f66d68c0731a\",\"label\":\"Black Tea\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"9c878a5c-f932-4894-b17d-9ec67d10590e\",\"37b2c7be-f94d-42bc-b93b-acd1af27671b\"]},{\"parent_id\":\"576270be-7f77-4382-ab40-f66d68c0731a\",\"item_id\":\"9c878a5c-f932-4894-b17d-9ec67d10590e\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"586d5fdc-c51d-40c7-986c-3bd42007c0a0\"]},{\"parent_id\":\"9c878a5c-f932-4894-b17d-9ec67d10590e\",\"item_id\":\"586d5fdc-c51d-40c7-986c-3bd42007c0a0\",\"label\":\"What adjustments have been made to improve this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"576270be-7f77-4382-ab40-f66d68c0731a\",\"item_id\":\"37b2c7be-f94d-42bc-b93b-acd1af27671b\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"3400cf9f-9288-44b2-bd34-01d74149c56e\"]},{\"parent_id\":\"37b2c7be-f94d-42bc-b93b-acd1af27671b\",\"item_id\":\"3400cf9f-9288-44b2-bd34-01d74149c56e\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"item_id\":\"72bd1ba1-212c-40bf-b9e3-c124cca8e47d\",\"label\":\"White Tea\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"65d01c99-1d73-49e5-a56e-30fe03d279fc\",\"03cb5881-1483-4b05-ac62-01bd907d6248\"]},{\"parent_id\":\"72bd1ba1-212c-40bf-b9e3-c124cca8e47d\",\"item_id\":\"65d01c99-1d73-49e5-a56e-30fe03d279fc\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"113b3047-322c-42fc-8136-a3b7d659307c\"]},{\"parent_id\":\"65d01c99-1d73-49e5-a56e-30fe03d279fc\",\"item_id\":\"113b3047-322c-42fc-8136-a3b7d659307c\",\"label\":\"What adjustments have been made to improve this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"72bd1ba1-212c-40bf-b9e3-c124cca8e47d\",\"item_id\":\"03cb5881-1483-4b05-ac62-01bd907d6248\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"50844892-f20a-4739-98c0-f2b1cde8af5f\"]},{\"parent_id\":\"03cb5881-1483-4b05-ac62-01bd907d6248\",\"item_id\":\"50844892-f20a-4739-98c0-f2b1cde8af5f\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"item_id\":\"87dedce5-a5ab-437d-b72e-5c26dd433947\",\"label\":\"Tomato Soup\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"bf63e36a-4662-43e2-a38e-92381b674490\",\"28405cb1-e045-4e39-b203-438ede92013b\"]},{\"parent_id\":\"87dedce5-a5ab-437d-b72e-5c26dd433947\",\"item_id\":\"bf63e36a-4662-43e2-a38e-92381b674490\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"f28199cc-9dec-48ac-85c7-e334e8101455\"]},{\"parent_id\":\"bf63e36a-4662-43e2-a38e-92381b674490\",\"item_id\":\"f28199cc-9dec-48ac-85c7-e334e8101455\",\"label\":\"What adjustments have been made to improve this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"87dedce5-a5ab-437d-b72e-5c26dd433947\",\"item_id\":\"28405cb1-e045-4e39-b203-438ede92013b\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"d0411f40-e4ce-46aa-b530-c9d5019ba0f9\"]},{\"parent_id\":\"28405cb1-e045-4e39-b203-438ede92013b\",\"item_id\":\"d0411f40-e4ce-46aa-b530-c9d5019ba0f9\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"item_id\":\"4900ace6-aaf2-44c3-8157-7ff56eec3bc8\",\"label\":\"Caramel Syrup\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"66801b0a-7e9d-41cb-8e09-3fbec77059dd\",\"cf8efd13-6877-4a18-932b-1a7692a3f29b\"]},{\"parent_id\":\"4900ace6-aaf2-44c3-8157-7ff56eec3bc8\",\"item_id\":\"66801b0a-7e9d-41cb-8e09-3fbec77059dd\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"791c6aa7-03a2-4015-a878-f849cc8736c8\"]},{\"parent_id\":\"66801b0a-7e9d-41cb-8e09-3fbec77059dd\",\"item_id\":\"791c6aa7-03a2-4015-a878-f849cc8736c8\",\"label\":\"What adjustments have been made to improve this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"4900ace6-aaf2-44c3-8157-7ff56eec3bc8\",\"item_id\":\"cf8efd13-6877-4a18-932b-1a7692a3f29b\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"8a38972c-0759-4cc1-b543-5236f386c6af\"]},{\"parent_id\":\"cf8efd13-6877-4a18-932b-1a7692a3f29b\",\"item_id\":\"8a38972c-0759-4cc1-b543-5236f386c6af\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"a4587d0c-ae4c-4c55-b935-e883ba356520\",\"item_id\":\"e367001f-b019-49e7-b7b7-d303c3080a35\",\"label\":\"Vanilla Syrup\",\"type\":\"question\",\"options\":{\"weighting\":1,\"response_set\":\"4728b690-6be3-4c45-83bd-02b0718e3404\",\"is_mandatory\":true},\"responses\":{\"text\":\"\",\"selected\":[{\"id\":\"3634cb99-09d4-479f-9ae5-7366431aae38\",\"label\":\"Good\",\"colour\":\"19,133,95\",\"score\":1,\"enable_score\":false}]},\"children\":[\"4bbf1068-44f4-47ab-9cd6-dc44bf20aed4\",\"83d689c3-921a-4b6d-a620-1e2637806ed3\"]},{\"parent_id\":\"e367001f-b019-49e7-b7b7-d303c3080a35\",\"item_id\":\"4bbf1068-44f4-47ab-9cd6-dc44bf20aed4\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"e7d9ba1c-1ba5-4ae0-8bc1-1ec650fbc4d1\",\"c3c234aa-9cd4-4002-bf6d-8337362dae24\"],\"weighting\":1,\"condition\":\"3f206184-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"d729f2c4-d648-4d9b-ba37-98c25615ba8e\"]},{\"parent_id\":\"4bbf1068-44f4-47ab-9cd6-dc44bf20aed4\",\"item_id\":\"d729f2c4-d648-4d9b-ba37-98c25615ba8e\",\"label\":\"What adjustments have been made to improve this?\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"parent_id\":\"e367001f-b019-49e7-b7b7-d303c3080a35\",\"item_id\":\"83d689c3-921a-4b6d-a620-1e2637806ed3\",\"label\":\"\",\"type\":\"smartfield\",\"evaluation\":false,\"options\":{\"values\":[\"2c16e14d-23d2-4cf2-8b55-c87b7bf4193f\"],\"weighting\":1,\"condition\":\"3f206182-e4f6-11e1-aff1-0800200c9a66\",\"is_mandatory\":false},\"children\":[\"9a34e761-d82c-4daa-9ffe-5b3e7c988037\"]},{\"parent_id\":\"83d689c3-921a-4b6d-a620-1e2637806ed3\",\"item_id\":\"9a34e761-d82c-4daa-9ffe-5b3e7c988037\",\"label\":\"Reason:\",\"type\":\"textsingle\",\"inactive\":true,\"options\":{\"weighting\":1,\"is_mandatory\":true}},{\"item_id\":\"b9aa1e33-3574-4512-bd89-73a2a60d0aae\",\"label\":\"Drinks Counter Readings\",\"type\":\"section\",\"options\":{\"weighting\":1,\"is_mandatory\":false},\"children\":[\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\"]},{\"parent_id\":\"b9aa1e33-3574-4512-bd89-73a2a60d0aae\",\"item_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"label\":\"Drinks Counter Readings\",\"type\":\"category\",\"options\":{\"weighting\":1,\"is_mandatory\":false},\"children\":[\"0b162d0d-c614-4ca5-a500-b8cdcd75a792\",\"6327ec86-4214-496e-866b-28e9d6791aee\",\"e2f2fc03-0a8a-4893-b564-c7196a44a7ec\",\"e50cb0b9-858a-4fab-897f-56af5f5830f1\",\"b8a1b2a8-ba8a-467d-b7a0-c581ca2a61ae\",\"0581ca55-c881-4d50-9a2c-e9c3d9e64357\",\"2f1b5a6a-f9c7-477e-bf3a-47ebe5c4494a\",\"35687210-8a9e-4c25-a25e-5ee8204ba627\",\"48f46dde-37b8-4bc6-94c2-104eacb24f08\",\"3ec686cb-95bb-4f85-926a-42167164d709\",\"df96eff4-54e0-47ce-9918-52f211f6c089\",\"6e215ada-9ef2-4bbc-8002-b3fb8c6ec08f\",\"df8c8f30-7c25-4b09-8787-44e44a89a4a9\"]},{\"parent_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"item_id\":\"0b162d0d-c614-4ca5-a500-b8cdcd75a792\",\"label\":\"Cappuccino\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"222\"}},{\"parent_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"item_id\":\"6327ec86-4214-496e-866b-28e9d6791aee\",\"label\":\"Latte\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"441\"}},{\"parent_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"item_id\":\"e2f2fc03-0a8a-4893-b564-c7196a44a7ec\",\"label\":\"White Coffee\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"67\"}},{\"parent_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"item_id\":\"e50cb0b9-858a-4fab-897f-56af5f5830f1\",\"label\":\"Americano\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"29\"}},{\"parent_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"item_id\":\"b8a1b2a8-ba8a-467d-b7a0-c581ca2a61ae\",\"label\":\"Flat White\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"72\"}},{\"parent_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"item_id\":\"0581ca55-c881-4d50-9a2c-e9c3d9e64357\",\"label\":\"Double Espresso\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"22\"}},{\"parent_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"item_id\":\"2f1b5a6a-f9c7-477e-bf3a-47ebe5c4494a\",\"label\":\"Mocha\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"93\"}},{\"parent_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"item_id\":\"35687210-8a9e-4c25-a25e-5ee8204ba627\",\"label\":\"Hot Chocolate\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"151\"}},{\"parent_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"item_id\":\"48f46dde-37b8-4bc6-94c2-104eacb24f08\",\"label\":\"Black Tea\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"2\"}},{\"parent_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"item_id\":\"3ec686cb-95bb-4f85-926a-42167164d709\",\"label\":\"White Tea\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"36\"}},{\"parent_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"item_id\":\"df96eff4-54e0-47ce-9918-52f211f6c089\",\"label\":\"Tomato Soup\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"19\"}},{\"parent_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"item_id\":\"6e215ada-9ef2-4bbc-8002-b3fb8c6ec08f\",\"label\":\"Caramel Syrup\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"233\"}},{\"parent_id\":\"020bbcc9-95fa-4020-8268-ce58e7b0eb53\",\"item_id\":\"df8c8f30-7c25-4b09-8787-44e44a89a4a9\",\"label\":\"Vanilla Syrup\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"118\"}},{\"item_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"label\":\"Test Counter Readings\",\"type\":\"section\",\"options\":{\"weighting\":1,\"is_mandatory\":false},\"children\":[\"bbb2e8e2-cfc9-4f94-889a-23ea0df4f1c4\",\"fbf7b964-072d-4db3-87c1-b0fc829bc172\",\"bea101e1-3c36-4c75-82f5-49ff40d13e26\",\"d4494059-35bd-46e8-a968-56f0a7de8d9e\",\"669f9e4c-470d-4753-aaf7-f0e40b94d72a\",\"1150ecf6-7573-4005-8abb-66e5fc077033\",\"1c326aa5-a5cb-4c39-a161-7f1aaa1ded99\",\"85b65bbc-d80f-4ed1-83c9-7248ff6b5f46\",\"90792a98-b80d-4e92-9a8c-e829b6a87aae\",\"bd8f8075-d06f-4bd2-92bf-7542d1367d7d\",\"64df9e6c-fa1d-4384-a04c-50dac13577f1\",\"a094c094-25e8-439e-bd9d-56d9e5da85d5\",\"0289e0d2-64b2-4a51-a6e1-370b846a0425\"]},{\"parent_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"item_id\":\"bbb2e8e2-cfc9-4f94-889a-23ea0df4f1c4\",\"label\":\"Cappuccino\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"6\"}},{\"parent_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"item_id\":\"fbf7b964-072d-4db3-87c1-b0fc829bc172\",\"label\":\"Latte\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"3\"}},{\"parent_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"item_id\":\"bea101e1-3c36-4c75-82f5-49ff40d13e26\",\"label\":\"White Coffee\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"6\"}},{\"parent_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"item_id\":\"d4494059-35bd-46e8-a968-56f0a7de8d9e\",\"label\":\"Americano\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"9\"}},{\"parent_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"item_id\":\"669f9e4c-470d-4753-aaf7-f0e40b94d72a\",\"label\":\"Flat White\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"2\"}},{\"parent_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"item_id\":\"1150ecf6-7573-4005-8abb-66e5fc077033\",\"label\":\"Double Espresso\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"2\"}},{\"parent_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"item_id\":\"1c326aa5-a5cb-4c39-a161-7f1aaa1ded99\",\"label\":\"Mocha\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"4\"}},{\"parent_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"item_id\":\"85b65bbc-d80f-4ed1-83c9-7248ff6b5f46\",\"label\":\"Hot Chocolate\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"10\"}},{\"parent_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"item_id\":\"90792a98-b80d-4e92-9a8c-e829b6a87aae\",\"label\":\"Black Tea\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"2\"}},{\"parent_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"item_id\":\"bd8f8075-d06f-4bd2-92bf-7542d1367d7d\",\"label\":\"White Tea\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"3\"}},{\"parent_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"item_id\":\"64df9e6c-fa1d-4384-a04c-50dac13577f1\",\"label\":\"Tomato Soup\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"2\"}},{\"parent_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"item_id\":\"a094c094-25e8-439e-bd9d-56d9e5da85d5\",\"label\":\"Caramel Syrup\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"1\"}},{\"parent_id\":\"3815f6bd-ebeb-413d-9b83-9df8cc8bd667\",\"item_id\":\"0289e0d2-64b2-4a51-a6e1-370b846a0425\",\"label\":\"Vanilla Syrup\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"1\"}},{\"item_id\":\"adb7eae7-d738-4ca3-b7c8-e4a67efff107\",\"label\":\"Stock Take\",\"type\":\"section\",\"options\":{\"weighting\":1,\"is_mandatory\":false},\"children\":[\"24b6f5bc-1297-45a3-a5a7-228403882d09\"]},{\"parent_id\":\"adb7eae7-d738-4ca3-b7c8-e4a67efff107\",\"item_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"label\":\"Stock take\",\"type\":\"category\",\"options\":{\"weighting\":1,\"is_mandatory\":false},\"children\":[\"5f9ca61e-8c57-42e5-8bb3-401933e28937\",\"37490b9e-0fb5-40be-8d64-443cf8ff7df4\",\"0dab190b-2a54-4aa9-8c2c-30a6c9d8dfa8\",\"7e1ebb82-5491-40dd-af36-0bddaeef595c\",\"1277a497-2835-45f6-ad07-3d211c249d92\",\"9b5a6fbc-d9f7-4268-a7cb-d3ad138986a7\",\"22e57825-3cd9-404b-b793-773697e28d34\",\"a3639cd7-da09-42ab-aa57-34cbc65ffbd5\",\"21f6e804-9ae9-4d45-affa-b78e751b24e2\",\"41d76c92-b1ad-43eb-b299-d9f3f5b2faf7\",\"6acafb96-a87f-4bc2-87e8-92d71d4235e4\",\"7be23a6f-8018-46fe-9bd5-31dbd2d1b875\",\"b1ecfe2e-0d8a-4ac2-a82b-926fad5d0c92\",\"b675b13d-8bc5-410b-85e3-fba36e8988dd\",\"173bcf70-2831-41cb-97d8-b260a71e2986\"]},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"5f9ca61e-8c57-42e5-8bb3-401933e28937\",\"label\":\"Lavazza Gold Beans (Packets)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"4\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"37490b9e-0fb5-40be-8d64-443cf8ff7df4\",\"label\":\"Milfresh Gold (Packets)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"4\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"0dab190b-2a54-4aa9-8c2c-30a6c9d8dfa8\",\"label\":\"Hot chocolate (Packets)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"5\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"7e1ebb82-5491-40dd-af36-0bddaeef595c\",\"label\":\"Vending Sugar (Packets)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"4 1/2\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"1277a497-2835-45f6-ad07-3d211c249d92\",\"label\":\"Tea (Packets)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"4\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"9b5a6fbc-d9f7-4268-a7cb-d3ad138986a7\",\"label\":\"Tomato Soup (Packets)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"2 1/2\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"22e57825-3cd9-404b-b793-773697e28d34\",\"label\":\"White Sugar Sticks (Boxes)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"3/4\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"a3639cd7-da09-42ab-aa57-34cbc65ffbd5\",\"label\":\"Brown Sugar Sticks (Boxes)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"1/4\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"21f6e804-9ae9-4d45-affa-b78e751b24e2\",\"label\":\"Sweetener Sticks (Boxes)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"2/3\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"41d76c92-b1ad-43eb-b299-d9f3f5b2faf7\",\"label\":\"Cups (Sleeves)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"14\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"6acafb96-a87f-4bc2-87e8-92d71d4235e4\",\"label\":\"Lids (Sleeves)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"2\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"7be23a6f-8018-46fe-9bd5-31dbd2d1b875\",\"label\":\"Serviettes (Sleeves)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"22\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"b1ecfe2e-0d8a-4ac2-a82b-926fad5d0c92\",\"label\":\"Stirrers (Packets)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"1\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"b675b13d-8bc5-410b-85e3-fba36e8988dd\",\"label\":\"Caramel Syrup (Bottles)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"0\"}},{\"parent_id\":\"24b6f5bc-1297-45a3-a5a7-228403882d09\",\"item_id\":\"173bcf70-2831-41cb-97d8-b260a71e2986\",\"label\":\"Vanilla Syrup (Bottles)\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":true},\"responses\":{\"text\":\"0\"}},{\"item_id\":\"e7688baa-2ff8-44ff-ae0b-7b2ec36ef066\",\"label\":\"POS Stock Take\",\"type\":\"section\",\"options\":{\"weighting\":1,\"is_mandatory\":false},\"children\":[\"c11009d0-444f-4a85-af6e-174e3b5464a3\"]},{\"parent_id\":\"e7688baa-2ff8-44ff-ae0b-7b2ec36ef066\",\"item_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"label\":\"POS Stock Take\",\"type\":\"category\",\"options\":{\"weighting\":1,\"is_mandatory\":false},\"children\":[\"4412181f-4996-4fad-8e26-5c4ece74db15\",\"54e66852-d41e-40c9-bdda-aeed603df729\",\"c52d3c8a-3026-4d87-80b4-215c40ebf200\",\"d5ca1f91-90e0-47b5-a645-e0570e08256e\",\"17b9b06d-91fc-43a3-bfba-eea799c1c04a\",\"b3201df2-f4cc-4cd7-918e-4d452910c7ae\",\"2da1ea9e-3048-44e5-b45a-e8dc38b5a97f\",\"f07093e2-5c11-4783-a5f8-94a41c017e89\",\"61933033-6348-4303-b1bb-bc5c670078c5\",\"38e3f263-ae9e-4d63-a7b0-3abe88323bfa\",\"81b68a6d-07c6-4e7e-aaad-16d9518fc140\",\"96769206-df3a-4c5b-935a-6bcc20167f38\",\"75410bcb-22f1-4d49-9901-c62c63d721d0\",\"2c94de4e-5810-45d8-89fe-2df1bb2b160f\",\"f79a5792-35c8-438a-b845-ca8ea77c8366\",\"8e19a573-6148-49f3-a73a-3c4f9e5c6051\",\"f911d0bb-a1db-4b1c-a53c-2cdd4143d823\",\"c203cb8c-08f9-49cd-9e94-80f63d3c291d\",\"83a87fee-4966-4931-a051-be88fbdf5d01\",\"382a3e82-48e2-4ffe-a141-dc373c177b53\"]},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"4412181f-4996-4fad-8e26-5c4ece74db15\",\"label\":\"Table Talker\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"54e66852-d41e-40c9-bdda-aeed603df729\",\"label\":\"Tent Card\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"c52d3c8a-3026-4d87-80b4-215c40ebf200\",\"label\":\"Flag\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"d5ca1f91-90e0-47b5-a645-e0570e08256e\",\"label\":\"Giant Cup\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"17b9b06d-91fc-43a3-bfba-eea799c1c04a\",\"label\":\"Pavement Sign\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false},\"responses\":{\"text\":\"1\"}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"b3201df2-f4cc-4cd7-918e-4d452910c7ae\",\"label\":\"Till Wobbler\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"2da1ea9e-3048-44e5-b45a-e8dc38b5a97f\",\"label\":\"Cora Wobbler\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"f07093e2-5c11-4783-a5f8-94a41c017e89\",\"label\":\"Floor Sticker\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"61933033-6348-4303-b1bb-bc5c670078c5\",\"label\":\"Hanging Sign\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"38e3f263-ae9e-4d63-a7b0-3abe88323bfa\",\"label\":\"Mobile Hanging Sign\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false},\"responses\":{\"text\":\"4\"}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"81b68a6d-07c6-4e7e-aaad-16d9518fc140\",\"label\":\"A1 Poster\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"96769206-df3a-4c5b-935a-6bcc20167f38\",\"label\":\"A2 Poster\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"75410bcb-22f1-4d49-9901-c62c63d721d0\",\"label\":\"A3 Poster\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"2c94de4e-5810-45d8-89fe-2df1bb2b160f\",\"label\":\"A4 Poster\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"f79a5792-35c8-438a-b845-ca8ea77c8366\",\"label\":\"A1 Contra Vision\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"8e19a573-6148-49f3-a73a-3c4f9e5c6051\",\"label\":\"A2 Contra Vision\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"f911d0bb-a1db-4b1c-a53c-2cdd4143d823\",\"label\":\"A3 Contra Vision\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"c203cb8c-08f9-49cd-9e94-80f63d3c291d\",\"label\":\"A4 Contra Vision\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"83a87fee-4966-4931-a051-be88fbdf5d01\",\"label\":\"Outdoor Banner\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"parent_id\":\"c11009d0-444f-4a85-af6e-174e3b5464a3\",\"item_id\":\"382a3e82-48e2-4ffe-a141-dc373c177b53\",\"label\":\"Outdoor Wall Mount\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}},{\"item_id\":\"3140e55d-c700-40b1-af5b-e481ee7b954e\",\"label\":\"Additional Comments\",\"type\":\"section\",\"options\":{\"weighting\":1,\"is_mandatory\":false},\"children\":[\"79a0784c-fd08-453c-b866-22b488e45535\"]},{\"parent_id\":\"3140e55d-c700-40b1-af5b-e481ee7b954e\",\"item_id\":\"79a0784c-fd08-453c-b866-22b488e45535\",\"label\":\"Do you have any additional comments?\",\"type\":\"textsingle\",\"options\":{\"weighting\":1,\"is_mandatory\":false}}]}",
+        "payloadType": "json",
+        "x": 110,
+        "y": 180,
+        "wires": [
+            [
+                "9a171bb.8409ce8"
+            ]
+        ]
+    },
+    {
+        "id": "9a171bb.8409ce8",
+        "type": "function",
+        "z": "81053105.60e14",
+        "name": "Filter info for email",
+        "func": "msg.payload.machineType = msg.payload.header_items.filter(el => el.label == \"Machine Type \" && el.type == \"textsingle\");\nmsg.payload.posCondition = msg.payload.items.filter(el => el.label.includes(\"point of sale is in good condition\"));\nmsg.payload.operatingManual = msg.payload.items.filter(el => el.label.includes(\"Check that the site has an Operating Manual\"));\nmsg.payload.trainingRequired = msg.payload.items.filter(el => el.label.includes(\"Has additional training been arranged?\"));\nmsg.payload.serialNo = msg.payload.header_items.filter(el => el.label == \"Machine Serial Number\");\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 270,
+        "y": 180,
+        "wires": [
+            [
+                "1df1d29.6063ead",
+                "e816c957.1d99"
+            ]
+        ]
+    },
+    {
+        "id": "2c2aa46.477e85c",
+        "type": "http request",
+        "z": "81053105.60e14",
+        "name": "Send email via Sendinblue",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 760,
+        "y": 660,
+        "wires": [
+            [
+                "e816c957.1d99"
+            ]
+        ]
+    },
+    {
+        "id": "1dc2cf7.754ff31",
+        "type": "function",
+        "z": "81053105.60e14",
+        "name": "Build PDF request",
+        "func": "var auditID = flow.get([\"auditID\"]);\nmsg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"Authorization\"] = \"Bearer 9b5db6aa75fe53d7a63c24e5974fcb82128b837eb2dbe43499ce4fdd4f6189ae\";\nmsg.url = 'https://api.safetyculture.io/audits/' + auditID + '/report';\nmsg.method = 'POST';\nmsg.payload = '{\"format\": \"PDF\"}';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 730,
+        "y": 180,
+        "wires": [
+            [
+                "75164ec5.c608a"
+            ]
+        ],
+        "info": "curl --request POST \\\n  --url https://api.sendinblue.com/v3/smtp/email \\\n  --header 'accept: application/json' \\\n  --header 'content-type: application/json' \\\n  --data '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"Alex\",\"name\":\"alex.perjescu@expressoplus.com\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"attachment\":[{\"url\":\"http://urlofattacment.com\"}],\"textContent\":\"this is the body of the email\",\"subject\":\"this is the subject line\"}'\nreturn msg;"
+    },
+    {
+        "id": "75164ec5.c608a",
+        "type": "http request",
+        "z": "81053105.60e14",
+        "name": "Request audit PDF",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 730,
+        "y": 220,
+        "wires": [
+            [
+                "f354f05f.c61a2"
+            ]
+        ]
+    },
+    {
+        "id": "c12b6cb2.e3d08",
+        "type": "function",
+        "z": "81053105.60e14",
+        "name": "Check if PDF ready",
+        "func": "var auditID = flow.get([\"auditID\"]);\nvar messageID = flow.get([\"messageID\"])\nmsg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"Authorization\"] = \"Bearer 9b5db6aa75fe53d7a63c24e5974fcb82128b837eb2dbe43499ce4fdd4f6189ae\";\nmsg.url = 'https://api.safetyculture.io/audits/' + auditID + '/report/' + messageID;\nmsg.method = 'GET';\nmsg.payload = '{\"format\": \"PDF\"}';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 410,
+        "y": 480,
+        "wires": [
+            [
+                "e150af0b.4bde08"
+            ]
+        ],
+        "info": "curl --request POST \\\n  --url https://api.sendinblue.com/v3/smtp/email \\\n  --header 'accept: application/json' \\\n  --header 'content-type: application/json' \\\n  --data '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"Alex\",\"name\":\"alex.perjescu@expressoplus.com\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"attachment\":[{\"url\":\"http://urlofattacment.com\"}],\"textContent\":\"this is the body of the email\",\"subject\":\"this is the subject line\"}'\nreturn msg;"
+    },
+    {
+        "id": "e150af0b.4bde08",
+        "type": "http request",
+        "z": "81053105.60e14",
+        "name": "Request audit PDF",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 410,
+        "y": 520,
+        "wires": [
+            [
+                "9c9871e9.ee3f4"
+            ]
+        ]
+    },
+    {
+        "id": "9c9871e9.ee3f4",
+        "type": "switch",
+        "z": "81053105.60e14",
+        "name": "",
+        "property": "payload.status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "IN_PROGRESS",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "SUCCESS",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 170,
+        "y": 560,
+        "wires": [
+            [
+                "9f9a1431.1adff"
+            ],
+            [
+                "cb4211f8.13329"
+            ]
+        ]
+    },
+    {
+        "id": "9f9a1431.1adff",
+        "type": "delay",
+        "z": "81053105.60e14",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 160,
+        "y": 480,
+        "wires": [
+            [
+                "c12b6cb2.e3d08"
+            ]
+        ]
+    },
+    {
+        "id": "f354f05f.c61a2",
+        "type": "change",
+        "z": "81053105.60e14",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "messageID",
+                "pt": "flow",
+                "to": "payload.messageId",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 930,
+        "y": 220,
+        "wires": [
+            [
+                "9839b74f.4b2ec8"
+            ]
+        ]
+    },
+    {
+        "id": "cb4211f8.13329",
+        "type": "change",
+        "z": "81053105.60e14",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reportURL",
+                "pt": "flow",
+                "to": "payload.url",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 560,
+        "wires": [
+            [
+                "e04381b4.688a"
+            ]
+        ]
+    },
+    {
+        "id": "1df1d29.6063ead",
+        "type": "change",
+        "z": "81053105.60e14",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "machineType",
+                "pt": "flow",
+                "to": "payload.machineType[0].responses.text",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "posCondition",
+                "pt": "flow",
+                "to": "payload.posCondition[0].responses.selected[0].label",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "operatingManual",
+                "pt": "flow",
+                "to": "payload.operatingManual[0].responses.selected[0].label",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "trainingRequired",
+                "pt": "flow",
+                "to": "payload.trainingRequired[0].responses.selected[0].label",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "author",
+                "pt": "flow",
+                "to": "payload.audit_data.authorship.author",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "site",
+                "pt": "flow",
+                "to": "payload.audit_data.name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "auditID",
+                "pt": "flow",
+                "to": "payload.audit_id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "visitScore",
+                "pt": "flow",
+                "to": "payload.audit_data.score_percentage",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "machineCleanliness",
+                "pt": "flow",
+                "to": "payload.trainingRequired[0].responses.selected[0].label",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "signoffSheets",
+                "pt": "flow",
+                "to": "payload.trainingRequired[0].responses.selected[0].label",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "date_completed",
+                "pt": "flow",
+                "to": "payload.audit_data.date_completed",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "serialNo",
+                "pt": "flow",
+                "to": "payload.serialNo[0].responses.text",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 180,
+        "wires": [
+            [
+                "1dc2cf7.754ff31"
+            ]
+        ]
+    },
+    {
+        "id": "9839b74f.4b2ec8",
+        "type": "function",
+        "z": "81053105.60e14",
+        "name": "Get report web link",
+        "func": "var auditID = flow.get([\"auditID\"]);\nmsg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"Authorization\"] = \"Bearer 9b5db6aa75fe53d7a63c24e5974fcb82128b837eb2dbe43499ce4fdd4f6189ae\";\nmsg.url = 'https://api.safetyculture.io/audits/' + auditID + '/web_report_link';\nmsg.method = 'GET';\nmsg.payload = '';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 410,
+        "y": 340,
+        "wires": [
+            [
+                "4cfb1360.f49444"
+            ]
+        ],
+        "info": "curl --request POST \\\n  --url https://api.sendinblue.com/v3/smtp/email \\\n  --header 'accept: application/json' \\\n  --header 'content-type: application/json' \\\n  --data '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"Alex\",\"name\":\"alex.perjescu@expressoplus.com\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"attachment\":[{\"url\":\"http://urlofattacment.com\"}],\"textContent\":\"this is the body of the email\",\"subject\":\"this is the subject line\"}'\nreturn msg;"
+    },
+    {
+        "id": "4cfb1360.f49444",
+        "type": "http request",
+        "z": "81053105.60e14",
+        "name": "Request report web link",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 430,
+        "y": 400,
+        "wires": [
+            [
+                "7344df05.ef0828"
+            ]
+        ]
+    },
+    {
+        "id": "7344df05.ef0828",
+        "type": "change",
+        "z": "81053105.60e14",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reportWebLink",
+                "pt": "flow",
+                "to": "payload.url",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 400,
+        "wires": [
+            [
+                "9f9a1431.1adff"
+            ]
         ]
     }
 ]
