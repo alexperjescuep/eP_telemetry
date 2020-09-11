@@ -4182,23 +4182,6 @@
         "wires": []
     },
     {
-        "id": "c48d607d.2987c",
-        "type": "debug",
-        "z": "81053105.60e14",
-        "name": "Check data",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 190,
-        "y": 1060,
-        "wires": []
-    },
-    {
         "id": "e6be7649.01e178",
         "type": "function",
         "z": "81053105.60e14",
@@ -4208,11 +4191,10 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 410,
-        "y": 1200,
+        "x": 390,
+        "y": 900,
         "wires": [
             [
-                "fe73a753.df9308",
                 "892efbc6.dde8e"
             ]
         ],
@@ -4228,8 +4210,8 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 930,
-        "y": 920,
+        "x": 790,
+        "y": 720,
         "wires": [
             [
                 "79e3d2ac.5cf6e4"
@@ -4255,8 +4237,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 210,
-        "y": 1200,
+        "x": 190,
+        "y": 900,
         "wires": [
             [
                 "e6be7649.01e178"
@@ -4373,11 +4355,10 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 210,
-        "y": 1020,
+        "x": 190,
+        "y": 760,
         "wires": [
             [
-                "c48d607d.2987c",
                 "6523e4ba.8b642c"
             ]
         ]
@@ -4402,7 +4383,7 @@
         "to": "",
         "reg": false,
         "x": 570,
-        "y": 1040,
+        "y": 780,
         "wires": [
             [
                 "4e80dbd8.5cdd64"
@@ -4429,7 +4410,7 @@
         "to": "",
         "reg": false,
         "x": 570,
-        "y": 1000,
+        "y": 740,
         "wires": [
             [
                 "4e80dbd8.5cdd64"
@@ -4458,8 +4439,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 390,
-        "y": 1020,
+        "x": 370,
+        "y": 760,
         "wires": [
             [
                 "ddd25ad7.dbab48"
@@ -4482,8 +4463,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 630,
-        "y": 1240,
+        "x": 810,
+        "y": 780,
         "wires": []
     },
     {
@@ -4496,8 +4477,8 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 210,
-        "y": 1140,
+        "x": 190,
+        "y": 840,
         "wires": [
             [
                 "70e7101d.ef5258"
@@ -4518,8 +4499,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 430,
-        "y": 1140,
+        "x": 410,
+        "y": 840,
         "wires": [
             [
                 "150660bd.13c507"
@@ -4545,45 +4526,13 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 660,
-        "y": 1140,
+        "x": 640,
+        "y": 840,
         "wires": [
             [
                 "12d18f0.5b78d71"
             ]
         ]
-    },
-    {
-        "id": "b2c2b155.220cd",
-        "type": "debug",
-        "z": "81053105.60e14",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 190,
-        "y": 960,
-        "wires": []
-    },
-    {
-        "id": "fe73a753.df9308",
-        "type": "debug",
-        "z": "81053105.60e14",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 410,
-        "y": 1240,
-        "wires": []
     },
     {
         "id": "892efbc6.dde8e",
@@ -4598,8 +4547,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 700,
-        "y": 1200,
+        "x": 680,
+        "y": 900,
         "wires": [
             [
                 "e9b1fc27.f1962"
@@ -4627,8 +4576,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 170,
-        "y": 720,
+        "x": 190,
+        "y": 540,
         "wires": [
             [
                 "4620956a.d83eec"
@@ -4645,8 +4594,8 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 400,
-        "y": 720,
+        "x": 420,
+        "y": 600,
         "wires": [
             [
                 "aaf14768.ae697"
@@ -4667,8 +4616,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 410,
-        "y": 780,
+        "x": 430,
+        "y": 640,
         "wires": [
             [
                 "52b9c4f7.7129dc"
@@ -4687,8 +4636,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 790,
-        "y": 760,
+        "x": 810,
+        "y": 600,
         "wires": []
     },
     {
@@ -4700,7 +4649,7 @@
         "input": "real_timezone",
         "inputType": "msg",
         "inTz": "Europe/London",
-        "adjAmount": "120",
+        "adjAmount": "60",
         "adjType": "minutes",
         "adjDir": "subtract",
         "format": "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]",
@@ -4708,8 +4657,8 @@
         "output": "timeSince",
         "outputType": "flow",
         "outTz": "Europe/London",
-        "x": 160,
-        "y": 820,
+        "x": 200,
+        "y": 640,
         "wires": [
             [
                 "8705a784.51e7b8"
@@ -4733,8 +4682,8 @@
         "output": "payload",
         "outputType": "msg",
         "outTz": "Europe/Berlin",
-        "x": 160,
-        "y": 780,
+        "x": 200,
+        "y": 600,
         "wires": [
             [
                 "c288d2f5.6b4548"
@@ -4747,8 +4696,8 @@
         "z": "81053105.60e14",
         "name": "Split Array",
         "property": "payload.audits",
-        "x": 610,
-        "y": 780,
+        "x": 630,
+        "y": 600,
         "wires": [
             [
                 "9e522239.c578d8",
@@ -4772,8 +4721,8 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
-        "x": 780,
-        "y": 800,
+        "x": 800,
+        "y": 640,
         "wires": [
             [
                 "c88a3638.4d7f7"
@@ -4790,8 +4739,8 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 410,
-        "y": 900,
+        "x": 170,
+        "y": 700,
         "wires": [
             [
                 "82eec10d.5cae2"
@@ -4812,12 +4761,11 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 590,
-        "y": 900,
+        "x": 370,
+        "y": 700,
         "wires": [
             [
-                "4e98048d.78e934",
-                "d5aca29b.7b3aa8"
+                "b238c6d7.9f615"
             ]
         ]
     },
@@ -4833,8 +4781,34 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 910,
-        "y": 880,
+        "x": 810,
+        "y": 680,
         "wires": []
+    },
+    {
+        "id": "b238c6d7.9f615",
+        "type": "switch",
+        "z": "81053105.60e14",
+        "name": "",
+        "property": "payload.template_data.metadata.name",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "Audit",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 570,
+        "y": 700,
+        "wires": [
+            [
+                "4e98048d.78e934",
+                "d5aca29b.7b3aa8"
+            ]
+        ]
     }
 ]
