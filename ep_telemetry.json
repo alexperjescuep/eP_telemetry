@@ -103,6 +103,40 @@
         "color": "#DDAA99"
     },
     {
+        "id": "b6f41f64.a726c",
+        "type": "subflow",
+        "name": "Subflow 1",
+        "info": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "22fc4e9a.40e8f2"
+                    }
+                ]
+            }
+        ],
+        "out": []
+    },
+    {
+        "id": "2e2912af.70f376",
+        "type": "subflow",
+        "name": "Subflow 2",
+        "info": "",
+        "in": [],
+        "out": []
+    },
+    {
+        "id": "2d331bcf.10f214",
+        "type": "subflow",
+        "name": "Subflow 3",
+        "info": "",
+        "in": [],
+        "out": []
+    },
+    {
         "id": "a76d987b.d992d",
         "type": "amazon config",
         "z": "",
@@ -3668,8 +3702,8 @@
         "name": "Send http response",
         "statusCode": "200",
         "headers": {},
-        "x": 220,
-        "y": 120,
+        "x": 490,
+        "y": 40,
         "wires": []
     },
     {
@@ -3681,20 +3715,20 @@
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 210,
+        "x": 190,
         "y": 80,
         "wires": [
             [
                 "5beb589b.9abcb8",
-                "8421691a.0ccb88",
-                "22fc4e9a.40e8f2"
+                "638f2202.d40f24",
+                "74cc2a3f.9e7dfc"
             ]
         ]
     },
     {
         "id": "4e58bb34.031fa4",
         "type": "debug",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "Check data",
         "active": true,
         "tosidebar": true,
@@ -3705,13 +3739,13 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 190,
-        "y": 260,
+        "y": 220,
         "wires": []
     },
     {
         "id": "a5dd65d6.a54438",
         "type": "function",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "Build http request",
         "func": "var reportAddress = flow.get([\"reportURL\"]);\nvar machineType = flow.get([\"machineType\"]);\nvar machineCleanliness = flow.get([\"machineCleanliness\"]);\nvar posCondition = flow.get([\"posCondition\"]);\nvar signoffSheets = flow.get([\"signoffSheets\"]);\nvar trainingRequired = flow.get([\"trainingRequired\"]);\nvar operatingManual = flow.get([\"operatingManual\"]);\nvar author = flow.get([\"author\"]);\nvar site = flow.get([\"site\"]);\nvar reportWebLink = flow.get([\"reportWebLink\"]);\nvar visitScore = flow.get([\"visitScore\"]).toString().slice(0, 5);\nvar serialNo = flow.get([\"serialNo\"]);\nvar date_completed = flow.get([\"date_completed\"]);\nvar dateCompleted = flow.get([\"date_completed\"]).toString().slice(0, 10);\nvar timeCompleted = flow.get([\"date_completed\"]).toString().slice(11, 19);\nvar rawFeedback = flow.get([\"feedback\"]);\nvar visitStatus = flow.get([\"visitStatus\"]);\nvar storeNumber = flow.get([\"storeNumber\"]);\nvar feedback = rawFeedback.toString().replace(/(\\r\\n|\\n|\\r)/gm, \" \");\nmsg.headers = {};\nmsg.headers[\"content-type\"] = \"application/json\";\nmsg.headers[\"accept\"] = \"application/json\";\nmsg.headers[\"api-key\"] = \"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\";\nmsg.url = \"https://api.sendinblue.com/v3/smtp/email\";\nmsg.method = \"POST\";\nmsg.payload= '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"epteam@expressoplus.com\",\"name\":\"eP Team\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"templateId\":22,\"subject\":\"'+ storeNumber +' '+ site +' | '+ visitStatus +' '+ visitScore +'%\",\"params\":{\"site\":\"' + site + '\",\"machineType\":\"' + machineType + '\",\"score\":\"' + visitScore +'\",\"posCondition\":\"' + posCondition +'\",\"machineCleanliness\":\"'+ machineCleanliness +'\",\"operatingManual\":\"' + operatingManual + '\",\"signoffSheets\":\"' + signoffSheets + '\",\"trainingRequired\":\"' + trainingRequired + '\",\"author\":\"' + author +'\",\"reportWebLink\":\"' + reportWebLink + '\",\"serialNo\":\"' + serialNo + '\",\"date_completed\":\"'+ dateCompleted +'\",\"time_completed\":\"'+ timeCompleted +'\",\"feedback\":\"'+ feedback +'\",\"visitStatus\":\"'+ visitStatus +'\",\"storeNumber\":\"'+ storeNumber +'\"}}';\nreturn msg;",
         "outputs": 1,
@@ -3719,7 +3753,7 @@
         "initialize": "",
         "finalize": "",
         "x": 410,
-        "y": 400,
+        "y": 360,
         "wires": [
             [
                 "24e5fbd8.ce01ec",
@@ -3731,7 +3765,7 @@
     {
         "id": "f06e9db9.960308",
         "type": "function",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "Filter info for email",
         "func": "msg.payload.machineType = msg.payload.header_items.filter(el => el.label.includes(\"Machine Type\"));\nmsg.payload.storeNumber = msg.payload.header_items.filter(el => el.label.includes(\"Store Number\"));\nmsg.payload.posCondition = msg.payload.items.filter(el => el.label.includes(\"point of sale is in good condition\"));\nmsg.payload.operatingManual = msg.payload.items.filter(el => el.label.includes(\"has an Operating Manual\"));\nmsg.payload.trainingRequired = msg.payload.items.filter(el => el.label.includes(\"Has additional training been arranged?\"));\nmsg.payload.serialNo = msg.payload.header_items.filter(el => el.label.includes(\"Machine Serial Number\"));\nmsg.payload.machineCleanliness = msg.payload.items.filter(el => el.label.includes(\"What is the state of the machine's cleanliness\"));\nmsg.payload.feedback = msg.payload.items.filter(el => el.label.includes(\"Please detail all feedback\"));\nreturn msg",
         "outputs": 1,
@@ -3739,7 +3773,7 @@
         "initialize": "",
         "finalize": "",
         "x": 930,
-        "y": 120,
+        "y": 80,
         "wires": [
             [
                 "7f59c24e.63e3bc"
@@ -3749,7 +3783,7 @@
     {
         "id": "24e5fbd8.ce01ec",
         "type": "http request",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "Send email via Sendinblue",
         "method": "use",
         "ret": "txt",
@@ -3760,7 +3794,7 @@
         "proxy": "",
         "authType": "",
         "x": 640,
-        "y": 400,
+        "y": 360,
         "wires": [
             [
                 "a26a3468.ff3e4"
@@ -3770,7 +3804,7 @@
     {
         "id": "f5cee338.2854d8",
         "type": "change",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "",
         "rules": [
             {
@@ -3787,17 +3821,18 @@
         "to": "",
         "reg": false,
         "x": 210,
-        "y": 400,
+        "y": 360,
         "wires": [
             [
-                "a5dd65d6.a54438"
+                "a5dd65d6.a54438",
+                "47cbc6a9.b4866"
             ]
         ]
     },
     {
         "id": "7f59c24e.63e3bc",
         "type": "change",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "",
         "rules": [
             {
@@ -3905,7 +3940,7 @@
         "to": "",
         "reg": false,
         "x": 210,
-        "y": 220,
+        "y": 180,
         "wires": [
             [
                 "4e58bb34.031fa4",
@@ -3916,7 +3951,7 @@
     {
         "id": "159aa705.b6b809",
         "type": "http request",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "Request audit data",
         "method": "use",
         "ret": "obj",
@@ -3927,7 +3962,7 @@
         "proxy": "",
         "authType": "",
         "x": 730,
-        "y": 120,
+        "y": 80,
         "wires": [
             [
                 "f06e9db9.960308"
@@ -3937,7 +3972,7 @@
     {
         "id": "195e6733.ed6759",
         "type": "function",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "Get full audit",
         "func": "var auditID = msg.payload.data.audit.audit_id;\nmsg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"Authorization\"] = \"Bearer 9b5db6aa75fe53d7a63c24e5974fcb82128b837eb2dbe43499ce4fdd4f6189ae\";\nmsg.url = 'https://api.safetyculture.io/audits/' + auditID + '';\nmsg.method = 'GET';\nreturn msg;",
         "outputs": 1,
@@ -3945,7 +3980,7 @@
         "initialize": "",
         "finalize": "",
         "x": 550,
-        "y": 120,
+        "y": 80,
         "wires": [
             [
                 "159aa705.b6b809"
@@ -3956,7 +3991,7 @@
     {
         "id": "8421691a.0ccb88",
         "type": "switch",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "",
         "property": "payload.data.template.name",
         "propertyType": "msg",
@@ -3971,7 +4006,7 @@
         "repair": false,
         "outputs": 1,
         "x": 410,
-        "y": 120,
+        "y": 80,
         "wires": [
             [
                 "195e6733.ed6759"
@@ -3981,7 +4016,7 @@
     {
         "id": "cb6d7b6c.86cbd",
         "type": "change",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "Fail",
         "rules": [
             {
@@ -3989,33 +4024,6 @@
                 "p": "visitStatus",
                 "pt": "flow",
                 "to": "Fail",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 570,
-        "y": 240,
-        "wires": [
-            [
-                "1776eefd.670291"
-            ]
-        ]
-    },
-    {
-        "id": "3ad45c82.a5fde4",
-        "type": "change",
-        "z": "81053105.60e14",
-        "name": "Pass",
-        "rules": [
-            {
-                "t": "set",
-                "p": "visitStatus",
-                "pt": "flow",
-                "to": "Pass",
                 "tot": "str"
             }
         ],
@@ -4033,9 +4041,36 @@
         ]
     },
     {
+        "id": "3ad45c82.a5fde4",
+        "type": "change",
+        "z": "b6f41f64.a726c",
+        "name": "Pass",
+        "rules": [
+            {
+                "t": "set",
+                "p": "visitStatus",
+                "pt": "flow",
+                "to": "Pass",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 160,
+        "wires": [
+            [
+                "1776eefd.670291"
+            ]
+        ]
+    },
+    {
         "id": "2673b4d5.63857c",
         "type": "switch",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "",
         "property": "visitScore",
         "propertyType": "flow",
@@ -4055,7 +4090,7 @@
         "repair": false,
         "outputs": 2,
         "x": 390,
-        "y": 220,
+        "y": 180,
         "wires": [
             [
                 "3ad45c82.a5fde4"
@@ -4068,7 +4103,7 @@
     {
         "id": "a26a3468.ff3e4",
         "type": "debug",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "Report email status",
         "active": true,
         "tosidebar": true,
@@ -4079,13 +4114,13 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 630,
-        "y": 440,
+        "y": 400,
         "wires": []
     },
     {
         "id": "1776eefd.670291",
         "type": "function",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "Get report web link",
         "func": "var auditID = flow.get([\"auditID\"]);\nmsg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"Authorization\"] = \"Bearer 9b5db6aa75fe53d7a63c24e5974fcb82128b837eb2dbe43499ce4fdd4f6189ae\";\nmsg.url = 'https://api.safetyculture.io/audits/' + auditID + '/web_report_link';\nmsg.method = 'GET';\nmsg.payload = '';\nreturn msg;",
         "outputs": 1,
@@ -4093,10 +4128,11 @@
         "initialize": "",
         "finalize": "",
         "x": 210,
-        "y": 340,
+        "y": 300,
         "wires": [
             [
-                "d73b5479.5bea9"
+                "d73b5479.5bea9",
+                "f50a9c2f.43cf1"
             ]
         ],
         "info": "curl --request POST \\\n  --url https://api.sendinblue.com/v3/smtp/email \\\n  --header 'accept: application/json' \\\n  --header 'content-type: application/json' \\\n  --data '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"Alex\",\"name\":\"alex.perjescu@expressoplus.com\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"attachment\":[{\"url\":\"http://urlofattacment.com\"}],\"textContent\":\"this is the body of the email\",\"subject\":\"this is the subject line\"}'\nreturn msg;"
@@ -4104,7 +4140,7 @@
     {
         "id": "d73b5479.5bea9",
         "type": "http request",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "Request report web link",
         "method": "use",
         "ret": "obj",
@@ -4115,7 +4151,7 @@
         "proxy": "",
         "authType": "",
         "x": 430,
-        "y": 340,
+        "y": 300,
         "wires": [
             [
                 "3ce7d82c.85ed88"
@@ -4125,7 +4161,7 @@
     {
         "id": "3ce7d82c.85ed88",
         "type": "change",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "",
         "rules": [
             {
@@ -4142,17 +4178,18 @@
         "to": "",
         "reg": false,
         "x": 660,
-        "y": 340,
+        "y": 300,
         "wires": [
             [
-                "f5cee338.2854d8"
+                "f5cee338.2854d8",
+                "100b1d5.ed72f63"
             ]
         ]
     },
     {
         "id": "22fc4e9a.40e8f2",
         "type": "debug",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -4162,13 +4199,13 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 190,
-        "y": 160,
+        "y": 120,
         "wires": []
     },
     {
         "id": "e5e7fc01.57be28",
         "type": "debug",
-        "z": "81053105.60e14",
+        "z": "b6f41f64.a726c",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -4178,21 +4215,21 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 410,
-        "y": 440,
+        "y": 400,
         "wires": []
     },
     {
         "id": "e6be7649.01e178",
         "type": "function",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "Build http request",
-        "func": "var reportAddress = flow.get([\"reportURL\"]);\nvar machineType = flow.get([\"machineType\"]);\nvar machineCleanliness = flow.get([\"machineCleanliness\"]);\nvar posCondition = flow.get([\"posCondition\"]);\nvar signoffSheets = flow.get([\"signoffSheets\"]);\nvar trainingRequired = flow.get([\"trainingRequired\"]);\nvar operatingManual = flow.get([\"operatingManual\"]);\nvar author = flow.get([\"author\"]);\nvar site = flow.get([\"site\"]);\nvar reportWebLink = flow.get([\"reportWebLink\"]);\nvar visitScore = flow.get([\"visitScore\"]).toString().slice(0, 5);\nvar serialNo = flow.get([\"serialNo\"]);\nvar date_completed = flow.get([\"date_completed\"]);\nvar dateCompleted = flow.get([\"date_completed\"]).toString().slice(0, 10);\nvar timeCompleted = flow.get([\"date_completed\"]).toString().slice(11, 19);\nvar rawFeedback = flow.get([\"feedback\"]);\nvar visitStatus = flow.get([\"visitStatus\"]);\nvar storeNumber = flow.get([\"storeNumber\"]);\nvar feedback = rawFeedback.toString().replace(/(\\r\\n|\\n|\\r)/gm, \" \");\nmsg.headers = {};\nmsg.headers[\"content-type\"] = \"application/json\";\nmsg.headers[\"accept\"] = \"application/json\";\nmsg.headers[\"api-key\"] = \"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\";\nmsg.url = \"https://api.sendinblue.com/v3/smtp/email\";\nmsg.method = \"POST\";\nmsg.payload= '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"alex.perjescu@expressoplus.com\",\"name\":\"eP Team\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"templateId\":22,\"subject\":\"DEV: '+ storeNumber +' '+ site +' | '+ visitStatus +' '+ visitScore +'%\",\"params\":{\"site\":\"' + site + '\",\"machineType\":\"' + machineType + '\",\"score\":\"' + visitScore +'\",\"posCondition\":\"' + posCondition +'\",\"machineCleanliness\":\"'+ machineCleanliness +'\",\"operatingManual\":\"' + operatingManual + '\",\"signoffSheets\":\"' + signoffSheets + '\",\"trainingRequired\":\"' + trainingRequired + '\",\"author\":\"' + author +'\",\"reportWebLink\":\"' + reportWebLink + '\",\"serialNo\":\"' + serialNo + '\",\"date_completed\":\"'+ dateCompleted +'\",\"time_completed\":\"'+ timeCompleted +'\",\"feedback\":\"'+ feedback +'\",\"visitStatus\":\"'+ visitStatus +'\",\"storeNumber\":\"'+ storeNumber +'\"}}';\nreturn msg;",
+        "func": "var reportAddress = flow.get([\"reportURL\"]);\nvar machineType = flow.get([\"machineType\"]);\nvar machineCleanliness = flow.get([\"machineCleanliness\"]);\nvar posCondition = flow.get([\"posCondition\"]);\nvar signoffSheets = flow.get([\"signoffSheets\"]);\nvar trainingRequired = flow.get([\"trainingRequired\"]);\nvar operatingManual = flow.get([\"operatingManual\"]);\nvar author = flow.get([\"author\"]);\nvar site = flow.get([\"site\"]);\nvar reportWebLink = flow.get([\"reportWebLink\"]);\nvar visitScore = flow.get([\"visitScore\"]).toString().slice(0, 5);\nvar serialNo = flow.get([\"serialNo\"]);\nvar date_completed = flow.get([\"date_completed\"]);\nvar dateCompleted = flow.get([\"date_completed\"]).toString().slice(0, 10);\nvar timeCompleted = flow.get([\"date_completed\"]).toString().slice(11, 19);\nvar rawFeedback = flow.get([\"feedback\"]);\nvar visitStatus = flow.get([\"visitStatus\"]);\nvar storeNumber = flow.get([\"storeNumber\"]);\nvar score = flow.get([\"score\"]);\nvar maxScore = flow.get([\"maxScore\"]);\nvar feedback = rawFeedback.toString().replace(/(\\r\\n|\\n|\\r)/gm, \" \");\nmsg.headers = {};\nmsg.headers[\"content-type\"] = \"application/json\";\nmsg.headers[\"accept\"] = \"application/json\";\nmsg.headers[\"api-key\"] = \"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\";\nmsg.url = \"https://api.sendinblue.com/v3/smtp/email\";\nmsg.method = \"POST\";\nmsg.payload= '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"alex.perjescu@expressoplus.com\",\"name\":\"eP Team\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"templateId\":25,\"subject\":\"DEV: '+ storeNumber +' '+ site +' | '+ visitStatus +' '+ visitScore +'%\",\"params\":{\"site\":\"' + site + '\",\"machineType\":\"' + machineType + '\",\"visitScore\":\"' + visitScore +'\",\"posCondition\":\"' + posCondition +'\",\"machineCleanliness\":\"'+ machineCleanliness +'\",\"operatingManual\":\"' + operatingManual + '\",\"signoffSheets\":\"' + signoffSheets + '\",\"trainingRequired\":\"' + trainingRequired + '\",\"author\":\"' + author +'\",\"reportWebLink\":\"' + reportWebLink + '\",\"serialNo\":\"' + serialNo + '\",\"date_completed\":\"'+ dateCompleted +'\",\"time_completed\":\"'+ timeCompleted +'\",\"feedback\":\"'+ feedback +'\",\"visitStatus\":\"'+ visitStatus +'\",\"storeNumber\":\"'+ storeNumber +'\",\"score\":\"'+ score +'\",\"maxScore\":\"'+ maxScore +'\"}}';\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 390,
-        "y": 900,
+        "x": 430,
+        "y": 440,
         "wires": [
             [
                 "892efbc6.dde8e"
@@ -4203,15 +4240,15 @@
     {
         "id": "d5aca29b.7b3aa8",
         "type": "function",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "Filter info for email",
         "func": "msg.payload.machineType = msg.payload.header_items.filter(el => el.label.includes(\"Machine Type\"));\nmsg.payload.storeNumber = msg.payload.header_items.filter(el => el.label.includes(\"Store Number\"));\nmsg.payload.posCondition = msg.payload.items.filter(el => el.label.includes(\"point of sale is in good condition\"));\nmsg.payload.operatingManual = msg.payload.items.filter(el => el.label.includes(\"has an Operating Manual\"));\nmsg.payload.trainingRequired = msg.payload.items.filter(el => el.label.includes(\"Has additional training been arranged?\"));\nmsg.payload.serialNo = msg.payload.header_items.filter(el => el.label.includes(\"Machine Serial Number\"));\nmsg.payload.machineCleanliness = msg.payload.items.filter(el => el.label.includes(\"What is the state of the machine's cleanliness\"));\nmsg.payload.feedback = msg.payload.items.filter(el => el.label.includes(\"Please detail all feedback\"));\nreturn msg",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 790,
-        "y": 720,
+        "x": 830,
+        "y": 260,
         "wires": [
             [
                 "79e3d2ac.5cf6e4"
@@ -4221,7 +4258,7 @@
     {
         "id": "12d18f0.5b78d71",
         "type": "change",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "",
         "rules": [
             {
@@ -4237,8 +4274,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 190,
-        "y": 900,
+        "x": 230,
+        "y": 440,
         "wires": [
             [
                 "e6be7649.01e178"
@@ -4248,7 +4285,7 @@
     {
         "id": "79e3d2ac.5cf6e4",
         "type": "change",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "",
         "rules": [
             {
@@ -4348,6 +4385,20 @@
                 "pt": "flow",
                 "to": "payload.storeNumber[0].responses.text",
                 "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "score",
+                "pt": "flow",
+                "to": "payload.audit_data.score",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "maxScore",
+                "pt": "flow",
+                "to": "payload.audit_data.total_score",
+                "tot": "msg"
             }
         ],
         "action": "",
@@ -4355,8 +4406,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 190,
-        "y": 760,
+        "x": 230,
+        "y": 300,
         "wires": [
             [
                 "6523e4ba.8b642c"
@@ -4366,7 +4417,7 @@
     {
         "id": "890bee1.157bb1",
         "type": "change",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "Fail",
         "rules": [
             {
@@ -4382,8 +4433,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 570,
-        "y": 780,
+        "x": 610,
+        "y": 320,
         "wires": [
             [
                 "4e80dbd8.5cdd64"
@@ -4393,7 +4444,7 @@
     {
         "id": "ddd25ad7.dbab48",
         "type": "change",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "Pass",
         "rules": [
             {
@@ -4409,8 +4460,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 570,
-        "y": 740,
+        "x": 610,
+        "y": 280,
         "wires": [
             [
                 "4e80dbd8.5cdd64"
@@ -4420,7 +4471,7 @@
     {
         "id": "6523e4ba.8b642c",
         "type": "switch",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "",
         "property": "visitScore",
         "propertyType": "flow",
@@ -4439,8 +4490,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 370,
-        "y": 760,
+        "x": 410,
+        "y": 300,
         "wires": [
             [
                 "ddd25ad7.dbab48"
@@ -4453,7 +4504,7 @@
     {
         "id": "e9b1fc27.f1962",
         "type": "debug",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "Report email status",
         "active": true,
         "tosidebar": true,
@@ -4463,22 +4514,22 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 810,
-        "y": 780,
+        "x": 850,
+        "y": 320,
         "wires": []
     },
     {
         "id": "4e80dbd8.5cdd64",
         "type": "function",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "Get report web link",
         "func": "var auditID = flow.get([\"auditID\"]);\nmsg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"Authorization\"] = \"Bearer 9b5db6aa75fe53d7a63c24e5974fcb82128b837eb2dbe43499ce4fdd4f6189ae\";\nmsg.url = 'https://api.safetyculture.io/audits/' + auditID + '/web_report_link';\nmsg.method = 'GET';\nmsg.payload = '';\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 190,
-        "y": 840,
+        "x": 230,
+        "y": 380,
         "wires": [
             [
                 "70e7101d.ef5258"
@@ -4489,7 +4540,7 @@
     {
         "id": "70e7101d.ef5258",
         "type": "http request",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "Request report web link",
         "method": "use",
         "ret": "obj",
@@ -4499,8 +4550,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 410,
-        "y": 840,
+        "x": 450,
+        "y": 380,
         "wires": [
             [
                 "150660bd.13c507"
@@ -4510,7 +4561,7 @@
     {
         "id": "150660bd.13c507",
         "type": "change",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "",
         "rules": [
             {
@@ -4526,8 +4577,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 640,
-        "y": 840,
+        "x": 680,
+        "y": 380,
         "wires": [
             [
                 "12d18f0.5b78d71"
@@ -4537,7 +4588,7 @@
     {
         "id": "892efbc6.dde8e",
         "type": "http request",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "Send email via Sendinblue",
         "method": "use",
         "ret": "txt",
@@ -4547,8 +4598,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 680,
-        "y": 900,
+        "x": 720,
+        "y": 440,
         "wires": [
             [
                 "e9b1fc27.f1962"
@@ -4556,46 +4607,17 @@
         ]
     },
     {
-        "id": "1ed8efc0.4be548",
-        "type": "inject",
-        "z": "81053105.60e14",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "3600",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 190,
-        "y": 540,
-        "wires": [
-            [
-                "4620956a.d83eec"
-            ]
-        ]
-    },
-    {
         "id": "8705a784.51e7b8",
         "type": "function",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "Search audits",
         "func": "var lastHour = flow.get([\"timeSince\"]);\nmsg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"Authorization\"] = \"Bearer 9b5db6aa75fe53d7a63c24e5974fcb82128b837eb2dbe43499ce4fdd4f6189ae\";\nmsg.url = 'https://api.safetyculture.io/audits/search?field=audit_id&field=modified_at&modified_after='+ lastHour +'';\nmsg.method = 'GET';\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 420,
-        "y": 600,
+        "x": 460,
+        "y": 140,
         "wires": [
             [
                 "aaf14768.ae697"
@@ -4606,7 +4628,7 @@
     {
         "id": "aaf14768.ae697",
         "type": "http request",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "Request audit data",
         "method": "use",
         "ret": "obj",
@@ -4616,18 +4638,19 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 430,
-        "y": 640,
+        "x": 470,
+        "y": 180,
         "wires": [
             [
-                "52b9c4f7.7129dc"
+                "52b9c4f7.7129dc",
+                "8b7bb3da.e1622"
             ]
         ]
     },
     {
         "id": "cda9e3cb.27115",
         "type": "debug",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -4636,68 +4659,44 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 810,
-        "y": 600,
+        "x": 850,
+        "y": 140,
         "wires": []
     },
     {
         "id": "c288d2f5.6b4548",
         "type": "moment",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "",
         "topic": "",
-        "input": "real_timezone",
+        "input": "payload",
         "inputType": "msg",
         "inTz": "Europe/London",
-        "adjAmount": "60",
-        "adjType": "minutes",
+        "adjAmount": "2",
+        "adjType": "hours",
         "adjDir": "subtract",
         "format": "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]",
         "locale": "en_US",
         "output": "timeSince",
         "outputType": "flow",
         "outTz": "Europe/London",
-        "x": 200,
-        "y": 640,
+        "x": 220,
+        "y": 140,
         "wires": [
             [
-                "8705a784.51e7b8"
-            ]
-        ]
-    },
-    {
-        "id": "4620956a.d83eec",
-        "type": "moment",
-        "z": "81053105.60e14",
-        "name": "",
-        "topic": "",
-        "input": "payload",
-        "inputType": "msg",
-        "inTz": "Europe/London",
-        "adjAmount": "1",
-        "adjType": "hours",
-        "adjDir": "add",
-        "format": "",
-        "locale": "en_US",
-        "output": "payload",
-        "outputType": "msg",
-        "outTz": "Europe/Berlin",
-        "x": 200,
-        "y": 600,
-        "wires": [
-            [
-                "c288d2f5.6b4548"
+                "8705a784.51e7b8",
+                "90b88843.b3c6a8"
             ]
         ]
     },
     {
         "id": "52b9c4f7.7129dc",
         "type": "bigsplitter",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "Split Array",
         "property": "payload.audits",
-        "x": 630,
-        "y": 600,
+        "x": 670,
+        "y": 160,
         "wires": [
             [
                 "9e522239.c578d8",
@@ -4709,20 +4708,20 @@
     {
         "id": "9e522239.c578d8",
         "type": "delay",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "",
         "pauseType": "delay",
-        "timeout": "10",
+        "timeout": "30",
         "timeoutUnits": "seconds",
         "rate": "1",
         "nbRateUnits": "1",
         "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
+        "randomFirst": "10",
+        "randomLast": "10",
         "randomUnits": "seconds",
         "drop": false,
-        "x": 800,
-        "y": 640,
+        "x": 840,
+        "y": 180,
         "wires": [
             [
                 "c88a3638.4d7f7"
@@ -4732,15 +4731,15 @@
     {
         "id": "c88a3638.4d7f7",
         "type": "function",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "Get full audit",
         "func": "var auditID = msg.payload.audit_id;\nmsg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"Authorization\"] = \"Bearer 9b5db6aa75fe53d7a63c24e5974fcb82128b837eb2dbe43499ce4fdd4f6189ae\";\nmsg.url = 'https://api.safetyculture.io/audits/' + auditID + '';\nmsg.method = 'GET';\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 170,
-        "y": 700,
+        "x": 210,
+        "y": 240,
         "wires": [
             [
                 "82eec10d.5cae2"
@@ -4751,7 +4750,7 @@
     {
         "id": "82eec10d.5cae2",
         "type": "http request",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "Request audit data",
         "method": "use",
         "ret": "obj",
@@ -4761,8 +4760,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 370,
-        "y": 700,
+        "x": 410,
+        "y": 240,
         "wires": [
             [
                 "b238c6d7.9f615"
@@ -4772,7 +4771,7 @@
     {
         "id": "4e98048d.78e934",
         "type": "debug",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -4781,14 +4780,14 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 810,
-        "y": 680,
+        "x": 850,
+        "y": 220,
         "wires": []
     },
     {
         "id": "b238c6d7.9f615",
         "type": "switch",
-        "z": "81053105.60e14",
+        "z": "2d331bcf.10f214",
         "name": "",
         "property": "payload.template_data.metadata.name",
         "propertyType": "msg",
@@ -4802,13 +4801,1136 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 570,
-        "y": 700,
+        "x": 610,
+        "y": 240,
         "wires": [
             [
                 "4e98048d.78e934",
                 "d5aca29b.7b3aa8"
             ]
         ]
+    },
+    {
+        "id": "8b7bb3da.e1622",
+        "type": "debug",
+        "z": "2d331bcf.10f214",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "d47ce1a4.77006",
+        "type": "inject",
+        "z": "2d331bcf.10f214",
+        "d": true,
+        "name": "Hourly trigger",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "7200",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 80,
+        "wires": [
+            [
+                "c288d2f5.6b4548",
+                "90b88843.b3c6a8"
+            ]
+        ]
+    },
+    {
+        "id": "90b88843.b3c6a8",
+        "type": "debug",
+        "z": "2d331bcf.10f214",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 190,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "f50a9c2f.43cf1",
+        "type": "debug",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "100b1d5.ed72f63",
+        "type": "debug",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "47cbc6a9.b4866",
+        "type": "debug",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 210,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "638f2202.d40f24",
+        "type": "delay",
+        "z": "81053105.60e14",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 160,
+        "y": 140,
+        "wires": [
+            [
+                "c2427095.5e56d"
+            ]
+        ]
+    },
+    {
+        "id": "c2427095.5e56d",
+        "type": "switch",
+        "z": "81053105.60e14",
+        "name": "",
+        "property": "payload.data.template.name",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "Audit",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 310,
+        "y": 140,
+        "wires": [
+            [
+                "5cc10794.e50aa8",
+                "2ee838f7.5afa8",
+                "22653d15.67d1ca"
+            ]
+        ]
+    },
+    {
+        "id": "5cc10794.e50aa8",
+        "type": "function",
+        "z": "81053105.60e14",
+        "name": "Get full audit",
+        "func": "var auditID = msg.payload.data.audit.audit_id;\nmsg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"Authorization\"] = \"Bearer 9b5db6aa75fe53d7a63c24e5974fcb82128b837eb2dbe43499ce4fdd4f6189ae\";\nmsg.url = 'https://api.safetyculture.io/audits/' + auditID + '';\nmsg.method = 'GET';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 330,
+        "y": 200,
+        "wires": [
+            [
+                "5837cb59.e7c0a4"
+            ]
+        ],
+        "info": "curl --request POST \\\n  --url https://api.sendinblue.com/v3/smtp/email \\\n  --header 'accept: application/json' \\\n  --header 'content-type: application/json' \\\n  --data '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"Alex\",\"name\":\"alex.perjescu@expressoplus.com\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"attachment\":[{\"url\":\"http://urlofattacment.com\"}],\"textContent\":\"this is the body of the email\",\"subject\":\"this is the subject line\"}'\nreturn msg;"
+    },
+    {
+        "id": "5837cb59.e7c0a4",
+        "type": "http request",
+        "z": "81053105.60e14",
+        "name": "Request audit data",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 510,
+        "y": 200,
+        "wires": [
+            [
+                "4055406f.c132c"
+            ]
+        ]
+    },
+    {
+        "id": "4055406f.c132c",
+        "type": "function",
+        "z": "81053105.60e14",
+        "name": "Filter info for email",
+        "func": "msg.payload.machineType = msg.payload.header_items.filter(el => el.label.includes(\"Machine Type\"));\nmsg.payload.storeNumber = msg.payload.header_items.filter(el => el.label.includes(\"Store Number\"));\nmsg.payload.posCondition = msg.payload.items.filter(el => el.label.includes(\"point of sale is in good condition\"));\nmsg.payload.operatingManual = msg.payload.items.filter(el => el.label.includes(\"has an Operating Manual\"));\nmsg.payload.trainingRequired = msg.payload.items.filter(el => el.label.includes(\"Has additional training been arranged?\"));\nmsg.payload.serialNo = msg.payload.header_items.filter(el => el.label.includes(\"Machine Serial Number\"));\nmsg.payload.machineCleanliness = msg.payload.items.filter(el => el.label.includes(\"What is the state of the machine's cleanliness\"));\nmsg.payload.feedback = msg.payload.items.filter(el => el.label.includes(\"Please detail all feedback\"));\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 710,
+        "y": 200,
+        "wires": [
+            [
+                "4f39c730.47d5f",
+                "7c847c3a.2e0464"
+            ]
+        ]
+    },
+    {
+        "id": "4f39c730.47d5f",
+        "type": "debug",
+        "z": "81053105.60e14",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "7c847c3a.2e0464",
+        "type": "switch",
+        "z": "81053105.60e14",
+        "name": "",
+        "property": "payload.audit_data.score_percentage",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "70",
+                "vt": "str"
+            },
+            {
+                "t": "lt",
+                "v": "70",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 310,
+        "y": 280,
+        "wires": [
+            [
+                "3a3c1db1.7e2272"
+            ],
+            [
+                "b16043d6.01d04"
+            ]
+        ]
+    },
+    {
+        "id": "3a3c1db1.7e2272",
+        "type": "change",
+        "z": "81053105.60e14",
+        "name": "Pass",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.visitStatus",
+                "pt": "msg",
+                "to": "Pass",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 490,
+        "y": 260,
+        "wires": [
+            [
+                "32f1516b.be04be"
+            ]
+        ]
+    },
+    {
+        "id": "b16043d6.01d04",
+        "type": "change",
+        "z": "81053105.60e14",
+        "name": "Fail",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.visitStatus",
+                "pt": "msg",
+                "to": "Fail",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 490,
+        "y": 300,
+        "wires": [
+            [
+                "32f1516b.be04be"
+            ]
+        ]
+    },
+    {
+        "id": "2ee838f7.5afa8",
+        "type": "function",
+        "z": "81053105.60e14",
+        "name": "Get report web link",
+        "func": "var auditID = msg.payload.data.audit.audit_id;\nmsg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"Authorization\"] = \"Bearer 9b5db6aa75fe53d7a63c24e5974fcb82128b837eb2dbe43499ce4fdd4f6189ae\";\nmsg.url = 'https://api.safetyculture.io/audits/' + auditID + '/web_report_link';\nmsg.method = 'GET';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 310,
+        "y": 360,
+        "wires": [
+            [
+                "9f50c618.dec928"
+            ]
+        ],
+        "info": "curl --request POST \\\n  --url https://api.sendinblue.com/v3/smtp/email \\\n  --header 'accept: application/json' \\\n  --header 'content-type: application/json' \\\n  --data '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"Alex\",\"name\":\"alex.perjescu@expressoplus.com\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"attachment\":[{\"url\":\"http://urlofattacment.com\"}],\"textContent\":\"this is the body of the email\",\"subject\":\"this is the subject line\"}'\nreturn msg;"
+    },
+    {
+        "id": "9f50c618.dec928",
+        "type": "http request",
+        "z": "81053105.60e14",
+        "name": "Request report web link",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 530,
+        "y": 360,
+        "wires": [
+            [
+                "f15175ff.8b0de"
+            ]
+        ]
+    },
+    {
+        "id": "f15175ff.8b0de",
+        "type": "change",
+        "z": "81053105.60e14",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reportWebLink",
+                "pt": "msg",
+                "to": "payload.url",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 360,
+        "wires": [
+            [
+                "32f1516b.be04be"
+            ]
+        ]
+    },
+    {
+        "id": "25238c81.fe3d14",
+        "type": "function",
+        "z": "81053105.60e14",
+        "name": "Build http request",
+        "func": "var machineType = msg.payload[1].machineType[0].responses.selected[0].label;\nvar machineCleanliness = msg.payload[1].machineCleanliness[0].responses.selected[0].label;\nvar posCondition = msg.payload[1].posCondition[0].responses.selected[0].label;\nvar signoffSheets = msg.payload[1].operatingManual[0].responses.selected[0].label;\nvar trainingRequired = msg.payload[1].trainingRequired[0].responses.selected[0].label;\nvar operatingManual = msg.payload[1].operatingManual[0].responses.selected[0].label;\nvar author = msg.payload[1].audit_data.authorship.author;\nvar site = msg.payload[1].audit_data.site.name;\nvar reportWebLink = msg.payload[0].url;\nvar visitScore = msg.payload[1].audit_data.score_percentage.toString().slice(0, 5);\nvar serialNo = msg.payload[1].serialNo[0].responses.text;\nvar date_completed = msg.payload[1].audit_data.date_completed;\nvar dateCompleted = msg.payload[1].audit_data.date_completed.toString().slice(0, 10);\nvar timeCompleted = msg.payload[1].audit_data.date_completed.toString().slice(11, 19);\nvar rawFeedback = msg.payload[1].feedback[0].responses.text;\nvar visitStatus = msg.payload[1].visitStatus;\nvar storeNumber = msg.payload[1].storeNumber[0].responses.text;\nvar score = msg.payload[1].audit_data.score;\nvar maxScore = msg.payload[1].audit_data.total_score;\nvar feedback = rawFeedback.toString().replace(/(\\r\\n|\\n|\\r)/gm, \" \");\nmsg.headers = {};\nmsg.headers[\"content-type\"] = \"application/json\";\nmsg.headers[\"accept\"] = \"application/json\";\nmsg.headers[\"api-key\"] = \"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\";\nmsg.url = \"https://api.sendinblue.com/v3/smtp/email\";\nmsg.method = \"POST\";\nmsg.payload= '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"epteam@expressoplus.com\",\"name\":\"eP Team\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"templateId\":25,\"subject\":\"'+ storeNumber +' '+ site +' | '+ visitStatus +' '+ visitScore +'%\",\"params\":{\"site\":\"' + site + '\",\"machineType\":\"' + machineType + '\",\"visitScore\":\"' + visitScore + '\",\"posCondition\":\"' + posCondition +'\",\"machineCleanliness\":\"'+ machineCleanliness +'\",\"operatingManual\":\"' + operatingManual + '\",\"signoffSheets\":\"' + signoffSheets + '\",\"trainingRequired\":\"' + trainingRequired + '\",\"author\":\"' + author +'\",\"reportWebLink\":\"' + reportWebLink + '\",\"serialNo\":\"' + serialNo + '\",\"date_completed\":\"'+ dateCompleted +'\",\"time_completed\":\"'+ timeCompleted +'\",\"feedback\":\"'+ feedback +'\",\"visitStatus\":\"'+ visitStatus +'\",\"storeNumber\":\"'+ storeNumber +'\",\"score\":\"'+ score +'\",\"maxScore\":\"'+ maxScore +'\"}}';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 310,
+        "y": 420,
+        "wires": [
+            [
+                "17eaa715.367969"
+            ]
+        ],
+        "info": "curl --request POST \\\n  --url https://api.sendinblue.com/v3/smtp/email \\\n  --header 'accept: application/json' \\\n  --header 'content-type: application/json' \\\n  --data '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"Alex\",\"name\":\"alex.perjescu@expressoplus.com\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"attachment\":[{\"url\":\"http://urlofattacment.com\"}],\"textContent\":\"this is the body of the email\",\"subject\":\"this is the subject line\"}'\nreturn msg;"
+    },
+    {
+        "id": "17eaa715.367969",
+        "type": "http request",
+        "z": "81053105.60e14",
+        "name": "Send email via Sendinblue",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 540,
+        "y": 420,
+        "wires": [
+            [
+                "ced1f65a.0ed248"
+            ]
+        ]
+    },
+    {
+        "id": "32f1516b.be04be",
+        "type": "join",
+        "z": "81053105.60e14",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 870,
+        "y": 280,
+        "wires": [
+            [
+                "25238c81.fe3d14",
+                "6fa29011.760758"
+            ]
+        ]
+    },
+    {
+        "id": "6fa29011.760758",
+        "type": "debug",
+        "z": "81053105.60e14",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "ced1f65a.0ed248",
+        "type": "debug",
+        "z": "81053105.60e14",
+        "name": "Report email status",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "22653d15.67d1ca",
+        "type": "debug",
+        "z": "81053105.60e14",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "a33a0eb2.21fc08",
+        "type": "subflow:b6f41f64.a726c",
+        "z": "81053105.60e14",
+        "name": "v1",
+        "env": [],
+        "x": 1370,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "74cc2a3f.9e7dfc",
+        "type": "debug",
+        "z": "81053105.60e14",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 470,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "a87e1db1.9abc9",
+        "type": "subflow:2d331bcf.10f214",
+        "z": "81053105.60e14",
+        "name": "v2 - hourly check",
+        "env": [],
+        "x": 1400,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "358825b6.2ac2ca",
+        "type": "debug",
+        "z": "b6f41f64.a726c",
+        "name": "Check data",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 170,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "b6d42c71.d73b88",
+        "type": "function",
+        "z": "b6f41f64.a726c",
+        "name": "Build http request",
+        "func": "var reportAddress = msg.payload.reportURL;\nvar machineType = msg.payload.machineType;\nvar machineCleanliness = msg.payload.machineCleanliness;\nvar posCondition = msg.payload.posCondition;\nvar signoffSheets = msg.payload.signoffSheets;\nvar trainingRequired = msg.payload.trainingRequired;\nvar operatingManual = msg.payload.operatingManual;\nvar author = msg.payload.author;\nvar site = msg.payload.site;\nvar reportWebLink = msg.payload.reportWebLink;\nvar visitScore = msg.payload.visitScore.toString().slice(0, 5);\nvar serialNo = msg.payload.serialNo;\nvar date_completed = msg.payload.date_completed;\nvar dateCompleted = msg.payload.date_completed.toString().slice(0, 10);\nvar timeCompleted = msg.payload.date_completed.toString().slice(11, 19);\nvar rawFeedback = msg.payload.feedback;\nvar visitStatus = msg.payload.visitStatus;\nvar storeNumber = msg.payload.storeNumber;\nvar feedback = rawFeedback.toString().replace(/(\\r\\n|\\n|\\r)/gm, \" \");\nmsg.headers = {};\nmsg.headers[\"content-type\"] = \"application/json\";\nmsg.headers[\"accept\"] = \"application/json\";\nmsg.headers[\"api-key\"] = \"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\";\nmsg.url = \"https://api.sendinblue.com/v3/smtp/email\";\nmsg.method = \"POST\";\nmsg.payload= '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"alex.perjescu@expressoplus.com\",\"name\":\"eP Team\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"templateId\":25,\"subject\":\"'+ storeNumber +' '+ site +' | '+ visitStatus +' '+ visitScore +'%\",\"params\":{\"site\":\"' + site + '\",\"machineType\":\"' + machineType + '\",\"score\":\"' + visitScore +'\",\"posCondition\":\"' + posCondition +'\",\"machineCleanliness\":\"'+ machineCleanliness +'\",\"operatingManual\":\"' + operatingManual + '\",\"signoffSheets\":\"' + signoffSheets + '\",\"trainingRequired\":\"' + trainingRequired + '\",\"author\":\"' + author +'\",\"reportWebLink\":\"' + reportWebLink + '\",\"serialNo\":\"' + serialNo + '\",\"date_completed\":\"'+ dateCompleted +'\",\"time_completed\":\"'+ timeCompleted +'\",\"feedback\":\"'+ feedback +'\",\"visitStatus\":\"'+ visitStatus +'\",\"storeNumber\":\"'+ storeNumber +'\"}}';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 390,
+        "y": 900,
+        "wires": [
+            [
+                "89e9a385.301c6",
+                "7b64d933.feecf8"
+            ]
+        ],
+        "info": "curl --request POST \\\n  --url https://api.sendinblue.com/v3/smtp/email \\\n  --header 'accept: application/json' \\\n  --header 'content-type: application/json' \\\n  --data '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"Alex\",\"name\":\"alex.perjescu@expressoplus.com\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"attachment\":[{\"url\":\"http://urlofattacment.com\"}],\"textContent\":\"this is the body of the email\",\"subject\":\"this is the subject line\"}'\nreturn msg;"
+    },
+    {
+        "id": "c808073b.0ba808",
+        "type": "function",
+        "z": "b6f41f64.a726c",
+        "name": "Filter info for email",
+        "func": "msg.payload.machineType = msg.payload.header_items.filter(el => el.label.includes(\"Machine Type\"));\nmsg.payload.storeNumber = msg.payload.header_items.filter(el => el.label.includes(\"Store Number\"));\nmsg.payload.posCondition = msg.payload.items.filter(el => el.label.includes(\"point of sale is in good condition\"));\nmsg.payload.operatingManual = msg.payload.items.filter(el => el.label.includes(\"has an Operating Manual\"));\nmsg.payload.trainingRequired = msg.payload.items.filter(el => el.label.includes(\"Has additional training been arranged?\"));\nmsg.payload.serialNo = msg.payload.header_items.filter(el => el.label.includes(\"Machine Serial Number\"));\nmsg.payload.machineCleanliness = msg.payload.items.filter(el => el.label.includes(\"What is the state of the machine's cleanliness\"));\nmsg.payload.feedback = msg.payload.items.filter(el => el.label.includes(\"Please detail all feedback\"));\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 910,
+        "y": 620,
+        "wires": [
+            [
+                "7918e3d9.45130c",
+                "2e58bec.c1c0042"
+            ]
+        ]
+    },
+    {
+        "id": "89e9a385.301c6",
+        "type": "http request",
+        "z": "b6f41f64.a726c",
+        "name": "Send email via Sendinblue",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 620,
+        "y": 900,
+        "wires": [
+            [
+                "9dcb2a9a.fabf8"
+            ]
+        ]
+    },
+    {
+        "id": "21c50fa5.3a62a8",
+        "type": "change",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reportURL",
+                "pt": "msg",
+                "to": "payload.url",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 190,
+        "y": 900,
+        "wires": [
+            [
+                "b6d42c71.d73b88",
+                "f123887.64bc1f8"
+            ]
+        ]
+    },
+    {
+        "id": "7918e3d9.45130c",
+        "type": "change",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "machineType",
+                "pt": "msg",
+                "to": "payload.machineType[0].responses.selected[0].label",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "posCondition",
+                "pt": "msg",
+                "to": "payload.posCondition[0].responses.selected[0].label",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "operatingManual",
+                "pt": "msg",
+                "to": "payload.operatingManual[0].responses.selected[0].label",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "trainingRequired",
+                "pt": "msg",
+                "to": "payload.trainingRequired[0].responses.selected[0].label",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "author",
+                "pt": "msg",
+                "to": "payload.audit_data.authorship.owner",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "site",
+                "pt": "msg",
+                "to": "payload.audit_data.site.name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "auditID",
+                "pt": "msg",
+                "to": "payload.audit_id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "visitScore",
+                "pt": "msg",
+                "to": "payload.audit_data.score_percentage",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "machineCleanliness",
+                "pt": "msg",
+                "to": "payload.machineCleanliness[0].responses.selected[0].label",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "signoffSheets",
+                "pt": "msg",
+                "to": "payload.trainingRequired[0].responses.selected[0].label",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "date_completed",
+                "pt": "msg",
+                "to": "payload.audit_data.date_completed",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "serialNo",
+                "pt": "msg",
+                "to": "payload.serialNo[0].responses.text",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "feedback",
+                "pt": "msg",
+                "to": "payload.feedback[0].responses.text",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "storeNumber",
+                "pt": "msg",
+                "to": "payload.storeNumber[0].responses.text",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 190,
+        "y": 720,
+        "wires": [
+            [
+                "358825b6.2ac2ca",
+                "6c61a777.cd795"
+            ]
+        ]
+    },
+    {
+        "id": "873c73c6.af1d48",
+        "type": "http request",
+        "z": "b6f41f64.a726c",
+        "name": "Request audit data",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 710,
+        "y": 620,
+        "wires": [
+            [
+                "c808073b.0ba808"
+            ]
+        ]
+    },
+    {
+        "id": "3014dfb9.35d768",
+        "type": "function",
+        "z": "b6f41f64.a726c",
+        "name": "Get full audit",
+        "func": "var auditID = msg.payload.data.audit.audit_id;\nmsg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"Authorization\"] = \"Bearer 9b5db6aa75fe53d7a63c24e5974fcb82128b837eb2dbe43499ce4fdd4f6189ae\";\nmsg.url = 'https://api.safetyculture.io/audits/' + auditID + '';\nmsg.method = 'GET';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 530,
+        "y": 620,
+        "wires": [
+            [
+                "873c73c6.af1d48"
+            ]
+        ],
+        "info": "curl --request POST \\\n  --url https://api.sendinblue.com/v3/smtp/email \\\n  --header 'accept: application/json' \\\n  --header 'content-type: application/json' \\\n  --data '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"Alex\",\"name\":\"alex.perjescu@expressoplus.com\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"attachment\":[{\"url\":\"http://urlofattacment.com\"}],\"textContent\":\"this is the body of the email\",\"subject\":\"this is the subject line\"}'\nreturn msg;"
+    },
+    {
+        "id": "8282228d.d43428",
+        "type": "switch",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "property": "payload.data.template.name",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "Audit",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 390,
+        "y": 620,
+        "wires": [
+            [
+                "3014dfb9.35d768"
+            ]
+        ]
+    },
+    {
+        "id": "70a062ca.d48f54",
+        "type": "change",
+        "z": "b6f41f64.a726c",
+        "name": "Fail",
+        "rules": [
+            {
+                "t": "set",
+                "p": "visitStatus",
+                "pt": "msg",
+                "to": "Fail",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 550,
+        "y": 740,
+        "wires": [
+            [
+                "f620d6a1.2fb5c",
+                "cbb7b211.1850e"
+            ]
+        ]
+    },
+    {
+        "id": "c6ffebec.1bcce8",
+        "type": "change",
+        "z": "b6f41f64.a726c",
+        "name": "Pass",
+        "rules": [
+            {
+                "t": "set",
+                "p": "visitStatus",
+                "pt": "msg",
+                "to": "Pass",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 550,
+        "y": 700,
+        "wires": [
+            [
+                "f620d6a1.2fb5c",
+                "cbb7b211.1850e"
+            ]
+        ]
+    },
+    {
+        "id": "6c61a777.cd795",
+        "type": "switch",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "property": "visitScore",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "70",
+                "vt": "str"
+            },
+            {
+                "t": "lt",
+                "v": "70",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 370,
+        "y": 720,
+        "wires": [
+            [
+                "c6ffebec.1bcce8"
+            ],
+            [
+                "70a062ca.d48f54"
+            ]
+        ]
+    },
+    {
+        "id": "9dcb2a9a.fabf8",
+        "type": "debug",
+        "z": "b6f41f64.a726c",
+        "name": "Report email status",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "f620d6a1.2fb5c",
+        "type": "function",
+        "z": "b6f41f64.a726c",
+        "name": "Get report web link",
+        "func": "var auditID = msg.payload.audit_id;\nmsg.headers = {};\nmsg.headers[\"Content-Type\"] = \"application/json\";\nmsg.headers[\"Authorization\"] = \"Bearer 9b5db6aa75fe53d7a63c24e5974fcb82128b837eb2dbe43499ce4fdd4f6189ae\";\nmsg.url = 'https://api.safetyculture.io/audits/' + auditID + '/web_report_link';\nmsg.method = 'GET';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 190,
+        "y": 840,
+        "wires": [
+            [
+                "933fd49.31e26a8",
+                "6f3a3ece.283f08"
+            ]
+        ],
+        "info": "curl --request POST \\\n  --url https://api.sendinblue.com/v3/smtp/email \\\n  --header 'accept: application/json' \\\n  --header 'content-type: application/json' \\\n  --data '{\"sender\":{\"name\":\"eP Robot\",\"email\":\"robot@expressoplus.com\"},\"to\":[{\"email\":\"Alex\",\"name\":\"alex.perjescu@expressoplus.com\"}],\"replyTo\":{\"email\":\"transactional@expressoplus.com\"},\"attachment\":[{\"url\":\"http://urlofattacment.com\"}],\"textContent\":\"this is the body of the email\",\"subject\":\"this is the subject line\"}'\nreturn msg;"
+    },
+    {
+        "id": "933fd49.31e26a8",
+        "type": "http request",
+        "z": "b6f41f64.a726c",
+        "name": "Request report web link",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 410,
+        "y": 840,
+        "wires": [
+            [
+                "e22febaf.933678"
+            ]
+        ]
+    },
+    {
+        "id": "e22febaf.933678",
+        "type": "change",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reportWebLink",
+                "pt": "msg",
+                "to": "payload.url",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 840,
+        "wires": [
+            [
+                "21c50fa5.3a62a8",
+                "9753296e.144b5"
+            ]
+        ]
+    },
+    {
+        "id": "7b64d933.feecf8",
+        "type": "debug",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 390,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "6f3a3ece.283f08",
+        "type": "debug",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "9753296e.144b5",
+        "type": "debug",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "f123887.64bc1f8",
+        "type": "debug",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 190,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "1ec7ea32.91f13e",
+        "type": "delay",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 240,
+        "y": 620,
+        "wires": [
+            [
+                "8282228d.d43428"
+            ]
+        ]
+    },
+    {
+        "id": "cbb7b211.1850e",
+        "type": "debug",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "2e58bec.c1c0042",
+        "type": "debug",
+        "z": "b6f41f64.a726c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 620,
+        "wires": []
     }
 ]
